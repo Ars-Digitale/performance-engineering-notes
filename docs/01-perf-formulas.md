@@ -141,7 +141,7 @@ Fraction of requests that fail (timeouts, 5xx, etc.).
 
 ### Formula
 $$
-{\Large \text{ErrorRate} = \frac{N_{err}}{N_{total}} \times 100\%}
+{\Large \operatorname{ErrorRate} = \frac{N_{\mathrm{err}}}{N_{\mathrm{total}}}\times 100\%}
 $$
 
 ---
@@ -164,7 +164,7 @@ Percentiles capture **distribution** and **tail behavior** better than averages.
 Given `N` values sorted ascending:
 
 $$
-v_1 \le v_2 \le \dots \le v_N
+{\Large v_1 \le v_2 \le \dots \le v_N}
 $$
 
 Compute the theoretical position:
@@ -203,7 +203,7 @@ Given a threshold `t`, the empirical cumulative distribution function (CDF) tell
 
 ### Formula
 $$
-{\Large F(t) = \frac{\#\{x_i \le t\}}{N}}
+{\Large F(t) = \frac{\left|\{x_i \le t\}\right|}{N}}
 $$
 
 ### Practical meaning
