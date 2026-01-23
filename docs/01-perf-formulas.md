@@ -50,7 +50,7 @@ It is “busy time percentage”.
 
 ### Formula
 $$
-U = X \cdot S
+{\Large U = X \cdot S}
 $$
 
 ### Where
@@ -81,7 +81,7 @@ Response time at a resource includes:
 
 ### Formula
 $$
-R = S + W_q
+{\Large R = S + W_q}
 $$
 
 ### Where
@@ -101,7 +101,7 @@ Total service required on a resource per request, accounting for multiple visits
 
 ### Formula
 $$
-D = V \cdot S
+{\Large D = V \cdot S}
 $$
 
 ### Where
@@ -111,6 +111,7 @@ $$
 
 ### Example
 A request performs `V = 3` DB queries, each takes `S = 5 ms = 0.005 s`:
+
 $$
 D = 3 \cdot 0.005 = 0.015 \text{ s} = 15 \text{ ms}
 $$
@@ -124,7 +125,7 @@ Requests completed per unit of time.
 
 ### Formula
 $$
-X = \frac{N}{T}
+{\Large X = \frac{N}{T}}
 $$
 
 ### Where
@@ -140,7 +141,7 @@ Fraction of requests that fail (timeouts, 5xx, etc.).
 
 ### Formula
 $$
-\text{ErrorRate} = \frac{N_{err}}{N_{total}} \times 100\%
+{\Large \text{ErrorRate} = \frac{N_{err}}{N_{total}} \times 100\%}
 $$
 
 ---
@@ -202,7 +203,7 @@ Given a threshold `t`, the empirical cumulative distribution function (CDF) tell
 
 ### Formula
 $$
-F(t) = \frac{\#\{x_i \le t\}}{N}
+{\Large F(t) = \frac{\#\{x_i \le t\}}{N}}
 $$
 
 ### Practical meaning
