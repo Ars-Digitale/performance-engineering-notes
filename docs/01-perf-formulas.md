@@ -20,7 +20,7 @@ Relates average **concurrency** to **throughput** and **time in system**.
 
 ### Formula
 $$
-L = \lambda \cdot W
+{\Large L = \lambda \cdot W}
 $$
 
 ### Where
