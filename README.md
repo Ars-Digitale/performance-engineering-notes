@@ -12,7 +12,7 @@ These notes focus on:
 
 ## Contents
 
-- [01 – Core formulas](docs/01-formulas.md)
+- [01 – Core formulas](docs/01-perf-formulas.md)
 
 ## License
 
