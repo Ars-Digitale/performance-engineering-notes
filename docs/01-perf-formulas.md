@@ -32,10 +32,12 @@ $$
 If you know throughput and average response time, you can estimate how many requests are concurrently “in flight”.
 
 ### Example
-If `λ = 200 req/s` and `W = 0.15 s` :
+If `λ = 200 req/s` and `W = 0.15 s`:
+
 $$
 L = 200 \cdot 0.15 = 30
 $$
+
 About **30** requests are in flight on average.
 
 ---
@@ -60,10 +62,12 @@ $$
 A **single service unit**, e.g. CPU core, thread/worker, DB connection, etc.
 
 ### Example
-A DB worker handles `50 req/s`, each query takes `10 ms = 0.01 s` :
+A DB worker handles `50 req/s`, each query takes `10 ms = 0.01 s`:
+
 $$
 U = 50 \cdot 0.01 = 0.5 \Rightarrow 50\%
 $$
+
 Interpretation: the resource is busy **0.5 seconds per second**.
 
 ---
