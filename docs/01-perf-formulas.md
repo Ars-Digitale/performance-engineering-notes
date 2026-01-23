@@ -140,7 +140,7 @@ $$
 Fraction of requests that fail (timeouts, 5xx, etc.).
 
 ### Formula
-<div style="font-size:1.5em">
+<div style="font-size:1.9em">
 
 $$
 \mathrm{ErrorRate} = \dfrac{N_{\mathrm{err}}}{N_{\mathrm{total}}}\times 100\%
