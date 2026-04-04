@@ -10,9 +10,14 @@ These notes focus on:
 - Test types and strategies (load, stress, soak, spike)
 - Practical diagnostics (contention, pools, GC, downstream dependencies)
 
+## Guide
+
+- [Guide index](INDEX.md)
+- [Documentation index](docs/index.md)
+
 ## Contents
 
-- [01 – Core formulas](docs/01-perf-formulas.md)
+- [01 – Core formulas](docs/en/01-perf-formulas.md)
 
 ## License
 
@@ -20,4 +25,3 @@ This work is licensed under the **Creative Commons Attribution 4.0 International
 
 © 2026 Alessandro Fabri  
 https://creativecommons.org/licenses/by/4.0/
-

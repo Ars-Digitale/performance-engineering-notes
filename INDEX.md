@@ -2,27 +2,25 @@
 
 A practical guide to **application + system performance engineering**.
 
-This index provides a stable entry point for the repository and organizes the guide by topic.
+This index defines the structure of the guide.
 
 ## Table of Contents
 
 - [1. Scope](#1-scope)
 - [2. How to use this guide](#2-how-to-use-this-guide)
-- [3. Repository map](#3-repository-map)
-- [4. Guide structure](#4-guide-structure)
-	- [4.1 Foundations](#41-foundations)
-	- [4.2 Core metrics and formulas](#42-core-metrics-and-formulas)
-	- [4.3 Work of a performance engineer](#43-work-of-a-performance-engineer)
-	- [4.4 Types of performance tests](#44-types-of-performance-tests)
-	- [4.5 System behavior under load](#45-system-behavior-under-load)
-	- [4.6 Concurrency and parallelism](#46-concurrency-and-parallelism)
-	- [4.7 Resource-level performance](#47-resource-level-performance)
-	- [4.8 Common performance problems](#48-common-performance-problems)
-	- [4.9 Diagnostics and analysis](#49-diagnostics-and-analysis)
-	- [4.10 Practical checklists](#410-practical-checklists)
-- [5. Current contents](#5-current-contents)
-- [6. Planned contents](#6-planned-contents)
-- [7. Notes](#7-notes)
+- [3. Guide structure](#3-guide-structure)
+	- [3.1 Foundations](#31-foundations)
+	- [3.2 Core metrics and formulas](#32-core-metrics-and-formulas)
+	- [3.3 Work of a performance engineer](#33-work-of-a-performance-engineer)
+	- [3.4 Types of performance tests](#34-types-of-performance-tests)
+	- [3.5 System behavior under load](#35-system-behavior-under-load)
+	- [3.6 Concurrency and parallelism](#36-concurrency-and-parallelism)
+	- [3.7 Runtime and memory model](#37-runtime-and-memory-model)
+	- [3.8 Resource-level performance](#38-resource-level-performance)
+	- [3.9 Common performance problems](#39-common-performance-problems)
+	- [3.10 Diagnostics and analysis](#310-diagnostics-and-analysis)
+	- [3.11 Practical checklists](#311-practical-checklists)
+- [4. Documentation](#4-documentation)
 
 ---
 
@@ -41,218 +39,65 @@ It covers:
 - diagnostics and bottleneck analysis
 - common failure modes under load
 
-The perspective is intentionally practical: how systems behave, how performance problems emerge, and how to reason about them.
-
 ---
 
 ## 2. How to use this guide
 
-This guide can be read in two ways:
+This guide can be read:
 
-- **Sequentially**, starting from foundations and continuing toward diagnostics
-- **As a reference**, by jumping directly to a specific topic
-
-Recommended order for first reading:
-
-1. Foundations
-2. Core metrics and formulas
-3. Types of performance tests
-4. System behavior under load
-5. Diagnostics and analysis
+- sequentially (from foundations to diagnostics)
+- as a reference (jumping to specific topics)
 
 ---
 
-## 3. Repository map
+## 3. Guide structure
 
-- `README.md` — repository overview
-- `docs/index.md` — guide index
-- `docs/01-perf-formulas.md` — core formulas
+### 3.1 Foundations
+Conceptual model of performance engineering.
 
-Additional documents will be added progressively under `docs/`.
+### 3.2 Core metrics and formulas
+Mathematical and measurement foundations.
 
----
+→ [01 – Core formulas](docs/en/01-perf-formulas.md)
 
-## 4. Guide structure
+### 3.3 Work of a performance engineer
+Process and methodology.
 
-### 4.1 Foundations
+### 3.4 Types of performance tests
+Load, stress, spike, soak, capacity.
 
-This section introduces the mental model of performance engineering.
+### 3.5 System behavior under load
+Saturation, queueing, degradation.
+
+### 3.6 Concurrency and parallelism
+Threads, synchronization, contention.
+
+### 3.7 Runtime and memory model
+Execution model and memory behavior.
 
 Topics include:
+- heap and stack
+- allocation and object lifecycle
+- garbage collection (conceptual)
+- thread scheduling
+- pauses and contention
 
-- throughput
-- latency
-- response time
-- service time
-- concurrency
-- saturation
-- bottlenecks
-- queueing basics
+### 3.8 Resource-level performance
+CPU, memory, disk, network, and external resources.
 
----
+### 3.9 Common performance problems
+Latency, throughput collapse, tail issues.
 
-### 4.2 Core metrics and formulas
+### 3.10 Diagnostics and analysis
+Investigation and reasoning.
 
-This section groups the main formulas and measurement concepts used in performance work.
-
-Topics include:
-
-- Little’s Law
-- Utilization Law
-- service demand
-- throughput
-- error rate
-- percentiles
-- CDF
+### 3.11 Practical checklists
+Operational guidelines.
 
 ---
 
-### 4.3 Work of a performance engineer
+## 4. Documentation
 
-This section describes what a performance engineer actually does.
+Full documentation is available here:
 
-Topics include:
-
-- baseline definition
-- workload characterization
-- black-box vs white-box analysis
-- test execution
-- bottleneck identification
-- interpretation of metrics
-- communication of findings
-
----
-
-### 4.4 Types of performance tests
-
-This section presents the main test categories and their purpose.
-
-Topics include:
-
-- load testing
-- stress testing
-- spike testing
-- soak testing
-- capacity testing
-
----
-
-### 4.5 System behavior under load
-
-This section explains how systems evolve as load increases.
-
-Topics include:
-
-- saturation
-- queue growth
-- backpressure
-- throughput limits
-- latency degradation
-- cascading failures
-- retry amplification
-
----
-
-### 4.6 Concurrency and parallelism
-
-This section introduces concurrency-related concepts and typical issues.
-
-Topics include:
-
-- concurrency vs parallelism
-- threads and processes
-- thread pools
-- synchronization
-- race conditions
-- deadlocks
-- livelocks
-- starvation
-
----
-
-### 4.7 Resource-level performance
-
-This section looks at performance from the resource perspective.
-
-Topics include:
-
-- CPU
-- memory
-- disk I/O
-- network
-- connection pools
-- worker pools
-
----
-
-### 4.8 Common performance problems
-
-This section groups recurring performance issues by symptom or mechanism.
-
-Topics include:
-
-- high latency
-- long-tail latency
-- throughput collapse
-- timeouts
-- slow queries
-- lock contention
-- GC pauses
-- connection pool exhaustion
-
----
-
-### 4.9 Diagnostics and analysis
-
-This section focuses on investigation and reasoning.
-
-Topics include:
-
-- reading metrics correctly
-- correlating signals
-- identifying bottlenecks
-- distinguishing cause from effect
-- tracing, logs, and metrics
-- practical analysis flow
-
----
-
-### 4.10 Practical checklists
-
-This section provides concise operational checklists.
-
-Topics include:
-
-- what to measure during tests
-- what to observe in production
-- red flags
-- sanity checks
-- common interpretation mistakes
-
----
-
-## 5. Current contents
-
-- [01 – Core formulas](01-perf-formulas.md)
-
----
-
-## 6. Planned contents
-
-- 02 – Foundations
-- 03 – Work of a performance engineer
-- 04 – Types of performance tests
-- 05 – System behavior under load
-- 06 – Concurrency and parallelism
-- 07 – Resource-level performance
-- 08 – Common performance problems
-- 09 – Diagnostics and analysis
-- 10 – Practical checklists
-
----
-
-## 7. Notes
-
-This index is intended to remain stable even as the guide grows.
-
-New sections can be added progressively without changing the overall structure of the guide.
+- [docs/index.md](docs/index.md)
