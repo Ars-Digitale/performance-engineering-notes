@@ -15,9 +15,6 @@ These notes focus on:
 - [Guide index](INDEX.md)
 - [Documentation index](docs/index.md)
 
-## Contents
-
-- [01 – Core formulas](docs/en/01-perf-formulas.md)
 
 ## License
 
