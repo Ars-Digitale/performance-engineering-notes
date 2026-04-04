@@ -29,7 +29,7 @@ They should be read as a complement to the conceptual model, not in isolation.
 ## **Notation** (typical)
 
 | Symbol | Definition |
-| ****** | ****** |
+| ------ | ------ |
 | `X` or `λ` | throughput / arrival rate (requests per second)	|
 | `R` or `W` | response time / time in system (seconds)			|
 | `S`        | service time at a resource (seconds per request)	|
