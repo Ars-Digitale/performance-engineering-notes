@@ -55,12 +55,12 @@ This guide can be read:
 ### 3.1 Foundations
 Conceptual model of performance engineering.
 
-→ [3.1 Foundations](docs/en/03-foundations.md)
+→ [3.1 Foundations](docs/en/03-01-foundations.md)
 
 ### 3.2 Core metrics and formulas
 Mathematical and measurement foundations.
 
-→ [01 – Core formulas](docs/en/01-perf-formulas.md)
+→ [3.2 Core metrics and formulas](docs/en/03-02-core-metrics-and-formulas.md)
 
 ### 3.3 Work of a performance engineer
 Process and methodology.

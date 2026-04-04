@@ -1,4 +1,4 @@
-# 03 – Foundations
+# 03.1 – Foundations
 
 This section introduces the fundamental concepts required to reason about system performance.
 
@@ -14,7 +14,7 @@ It provides a conceptual model used throughout the guide.
 
 ---
 
-## 3.1 Throughput, latency, concurrency
+## 3.1.1 Throughput, latency, concurrency
 
 ### Definition
 
@@ -69,7 +69,7 @@ This relationship will be formalized later.
 
 ---
 
-## 3.2 Service time vs response time
+## 3.1.2 Service time vs response time
 
 ### Definition
 
@@ -105,7 +105,7 @@ As load increases:
 
 ---
 
-## 3.3 Systems under load
+## 3.1.3 Systems under load
 
 ### Definition
 
@@ -144,7 +144,7 @@ Near saturation:
 
 ---
 
-## 3.4 Saturation and bottlenecks
+## 3.1.4 Saturation and bottlenecks
 
 ### Saturation
 
@@ -181,7 +181,7 @@ Performance improvements require:
 
 ---
 
-## 3.5 Why systems slow down
+## 3.1.5 Why systems slow down
 
 ### Common mechanisms
 

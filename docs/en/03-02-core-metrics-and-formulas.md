@@ -1,6 +1,8 @@
-# Performance Engineering – Core Formulas
+# 03.2 – Core metrics and formulas
+
 
 A compact reference of the main formulas used in **application + system performance engineering**.
+
 
 > **Notation (typical)**
 - `X` or `λ` : throughput / arrival rate (requests per second)
@@ -13,7 +15,7 @@ A compact reference of the main formulas used in **application + system performa
 
 ---
 
-## 1) Little’s Law (system-level concurrency)
+## 3.2.1 Little’s Law (system-level concurrency)
 
 ### Definition
 Relates average **concurrency** to **throughput** and **time in system**.
@@ -42,7 +44,7 @@ About **30** requests are in flight on average.
 
 ---
 
-## 2) Utilization Law (resource-level busy time)
+## 3.2.2 Utilization Law (resource-level busy time)
 
 ### Definition
 Utilization is the **fraction of time** a *single resource* is busy during a fixed interval (typically 1 second).  
@@ -72,7 +74,7 @@ Interpretation: the resource is busy **0.5 seconds per second**.
 
 ---
 
-## 3) Service time vs response time (queueing)
+## 3.2.3 Service time vs response time (queueing)
 
 ### Definition
 Response time at a resource includes:
@@ -94,7 +96,7 @@ As utilization approaches saturation, queueing grows non-linearly and **dominate
 
 ---
 
-## 4) Service Demand (visits × service time)
+## 3.2.4 Service Demand (visits × service time)
 
 ### Definition
 Total service required on a resource per request, accounting for multiple visits.
@@ -118,7 +120,7 @@ $$
 
 ---
 
-## 5) Throughput
+## 3.2.5 Throughput
 
 ### Definition
 Requests completed per unit of time.
@@ -134,7 +136,7 @@ $$
 
 ---
 
-## 6) Error rate
+## 3.2.6 Error rate
 
 ### Definition
 Fraction of requests that fail (timeouts, 5xx, etc.).
@@ -150,7 +152,7 @@ $$
 
 ---
 
-## 7) Percentiles (p50, p95, p99)
+## 3.2.7 Percentiles (p50, p95, p99)
 
 ### Definition
 The `p`-th percentile is the value below which **p% of observations** fall.
@@ -163,7 +165,7 @@ Percentiles capture **distribution** and **tail behavior** better than averages.
 
 ---
 
-### 7.1 How to compute a percentile (ordered sample)
+### 3.2.7.1 How to compute a percentile (ordered sample)
 
 Given `N` values sorted ascending:
 
@@ -188,7 +190,7 @@ $$
 
 ---
 
-### 7.2 Interpretation vs average (why tails matter)
+### 3.2.7.2 Interpretation vs average (why tails matter)
 
 - If `p50` is much lower than the mean, the distribution is **right-skewed** (few slow requests inflate the mean).
 - If `p95` or `p99` is far above the mean, you have **long-tail latency**.
@@ -200,7 +202,7 @@ A typical pattern:
 
 ---
 
-## 8) Empirical CDF (threshold → percentage)
+## 3.2.8 Empirical CDF (threshold → percentage)
 
 ### Definition
 Given a threshold `t`, the empirical cumulative distribution function (CDF) tells the fraction of samples at or below `t`.
@@ -217,7 +219,7 @@ Percentiles answer the inverse: “What threshold corresponds to 95% of requests
 
 ---
 
-## 9) Long-tail latency (what it is)
+## 3.2.9 Long-tail latency (what it is)
 
 ### Definition
 A small fraction of requests (e.g. 5% or 1%) is **much slower** than the majority.
@@ -239,7 +241,7 @@ A small fraction of requests (e.g. 5% or 1%) is **much slower** than the majorit
 
 ---
 
-## 10) Quick checklist (what to measure in tests)
+## 3.2.10 Quick checklist (what to measure in tests)
 
 - Latency: `p50/p90/p95/p99`
 - Throughput: `RPS/TPS`
