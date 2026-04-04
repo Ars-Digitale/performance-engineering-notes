@@ -1,8 +1,30 @@
-# 03.2 – Core metrics and formulas
+# 3.2 – Core metrics and formulas
 
 
 A compact reference of the main formulas used in **application + system performance engineering**.
 
+These formulas formalize the concepts introduced in:
+
+→ [3.1 Foundations](03-01-foundations.md)
+
+They should be read as a complement to the conceptual model, not in isolation.
+
+## Table of Contents
+
+- [3.2.1 Little’s Law (system-level concurrency)](#321-littles-law-system-level-concurrency)
+- [3.2.2 Utilization Law (resource-level busy time)](#322-utilization-law-resource-level-busy-time)
+- [3.2.3 Service time vs response time (queueing)](#323-service-time-vs-response-time-queueing)
+- [3.2.4 Service Demand (visits × service time)](#324-service-demand-visits--service-time)
+- [3.2.5 Throughput](#325-throughput)
+- [3.2.6 Error rate](#326-error-rate)
+- [3.2.7 Percentiles (p50, p95, p99)](#327-percentiles-p50-p95-p99)
+	- [3.2.7.1 How to compute a percentile (ordered sample)](#3271-how-to-compute-a-percentile-ordered-sample)
+	- [3.2.7.2 Interpretation vs average (why tails matter)](#3272-interpretation-vs-average-why-tails-matter)
+- [3.2.8 Empirical CDF (threshold → percentage)](#328-empirical-cdf-threshold--percentage)
+- [3.2.9 Long-tail latency (what it is)](#329-long-tail-latency-what-it-is)
+- [3.2.10 Quick checklist (what to measure in tests)](#3210-quick-checklist-what-to-measure-in-tests)
+
+---
 
 > **Notation (typical)**
 - `X` or `λ` : throughput / arrival rate (requests per second)

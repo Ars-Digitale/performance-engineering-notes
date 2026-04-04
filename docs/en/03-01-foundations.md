@@ -1,4 +1,4 @@
-# 03.1 – Foundations
+# 3.1 – Foundations
 
 This section introduces the fundamental concepts required to reason about system performance.
 
@@ -6,11 +6,11 @@ It provides a conceptual model used throughout the guide.
 
 ## Table of Contents
 
-- [3.1 Throughput, latency, concurrency](#31-throughput-latency-concurrency)
-- [3.2 Service time vs response time](#32-service-time-vs-response-time)
-- [3.3 Systems under load](#33-systems-under-load)
-- [3.4 Saturation and bottlenecks](#34-saturation-and-bottlenecks)
-- [3.5 Why systems slow down](#35-why-systems-slow-down)
+- [3.1.1 Throughput, latency, concurrency](#311-throughput-latency-concurrency)
+- [3.1.2 Service time vs response time](#312-service-time-vs-response-time)
+- [3.1.3 Systems under load](#313-systems-under-load)
+- [3.1.4 Saturation and bottlenecks](#314-saturation-and-bottlenecks)
+- [3.1.5 Why systems slow down](#315-why-systems-slow-down)
 
 ---
 
@@ -65,7 +65,9 @@ then, on average:
 
 - about 20 requests are in flight at any given time
 
-This relationship will be formalized later.
+This relationship is formalized by **Little’s Law**:
+
+→ [3.2.1 Little’s Law](03-02-core-metrics-and-formulas.md#321-littles-law-system-level-concurrency)
 
 ---
 
@@ -102,6 +104,10 @@ As load increases:
 - queues grow
 - waiting dominates
 - response time degrades
+
+This decomposition is formalized as:
+
+→ [3.2.3 Service time vs response time](03-02-core-metrics-and-formulas.md#323-service-time-vs-response-time-queueing)
 
 ---
 
@@ -201,7 +207,9 @@ As utilization approaches its limit:
 - waiting time increases rapidly
 - response time becomes dominated by queueing
 
-This is the primary reason for long-tail latency.
+This behavior is closely related to utilization and queueing effects:
+
+→ [3.2.2 Utilization Law](03-02-core-metrics-and-formulas.md#322-utilization-law-resource-level-busy-time)
 
 ---
 
