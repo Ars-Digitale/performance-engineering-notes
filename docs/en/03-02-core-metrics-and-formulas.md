@@ -26,14 +26,17 @@ They should be read as a complement to the conceptual model, not in isolation.
 
 ---
 
-> **Notation (typical)**
-- `X` or `λ` : throughput / arrival rate (requests per second)
-- `R` or `W` : response time / time in system (seconds)
-- `S`        : service time at a resource (seconds per request)
-- `U`        : utilization of a resource (0–1)
-- `L`        : average concurrency / in-flight requests (count)
-- `V`        : average number of visits to a resource per request
-- `D`        : service demand on a resource (seconds per request)
+## **Notation** (typical)
+
+| Symbol | Definition |
+| ****** | ****** |
+| `X` or `λ` | throughput / arrival rate (requests per second)	|
+| `R` or `W` | response time / time in system (seconds)			|
+| `S`        | service time at a resource (seconds per request)	|
+| `U`        | utilization of a resource (0–1)					|
+| `L`        | average concurrency / in-flight requests (count)	|
+| `V`        | average number of visits to a resource per request	|
+| `D`        | service demand on a resource (seconds per request)	|
 
 ---
 
