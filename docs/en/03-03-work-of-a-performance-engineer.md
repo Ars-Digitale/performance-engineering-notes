@@ -124,35 +124,93 @@ Understanding these mechanisms is the core of performance engineering.
 
 ## 3.3.2 Typical workflow
 
-Performance engineering is not a single test or activity.
+Performance engineering is an iterative process where the system is progressively exercised, analyzed, stabilized, and understood under increasing levels of load.
 
-It is an iterative process where the system is progressively exercised, analyzed, stabilized, and understood under increasing levels of load.
-
-The goal is not only to detect problems, but to understand system limits and define how it behaves under real conditions.
+The objective is not only to detect problems, but to build a reliable model of how the system behaves under realistic conditions.
 
 ---
 
 ### 3.3.2.1 Environment preparation and calibration
 
-Before applying load, the environment must be prepared and calibrated.
+- align test environment with production characteristics (as much as possible)
+- verify configurations (CPU, memory, pools, connections)
+- ensure observability (metrics, logs, traces)
 
-This includes:
-
-- aligning test environment with production characteristics (as much as possible)
-- verifying configurations (CPU, memory, pools, connections)
-- ensuring observability (metrics, logs, traces)
-
-Calibration is required to:
+Goal:
 
 - establish a reliable baseline
-- avoid misleading results
-- ensure repeatability of tests
+- ensure repeatability of results
 
 Without calibration, measurements are difficult to interpret.
 
 ---
 
-### 3.3.2.2 Initial load / stress testing (problem discovery)
+### 3.3.2.2 Use case definition and workload modeling
+
+Before applying load, the workload must be defined.
+
+A system is not tested in isolation, but through the requests it processes.
+
+This requires identifying:
+
+- critical user and system paths
+- typical operations (read, write, batch, background jobs)
+- relative frequency of each operation
+- concurrency patterns
+
+A realistic workload includes:
+
+- a mix of use cases
+- weighted distribution (e.g. percentages of traffic)
+- different request types and costs
+
+---
+
+### Non-functional requirements (NFRs)
+
+In parallel with workload definition, non-functional requirements must be clarified.
+
+These define what is considered acceptable system behavior.
+
+Typical examples:
+
+- throughput targets (e.g. 30 req/s)
+- concurrency levels (e.g. 500 concurrent users)
+- latency objectives (e.g. p95 < 200 ms)
+- error rate thresholds
+- resource usage constraints
+
+NFRs may be:
+
+- explicitly defined by stakeholders
+- partially defined
+- missing or inconsistent
+
+In all cases, they must be:
+
+- reviewed
+- validated
+- made measurable
+
+---
+
+### Practical implication
+
+Workload and NFRs must be aligned.
+
+For each use case:
+
+- the expected load must be defined
+- the acceptable behavior must be known
+
+Otherwise:
+
+- results cannot be evaluated
+- tests cannot be considered successful or failed
+
+Incorrect workload definition or missing NFRs leads to results that are technically correct but not actionable.
+
+### 3.3.2.3 Initial load / stress testing (problem discovery)
 
 The first phase under load aims to expose major issues.
 
@@ -168,11 +226,11 @@ This phase is often:
 - iterative
 - partially white-box (using internal visibility)
 
-The objective is not precision, but discovery.
+The objective is discovery, not precision.
 
 ---
 
-### 3.3.2.3 Analysis and bottleneck identification
+### 3.3.2.4 Analysis and bottleneck identification
 
 Once issues appear, the system must be analyzed.
 
@@ -190,12 +248,12 @@ Typical questions:
 
 This step relies on:
 
-→ [3.1 Foundations](03-01-foundations.md)  
+→ [3.1 Foundations](03-foundations.md)  
 → [3.2 Core metrics and formulas](03-02-core-metrics-and-formulas.md)
 
 ---
 
-### 3.3.2.4 Fixes and iterative validation
+### 3.3.2.5 Fixes and iterative validation
 
 After identifying bottlenecks, fixes are applied.
 
@@ -215,7 +273,7 @@ The goal is to progressively stabilize the system.
 
 ---
 
-### 3.3.2.5 Intermediate validation (stable baseline)
+### 3.3.2.6 Intermediate validation (stable baseline)
 
 Before moving to long-duration tests, the system must reach a stable baseline.
 
@@ -230,11 +288,9 @@ This phase ensures that:
 - major issues are resolved
 - results are reproducible
 
-It provides a reliable reference point for further analysis.
-
 ---
 
-### 3.3.2.6 Long-duration validation (soak / endurance)
+### 3.3.2.7 Long-duration validation (soak / endurance)
 
 Once the system is stable, it must be observed over time.
 
@@ -260,7 +316,7 @@ The results of this phase directly impact:
 
 ---
 
-### 3.3.2.7 Dimensioning and capacity definition
+### 3.3.2.8 Dimensioning and capacity definition
 
 Based on previous observations, system components are dimensioned.
 
@@ -281,7 +337,7 @@ Dimensioning must be based on observed behavior, not assumptions.
 
 ---
 
-### 3.3.2.8 Tuning
+### 3.3.2.9 Tuning
 
 Once dimensioning is defined, tuning refines system behavior.
 
@@ -302,7 +358,7 @@ It is often iterative and context-dependent.
 
 ---
 
-### 3.3.2.9 Verification and regression
+### 3.3.2.10 Verification and regression
 
 After tuning, the system must be re-validated.
 
@@ -316,7 +372,7 @@ This phase ensures consistency and reliability.
 
 ---
 
-### 3.3.2.10 Benchmarking and reference points
+### 3.3.2.11 Benchmarking and reference points
 
 Finally, benchmarks are established.
 
@@ -337,14 +393,8 @@ They are used to:
 
 ### Key idea
 
-Performance engineering is an iterative process.
+Performance engineering is an iterative loop:
 
-Each phase builds on the previous one:
-
-- discovery
-- analysis
-- stabilization
-- validation
-- optimization
+- define workload → test → analyze → fix → validate → optimize
 
 The objective is not only to improve performance, but to understand system limits and ensure predictable behavior under load.
