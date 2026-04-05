@@ -65,6 +65,9 @@ Mathematical and measurement foundations.
 ### 3.3 Work of a performance engineer
 Process and methodology.
 
+→ [3.3 Work of a performance engineer](docs/en/03-03-work-of-a-performance-engineer.md)
+
+
 ### 3.4 Types of performance tests
 Load, stress, spike, soak, capacity.
 
