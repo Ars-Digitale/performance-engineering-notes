@@ -9,7 +9,6 @@ This section describes what performance engineering is in practice and how it is
 - [3.3.3 Black-box vs white-box](#333-black-box-vs-white-box)
 - [3.3.4 Load testing vs diagnostics](#334-load-testing-vs-diagnostics)
 - [3.3.5 What actually matters (and what doesn’t)](#335-what-actually-matters-and-what-doesnt)
-- [3.3.6 Typical workflow](#332-typical-workflow)
 
 ---
 
