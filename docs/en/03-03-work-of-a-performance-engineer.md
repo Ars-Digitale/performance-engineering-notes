@@ -132,7 +132,7 @@ The objective is not only to detect problems, but to build a reliable model of h
 
 ### 3.3.2.1 Environment preparation and calibration
 
-- align test environment with production characteristics (as much as possible)
+- verify and align test environment with production characteristics (as much as possible)
 - verify configurations (CPU, memory, pools, connections)
 - ensure observability (metrics, logs, traces)
 
@@ -168,9 +168,9 @@ A realistic workload includes:
 
 ### Non-functional requirements (NFRs)
 
-In parallel with workload definition, non-functional requirements must be clarified.
+In parallel with workload definition, **non-functional requirements** must be clarified.
 
-These define what is considered acceptable system behavior.
+These define what is considered an **acceptable system behavior**.
 
 Typical examples:
 
@@ -248,7 +248,7 @@ Typical questions:
 
 This step relies on:
 
-→ [3.1 Foundations](03-foundations.md)  
+→ [3.1 Foundations](03-01-foundations.md)  
 → [3.2 Core metrics and formulas](03-02-core-metrics-and-formulas.md)
 
 ---
@@ -267,7 +267,7 @@ Each fix must be validated by re-running tests.
 
 This creates an iterative loop:
 
-- test → analyze → fix → test again
+- **Test** → **Analyze** → **Fix** → **Test** again
 
 The goal is to progressively stabilize the system.
 
@@ -298,7 +298,7 @@ This phase evaluates behavior under sustained load.
 
 Typical goals:
 
-- detect memory leaks
+- detect slow memory leaks
 - observe resource accumulation (threads, connections, buffers)
 - identify performance degradation over time
 - validate long-term stability
@@ -318,7 +318,7 @@ The results of this phase directly impact:
 
 ### 3.3.2.8 Dimensioning and capacity definition
 
-Based on previous observations, system components are dimensioned.
+Based on previous observations and also from unitary testing after the phase of baseline stabilization, system components are dimensioned.
 
 This includes:
 
@@ -326,6 +326,7 @@ This includes:
 - thread pools and connection pools
 - concurrency limits
 - infrastructure sizing
+- clustering
 
 The goal is to define:
 
@@ -395,6 +396,6 @@ They are used to:
 
 Performance engineering is an iterative loop:
 
-- define workload → test → analyze → fix → validate → optimize
+- **define workload** → **test** → **analyze** → **fix** → **validate** → **optimize**
 
 The objective is not only to improve performance, but to understand system limits and ensure predictable behavior under load.
