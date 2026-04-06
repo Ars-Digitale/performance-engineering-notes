@@ -93,6 +93,8 @@ Topics include:
 - thread scheduling
 - pauses and contention
 
+→ [3.7 Runtime and memory model](docs/en/03-07-runtime-and-memory-model.md)
+
 ### 3.8 Resource-level performance
 CPU, memory, disk, network, and external resources.
 
