@@ -532,7 +532,7 @@ Understanding throughput collapse is essential to avoid overload conditions.
 
 ### Definition
 
-Tail latency amplification refers to the disproportionate increase of high-percentile response times (e.g. p95, p99) under load.
+**Tail latency amplification** refers to the disproportionate increase of high-percentile response times (e.g. p95, p99) under load.
 
 While average latency may appear acceptable, a subset of requests becomes significantly slower.
 
@@ -630,7 +630,7 @@ Most requests are fast, but a small percentage is very slow.
 
 ### Practical implication
 
-Performance evaluation must consider tail latency.
+Performance evaluation must consider **tail latency**.
 
 Relying on averages can:
 
