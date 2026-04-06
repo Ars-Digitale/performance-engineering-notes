@@ -379,7 +379,7 @@ Understanding this non-linearity is essential to avoid operating systems too clo
 
 ### Definition
 
-Throughput collapse occurs when increasing load no longer increases throughput, and may even reduce it.
+**Throughput collapse** occurs when increasing load no longer increases throughput, and may even reduce it.
 
 Instead of scaling with demand, the system becomes less efficient as load grows.
 
@@ -525,3 +525,139 @@ A system does not always process more work when more work is applied.
 Beyond a certain point, additional load reduces the system’s ability to process requests.
 
 Understanding throughput collapse is essential to avoid overload conditions.
+
+---
+
+## 3.5.5 Tail latency amplification
+
+### Definition
+
+Tail latency amplification refers to the disproportionate increase of high-percentile response times (e.g. p95, p99) under load.
+
+While average latency may appear acceptable, a subset of requests becomes significantly slower.
+
+---
+
+### Percentiles vs average
+
+Average latency hides variability.
+
+Percentiles reveal distribution:
+
+- p50 represents the typical request
+- p95 and p99 represent the slowest requests
+
+Under load:
+
+- average latency may increase moderately
+- tail latency can increase dramatically
+
+→ [3.2.7 Percentiles](03-02-core-metrics-and-formulas.md#327-percentiles-p50-p95-p99)
+
+---
+
+### Root causes
+
+Tail latency amplification is primarily driven by:
+
+- queueing delays
+- contention on shared resources
+- uneven workload distribution
+- dependency variability (e.g. database, external services)
+
+Even small delays in some components can:
+
+- propagate through the system
+- amplify end-to-end latency
+
+---
+
+### Distributed systems effect
+
+In systems with multiple components:
+
+- a request often depends on several services
+- overall latency depends on the slowest component
+
+As the number of dependencies increases:
+
+- the probability of a slow request increases
+- tail latency becomes more pronounced
+
+---
+
+### Under load
+
+As load increases:
+
+- queues grow
+- contention increases
+- variability expands
+
+This leads to:
+
+- a widening gap between average and p95/p99
+- unpredictable response times for a subset of users
+
+---
+
+### Observable effects
+
+Typical symptoms include:
+
+- stable average latency with degraded p95/p99
+- intermittent slow responses
+- timeouts affecting only a fraction of requests
+
+This can be misleading:
+
+- the system appears “mostly fine”
+- but user experience is degraded
+
+---
+
+### Example
+
+A system shows:
+
+- average latency = 120 ms
+- p95 latency = 180 ms (acceptable)
+- p99 latency = 1200 ms (problematic)
+
+Most requests are fast, but a small percentage is very slow.
+
+---
+
+### Practical implication
+
+Performance evaluation must consider tail latency.
+
+Relying on averages can:
+
+- hide critical issues
+- underestimate user impact
+
+Systems should be designed and tested to:
+
+- control tail behavior
+- limit variability under load
+
+---
+
+### Link with previous concepts
+
+Tail latency amplification is a consequence of:
+
+- queueing (→ [3.5.2 Saturation and queueing](#352-saturation-and-queueing))
+- non-linear degradation (→ [3.5.3 Non-linear degradation](#353-non-linear-degradation))
+- system interactions and dependencies
+
+---
+
+### Key idea
+
+Performance is not defined by the average request.
+
+It is defined by how the system behaves for the slowest requests.
+
+Controlling tail latency is essential for predictable and reliable systems.
