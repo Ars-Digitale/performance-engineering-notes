@@ -71,8 +71,12 @@ Process and methodology.
 ### 3.4 Types of performance tests
 Load, stress, spike, soak, capacity.
 
+
+
 ### 3.5 System behavior under load
 Saturation, queueing, degradation.
+
+→ [3.5 System behavior under load](docs/en/03-05-system-behavior-under-load.md)
 
 ### 3.6 Concurrency and parallelism
 Threads, synchronization, contention.
