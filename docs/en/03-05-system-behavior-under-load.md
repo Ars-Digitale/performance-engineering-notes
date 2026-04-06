@@ -372,3 +372,156 @@ Performance degradation is not gradual.
 It accelerates as the system approaches its limits.
 
 Understanding this non-linearity is essential to avoid operating systems too close to capacity.
+
+---
+
+## 3.5.4 Throughput collapse
+
+### Definition
+
+Throughput collapse occurs when increasing load no longer increases throughput, and may even reduce it.
+
+Instead of scaling with demand, the system becomes less efficient as load grows.
+
+---
+
+### Expected behavior vs collapse
+
+Under normal conditions:
+
+- increasing load increases throughput
+- until the system approaches capacity
+
+However, beyond a certain point:
+
+- throughput stops increasing
+- may plateau or decrease
+- latency increases significantly
+
+This is throughput collapse.
+
+---
+
+### Root causes
+
+Throughput collapse is typically caused by:
+
+- excessive queueing
+- contention on shared resources
+- resource thrashing (CPU, memory, I/O)
+- retry amplification
+- inefficient scheduling or locking
+
+As the system becomes overloaded:
+
+- more time is spent managing contention than doing useful work
+- effective processing capacity decreases
+
+---
+
+### Queueing contribution
+
+When queues grow:
+
+- requests wait longer
+- system resources remain occupied
+- new requests add pressure without increasing completed work
+
+Queueing can therefore:
+
+- increase latency
+- reduce effective throughput
+
+---
+
+### Contention and thrashing
+
+At high load:
+
+- threads compete for shared resources
+- locks become hotspots
+- context switching increases
+- cache locality degrades
+
+In extreme cases:
+
+- the system spends more time coordinating than processing
+
+This leads to reduced throughput.
+
+---
+
+### Retry amplification
+
+Failures under load often trigger retries.
+
+This creates additional load:
+
+- failed requests are retried
+- more work is generated
+- pressure increases further
+
+This feedback loop can:
+
+- accelerate collapse
+- make recovery difficult
+
+---
+
+### Observable effects
+
+Typical symptoms include:
+
+- throughput plateau or decrease despite increased load
+- sharp increase in latency
+- rising error rates (timeouts, 5xx)
+- unstable or oscillating behavior
+
+---
+
+### Example
+
+A system behaves as follows:
+
+- 50 req/s → 50 req/s throughput
+- 80 req/s → 80 req/s throughput
+- 100 req/s → 90 req/s throughput
+- 120 req/s → 70 req/s throughput
+
+Increasing load reduces effective throughput.
+
+---
+
+### Practical implication
+
+Throughput collapse indicates that the system is operating beyond its effective capacity.
+
+At this point:
+
+- adding more load worsens performance
+- the system may become unstable
+
+Mitigation requires:
+
+- reducing load
+- removing bottlenecks
+- improving resource efficiency
+
+---
+
+### Link with previous concepts
+
+Throughput collapse is the result of:
+
+- non-linear degradation (→ [3.5.3 Non-linear degradation](#353-non-linear-degradation))
+- saturation and queueing (→ [3.5.2 Saturation and queueing](#352-saturation-and-queueing))
+
+---
+
+### Key idea
+
+A system does not always process more work when more work is applied.
+
+Beyond a certain point, additional load reduces the system’s ability to process requests.
+
+Understanding throughput collapse is essential to avoid overload conditions.
