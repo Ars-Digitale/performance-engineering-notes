@@ -128,7 +128,7 @@ Performance depends on both, and on how they interact with system resources.
 
 ### Definition
 
-The execution model defines how work is executed within a system.
+The **execution model** defines how work is executed within a system.
 
 In most systems, work is performed by **threads**, which run within a **process**.
 
@@ -136,12 +136,12 @@ In most systems, work is performed by **threads**, which run within a **process*
 
 ### Processes and threads
 
-A process is an isolated execution environment:
+A **process** is an isolated execution environment:
 
 - it has its own memory space
 - it contains resources (files, sockets, memory)
 
-A thread is a unit of execution within a process:
+A **thread** is a unit of execution within a process:
 
 - multiple threads share the same process memory
 - threads execute tasks concurrently
@@ -173,9 +173,9 @@ Multiple threads allow a system to:
 
 A thread typically goes through several states:
 
-- running (actively executing)
-- runnable (ready to run, waiting for CPU)
-- waiting / blocked (waiting for a resource or event)
+- **running** (actively executing)
+- **runnable** (ready to run, waiting for CPU)
+- **waiting** / blocked (waiting for a resource or event)
 
 Performance is affected by how threads move between these states.
 
@@ -200,11 +200,10 @@ This is particularly relevant in high-concurrency systems.
 
 ### Execution models
 
-Different systems use different execution models.
+Different systems use different **execution models**.
 
 Common models include:
 
----
 
 #### One thread per request
 
@@ -221,7 +220,6 @@ Limitations:
 - high memory usage with many threads
 - limited scalability under high concurrency
 
----
 
 #### Thread pool
 
@@ -239,11 +237,10 @@ Limitations:
 - queueing when all threads are busy
 - potential saturation of the pool
 
----
 
 #### Event-driven / asynchronous model
 
-Work is handled using non-blocking operations and event loops.
+Work is handled using **non-blocking** operations and **event loops**.
 
 Characteristics:
 
