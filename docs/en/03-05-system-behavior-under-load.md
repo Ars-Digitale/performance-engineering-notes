@@ -252,3 +252,123 @@ Queueing increases waiting time.
 Waiting time dominates response time.
 
 This is the primary mechanism behind performance degradation under load.
+
+---
+
+## 3.5.3 Non-linear degradation
+
+### Definition
+
+System performance does not degrade linearly as load increases.
+
+Instead, degradation follows a non-linear pattern, especially near capacity limits.
+
+---
+
+### Linear vs non-linear behavior
+
+At low to moderate load:
+
+- throughput increases proportionally with load
+- latency remains relatively stable
+
+In this region, the system appears predictable.
+
+---
+
+As load approaches capacity:
+
+- small increases in load produce large increases in latency
+- variability increases
+- behavior becomes unstable
+
+This marks the transition to non-linear degradation.
+
+---
+
+### Root cause
+
+Non-linear degradation is primarily caused by:
+
+- queueing effects (→ [3.5.2 Saturation and queueing](#352-saturation-and-queueing))
+- high resource utilization
+- contention between requests
+
+As utilization increases:
+
+- waiting time grows disproportionately
+- response time becomes dominated by delays rather than service
+
+---
+
+### Observable effects
+
+Typical symptoms include:
+
+- rapid increase in p95 and p99 latency
+- widening gap between average and tail latency
+- increased variance in response times
+- intermittent errors or timeouts
+
+These effects often appear suddenly.
+
+---
+
+### Misleading intuition
+
+It is common to assume:
+
+- “If the system handles 80 req/s, it should handle 100 req/s with slightly higher latency”
+
+In reality:
+
+- performance may remain stable up to a point
+- then degrade sharply beyond that point
+
+There is often no gradual transition.
+
+---
+
+### Example
+
+A system behaves as follows:
+
+- up to 70 req/s → stable latency (~100 ms)
+- at 80 req/s → latency increases to 150 ms
+- at 90 req/s → latency jumps to 400 ms
+- at 100 req/s → system becomes unstable
+
+The degradation is not proportional to load.
+
+---
+
+### Practical implication
+
+Capacity planning must consider non-linear behavior.
+
+Operating a system near its limits leads to:
+
+- unpredictable latency
+- unstable performance
+- poor user experience
+
+Systems should operate with a margin below capacity.
+
+---
+
+### Link with previous concepts
+
+Non-linear degradation is the visible effect of:
+
+- increasing utilization (→ [3.2.2 Utilization Law](03-02-core-metrics-and-formulas.md#322-utilization-law-resource-level-busy-time))
+- growing queueing (→ [3.5.2 Saturation and queueing](#352-saturation-and-queueing))
+
+---
+
+### Key idea
+
+Performance degradation is not gradual.
+
+It accelerates as the system approaches its limits.
+
+Understanding this non-linearity is essential to avoid operating systems too close to capacity.
