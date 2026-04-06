@@ -340,3 +340,189 @@ How they are used determines:
 - how much work can be handled
 - how efficiently resources are utilized
 - how the system behaves under load
+
+---
+
+## 3.6.3 Contention and synchronization
+
+### Definition
+
+**Contention** occurs when multiple threads compete for the same resource.
+
+**Synchronization** is the mechanism used to coordinate access to shared resources.
+
+These concepts are central to understanding performance degradation in concurrent systems.
+
+---
+
+### Shared resources
+
+In concurrent systems, threads often share resources such as:
+
+- memory structures (objects, caches)
+- locks and monitors
+- thread pools and queues
+- database connections
+- I/O channels
+
+When access is not coordinated, data **corruption** may occur.
+
+When access is coordinated, **contention** may appear.
+
+---
+
+### Synchronization
+
+Synchronization ensures that shared resources are accessed safely.
+
+Common mechanisms include:
+
+- locks (mutexes, monitors)
+- synchronized sections
+- semaphores
+- atomic operations
+
+Synchronization guarantees correctness, but introduces overhead.
+
+---
+
+### Contention
+
+**Contention** arises when multiple threads attempt to access the same resource simultaneously.
+
+When contention occurs:
+
+- threads may block or wait
+- execution is delayed
+- throughput is reduced
+
+The more threads compete:
+
+- the higher the waiting time
+- the lower the effective parallelism
+
+---
+
+### Lock contention
+
+A common form of contention involves locks.
+
+When a thread holds a lock:
+
+- other threads must wait
+- a queue of waiting threads may form
+
+Effects include:
+
+- increased latency
+- reduced throughput
+- potential bottlenecks
+
+---
+
+### Contention vs utilization
+
+High contention can occur even when CPU utilization is moderate.
+
+For example:
+
+- many threads are waiting on a lock
+- CPU is partially idle
+- system appears underutilized but is actually constrained
+
+This is a common source of misleading diagnostics.
+
+---
+
+### Fine-grained vs coarse-grained synchronization
+
+Synchronization can be:
+
+- **coarse-grained** (few locks, large critical sections)
+- **fine-grained** (many locks, smaller critical sections)
+
+Trade-offs:
+
+- **coarse-grained** → simpler but higher contention
+- **fine-grained** → more scalable but more complex
+
+---
+
+### Java perspective (example)
+
+In Java, synchronization may be implemented using `synchronized` blocks:
+
+```java
+synchronized (lock) {
+    // critical section
+}
+```
+
+Or explicit locks:
+
+```java
+Lock lock = new ReentrantLock();
+
+lock.lock();
+try {
+    // critical section
+} finally {
+    lock.unlock();
+}
+```
+
+If many threads attempt to enter the same critical section:
+
+- contention increases
+- threads block
+- performance degrades
+
+---
+
+### Symptoms of contention
+
+Typical indicators include:
+
+- increasing response time under load
+- low CPU utilization with high latency
+- threads in blocked or waiting states
+- long queues on shared resources
+
+---
+
+### Practical implications
+
+Contention limits scalability.
+
+Even with:
+
+- sufficient CPU
+- adequate memory
+
+A system may not scale if:
+
+- threads spend time waiting instead of executing
+
+Reducing contention often has a larger impact than optimizing individual operations.
+
+---
+
+### Link with previous concepts
+
+Contention contributes to:
+
+- queueing (→ [3.5.2 Saturation and queueing](03-05-system-behavior-under-load.md#352-saturation-and-queueing))
+- non-linear degradation (→ [3.5.3 Non-linear degradation](03-05-system-behavior-under-load.md#353-non-linear-degradation))
+- throughput collapse (→ [3.5.4 Throughput collapse](03-05-system-behavior-under-load.md#354-throughput-collapse))
+
+---
+
+### Key idea
+
+Concurrency introduces the need for synchronization.
+
+Synchronization introduces contention.
+
+Contention limits performance.
+
+Understanding and controlling contention is essential for scalable systems.
