@@ -81,6 +81,8 @@ Saturation, queueing, degradation.
 ### 3.6 Concurrency and parallelism
 Threads, synchronization, contention.
 
+→ [3.6 Concurrency and parallelism](docs/en/03-06-concurrency-and-parallelism.md)
+
 ### 3.7 Runtime and memory model
 Execution model and memory behavior.
 
