@@ -399,3 +399,419 @@ Performance engineering is an iterative loop:
 - **define workload** → **test** → **analyze** → **fix** → **validate** → **optimize**
 
 The objective is not only to improve performance, but to understand system limits and ensure predictable behavior under load.
+
+---
+
+## 3.3.3 Black-box vs white-box
+
+Performance engineering can be approached from two complementary perspectives:
+
+- black-box (external observation)
+- white-box (internal observation)
+
+Both are required to understand system behavior under load.
+
+---
+
+### 3.3.3.1 Black-box approach
+
+In a black-box approach, the system is observed from the outside.
+
+Only externally visible behavior is measured:
+
+- response time
+- throughput
+- error rate
+
+The internal implementation is not considered.
+
+---
+
+### What it provides
+
+Black-box observation allows:
+
+- validating system behavior from a user perspective
+- measuring end-to-end performance
+- detecting visible failures under load
+
+It answers questions such as:
+
+- Is the system fast enough?
+- Does it handle the expected load?
+- Does it fail under stress?
+
+---
+
+### Limitations
+
+Black-box alone cannot explain:
+
+- where time is spent
+- which resource is saturated
+- why performance degrades
+
+It shows symptoms, not causes.
+
+---
+
+### 3.3.3.2 White-box approach
+
+In a white-box approach, internal system behavior is observed.
+
+This includes:
+
+- resource utilization (CPU, memory, disk, network)
+- thread and connection pools
+- internal queues
+- component-level timings
+
+White-box observation provides a level of **introspection into the system execution**.
+
+In many cases, this includes visibility close to the code level:
+
+- method-level timings
+- call paths and execution flows
+- hotspots (slow or frequently executed methods)
+- allocation patterns and memory behavior
+- lock contention and synchronization points
+
+---
+
+### What it provides
+
+White-box observation allows:
+
+- identifying bottlenecks
+- understanding where time is spent
+- detecting contention and queueing
+- analyzing resource saturation
+
+It answers questions such as:
+
+- Which component is slow?
+- Where is latency accumulated?
+- What limits throughput?
+- Which part of the execution is responsible for the slowdown?
+
+---
+
+### Limitations
+
+White-box alone does not guarantee:
+
+- correct end-to-end behavior
+- acceptable user experience
+
+A system can appear efficient internally but still fail under real workload conditions.
+
+---
+
+### 3.3.3.3 Observability and tooling
+
+Observability provides the data required for white-box analysis.
+
+It typically includes:
+
+- system and application metrics (e.g. CPU usage, latency, throughput)
+- logs (events, errors, state changes)
+- traces (request flow across components)
+- application performance monitoring (APM)
+
+These sources provide continuous visibility into system behavior.
+
+---
+
+### Diagnostic artifacts
+
+In addition to continuous observability, deeper analysis often relies on diagnostic artifacts.
+
+These are typically collected on demand and provide a snapshot of the system state.
+
+Common examples include:
+
+- thread dumps (thread states, locks, contention)
+- heap dumps (memory usage, object retention, leaks)
+- profiling snapshots (CPU and allocation profiling)
+- core dumps (process-level failure analysis)
+
+These artifacts allow:
+
+- inspection of internal execution state
+- identification of blocking threads and deadlocks
+- analysis of memory leaks and retention paths
+- detailed investigation of performance anomalies
+
+They are usually heavier and more intrusive than observability tools, and are used selectively during diagnostics.
+
+---
+
+### 3.3.3.4 Combining both approaches
+
+Effective performance engineering requires combining both perspectives.
+
+Typical workflow:
+
+- use black-box to detect issues
+- use white-box to explain them
+- validate improvements again with black-box
+
+This creates a feedback loop:
+
+- **observe** → **analyze** → **fix** → **validate**
+
+---
+
+### Key idea
+
+**Black-box** observation reveals that a problem exists.
+
+**White-box** observation explains why it exists.
+
+Both are necessary to understand and control system behavior under load.
+
+
+---
+
+## 3.3.4 Load testing vs diagnostics
+
+Load testing and diagnostics are often confused.
+
+They serve different purposes and operate at different levels.
+
+Both are required to understand system behavior under load.
+
+---
+
+### 3.3.4.1 Load testing
+
+Load testing applies controlled workload to the system.
+
+It is used to:
+
+- observe behavior under specific conditions
+- measure latency, throughput, and error rates
+- validate assumptions about capacity and scalability
+
+Load testing operates primarily at the **black-box level**:
+
+- requests are generated externally
+- responses are measured externally
+
+---
+
+### What it provides
+
+Load testing answers questions such as:
+
+- Can the system handle the expected load?
+- What happens when load increases?
+- When does performance degrade?
+- What is the maximum sustainable throughput?
+
+---
+
+### Limitations
+
+Load testing alone does not explain:
+
+- why the system slows down
+- which component is responsible
+- how resources are used internally
+
+It reveals behavior, but not causes.
+
+---
+
+### 3.3.4.2 Diagnostics
+
+Diagnostics investigates the internal behavior of the system.
+
+It is used to:
+
+- identify bottlenecks
+- understand execution paths
+- analyze resource usage
+- explain observed performance issues
+
+Diagnostics operates at the **white-box level**:
+
+- internal metrics are analyzed
+- traces and execution paths are inspected
+- diagnostic artifacts may be collected
+
+---
+
+### What it provides
+
+Diagnostics answers questions such as:
+
+- Where is time spent?
+- Which resource is saturated?
+- Which component is responsible for latency?
+- What causes performance degradation?
+
+---
+
+### Tools and techniques
+
+Diagnostics typically relies on:
+
+- metrics, logs, and traces
+- application performance monitoring (APM)
+- thread dumps and heap dumps
+- profiling and execution analysis
+
+---
+
+### Limitations
+
+Diagnostics without load testing may miss:
+
+- real workload conditions
+- interactions between components
+- behavior under stress
+
+It can explain a problem, but not necessarily reproduce it.
+
+---
+
+### 3.3.4.3 Relationship between load testing and diagnostics
+
+Load testing and diagnostics must be combined.
+
+Typical workflow:
+
+- apply load to expose behavior
+- use diagnostics to analyze internal state
+- apply fixes
+- validate again with load testing
+
+This creates a loop:
+
+- observe → explain → fix → validate
+
+---
+
+### Key idea
+
+Load testing reveals that a problem exists.
+
+Diagnostics explains why it exists.
+
+Neither is sufficient on its own.
+
+Understanding system behavior requires both.
+
+---
+
+## 3.5.1 Load vs capacity
+
+### Definition
+
+A system operates under load, but it has a finite capacity.
+
+- **Load**: the amount of work applied to the system (e.g. requests per second, concurrent users)
+- **Capacity**: the maximum amount of work the system can handle while remaining stable
+
+Understanding the relationship between load and capacity is fundamental to performance engineering.
+
+---
+
+### System behavior
+
+At low load:
+
+- resources are underutilized
+- response time is stable
+- throughput increases linearly with load
+
+As load increases:
+
+- resource utilization grows
+- contention begins to appear
+- response time increases
+
+When load approaches capacity:
+
+- queues form
+- latency increases rapidly
+- system behavior becomes less predictable
+
+---
+
+### Capacity is not a fixed number
+
+Capacity is often misunderstood as a single value.
+
+In reality, it depends on:
+
+- workload composition (use cases and distribution)
+- resource configuration (CPU, memory, pools)
+- system state (cold vs warm, cache effects)
+- external dependencies (databases, services)
+
+A system may handle:
+
+- 100 req/s for simple requests
+- but only 20 req/s for complex ones
+
+---
+
+### Effective capacity
+
+Capacity must be defined under constraints.
+
+Typical criteria:
+
+- latency within acceptable limits (e.g. p95)
+- error rate below threshold
+- stable resource usage
+
+The maximum load that satisfies these conditions is the **effective capacity**.
+
+---
+
+### Practical implication
+
+Capacity cannot be assumed.
+
+It must be:
+
+- measured under realistic workload
+- validated through testing
+- monitored over time
+
+Increasing load beyond effective capacity leads to:
+
+- rapid degradation
+- unstable behavior
+- potential system failure
+
+---
+
+### Link with previous concepts
+
+The relationship between load, latency, and concurrency is formalized by:
+
+→ [3.2.1 Little’s Law](03-02-core-metrics-and-formulas.md#321-littles-law-system-level-concurrency)
+
+As load increases:
+
+- concurrency increases
+- waiting time grows
+- response time degrades
+
+---
+
+### Key idea
+
+A system does not fail when it reaches capacity.
+
+It starts to degrade before that point.
+
+The goal of performance engineering is to identify:
+
+- where capacity lies
+- how the system behaves near it
+- how much margin is required
