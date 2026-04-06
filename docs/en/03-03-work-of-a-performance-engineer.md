@@ -703,5 +703,95 @@ Neither is sufficient on its own.
 
 Understanding system behavior requires both.
 
+---
 
+## 3.3.5 What actually matters (and what doesn’t)
+
+Performance engineering involves many tools, metrics, and techniques.
+
+However, not all of them are equally important.
+
+Understanding what matters is essential to avoid wasting effort and drawing incorrect conclusions.
+
+---
+
+### What matters
+
+The most important aspects are:
+
+- **understanding system behavior under load**
+- **identifying bottlenecks and limiting factors**
+- **using realistic workloads and validated NFRs**
+- **reasoning about interactions between components**
+- **measuring and interpreting results correctly**
+
+Performance engineering is primarily about:
+
+- building a mental model of the system
+- validating that model with observations
+- refining it through iteration
+
+---
+
+### What does not matter (as much as it seems)
+
+Some aspects are often overemphasized:
+
+- tools and frameworks
+- isolated metrics without context
+- synthetic or unrealistic test scenarios
+- micro-optimizations without system-level impact
+- single test results taken in isolation
+
+These elements can be useful, but they are not sufficient.
+
+---
+
+### Common misconceptions
+
+Several misconceptions frequently appear:
+
+- “If I run a load test, I understand the system”
+- “If CPU is low, the system is healthy”
+- “If average latency is acceptable, the system is fine”
+- “More hardware will solve the problem”
+
+These assumptions often lead to incorrect conclusions.
+
+---
+
+### System-level thinking
+
+Performance emerges from interactions:
+
+- between components
+- between workload and resources
+- between concurrency and queueing
+
+Focusing on a single part of the system is rarely enough.
+
+Understanding requires a global view.
+
+---
+
+### Practical implication
+
+Effective performance engineering requires:
+
+- asking the right questions
+- validating assumptions
+- correlating multiple signals
+- iterating based on evidence
+
+Tools, tests, and metrics support this process, but do not replace it.
+
+---
+
+### Key idea
+
+Performance engineering is not about collecting data.
+
+It is about understanding what the data means.
+
+The goal is not to produce numbers, but to explain system behavior and make informed decisions.
 
