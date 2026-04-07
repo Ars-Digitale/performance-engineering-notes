@@ -391,4 +391,3 @@ Diagnosis is a loop.
 
 Understanding emerges through iteration, verification, and refinement.
 
----
