@@ -98,6 +98,8 @@ Topics include:
 ### 3.8 Resource-level performance
 CPU, memory, disk, network, and external resources.
 
+→ [3.8 Resource-level performance](docs/en/03-08-resource-level-performance.md)
+
 ### 3.9 Common performance problems
 Latency, throughput collapse, tail issues.
 
