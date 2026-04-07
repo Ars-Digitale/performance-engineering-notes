@@ -17,7 +17,8 @@
 
 Diagnostics starts from observable signals.
 
-A system exposes measurable indicators that reflect its behavior under load.
+These signals provide indirect visibility into the internal behavior of the system under load.  
+They do not expose mechanisms directly, but they reflect their effects.
 
 ---
 
@@ -31,8 +32,11 @@ The primary signals are:
 - resource utilization (CPU, memory, I/O, network)  
 - queue lengths  
 
-(→ [3.2 Core metrics and formulas](docs/en/03-02-core-metrics-and-formulas.md))  
-(→ [3.8 Resource-level performance](docs/en/03-08-resource-level-performance.md))
+(→ [3.2 Core metrics and formulas](./03-02-core-metrics-and-formulas.md))  
+(→ [3.8 Resource-level performance](./03-08-resource-level-performance.md))
+
+Each signal captures a different dimension of system behavior.  
+Only their combination provides a meaningful view.
 
 ---
 
@@ -41,10 +45,10 @@ The primary signals are:
 Signals must be:
 
 - **accurate** → reflect real behavior  
-- **granular** → allow differentiation (e.g. percentiles, not only averages)  
+- **granular** → expose distribution (e.g. percentiles, not only averages)  
 - **correlated in time** → aligned across components  
 
-Without these properties, interpretation becomes unreliable.
+Without these properties, interpretation becomes unreliable or misleading.
 
 ---
 
@@ -56,11 +60,13 @@ Effective diagnostics requires:
 - correlating them over time  
 - avoiding single-metric reasoning  
 
+Looking at one metric in isolation often hides the underlying mechanism.
+
 ---
 
 ### Key idea
 
-Diagnostics depends on the quality and interpretation of observable signals.
+Diagnostics depends on both the availability and the correct interpretation of observable signals.
 
 ---
 
@@ -68,9 +74,9 @@ Diagnostics depends on the quality and interpretation of observable signals.
 
 ### Definition
 
-A **symptom** is an observable effect.
+A symptom is an observable effect.
 
-A **cause** is the underlying mechanism that produces that effect.
+A cause is the underlying mechanism that produces that effect.
 
 ---
 
@@ -83,7 +89,7 @@ Typical symptoms:
 - increased error rate  
 - frequent garbage collection  
 
-These do not directly identify the cause.
+These describe *what is happening*, not *why it is happening*.
 
 ---
 
@@ -100,7 +106,7 @@ These do not directly identify the cause.
   - I/O delays  
   - synchronization  
 
-(→ [3.9 Common performance problems](docs/en/03-09-common-performance-problems.md))
+(→ [3.9 Common performance problems](./03-09-common-performance-problems.md))
 
 ---
 
@@ -108,7 +114,12 @@ These do not directly identify the cause.
 
 The same symptom can be produced by different causes.
 
-**Direct conclusions based on a single metric are unreliable**.
+Without identifying the underlying mechanism, corrective actions may target the wrong part of the system.
+
+For example:
+
+- reducing CPU usage may not reduce latency if the root cause is I/O queueing  
+- tuning GC may not help if allocation rate remains unchanged  
 
 ---
 
@@ -116,7 +127,7 @@ The same symptom can be produced by different causes.
 
 Observed behavior is not the cause.
 
-Diagnosis requires mapping symptoms to mechanisms.
+Diagnosis requires mapping symptoms to the mechanisms that generate them.
 
 ---
 
@@ -149,8 +160,8 @@ Possible interpretations:
 - I/O delays → more concurrent threads → higher CPU usage  
 - contention → retries → both CPU and latency increase  
 
-(→ [3.5 System behavior under load](docs/en/03-05-system-behavior-under-load.md))  
-(→ [3.8 Resource-level performance](docs/en/03-08-resource-level-performance.md))
+(→ [3.5 System behavior under load](./03-05-system-behavior-under-load.md))  
+(→ [3.8 Resource-level performance](./03-08-resource-level-performance.md))
 
 ---
 
@@ -158,7 +169,18 @@ Possible interpretations:
 
 Correlation is a starting point, not a conclusion.
 
-Causality must be established through reasoning and validation.
+Multiple mechanisms can produce the same correlated signals.  
+Only a causal model explains how one leads to the other.
+
+---
+
+### Practical approach
+
+To establish causality:
+
+- identify the sequence of events  
+- verify consistency with known system behavior  
+- validate through observation or controlled change  
 
 ---
 
@@ -166,7 +188,7 @@ Causality must be established through reasoning and validation.
 
 Do not infer causation from correlation.
 
-Identify the mechanism linking signals.
+Diagnosis requires identifying the mechanism that links signals.
 
 ---
 
@@ -174,7 +196,9 @@ Identify the mechanism linking signals.
 
 ### Definition
 
-A hypothesis is a proposed explanation linking observed behavior to a system mechanism.
+A hypothesis is a proposed explanation linking observed signals to a system mechanism.
+
+It provides a structured way to move from observation to explanation.
 
 ---
 
@@ -183,11 +207,11 @@ A hypothesis is a proposed explanation linking observed behavior to a system mec
 A hypothesis is built by:
 
 1. observing signals  
-2. identifying patterns  
+2. identifying consistent patterns  
 3. mapping them to known mechanisms  
 
-(→ [3.2 Core metrics and formulas](docs/en/03-02-core-metrics-and-formulas.md))  
-(→ [3.5 System behavior under load](docs/en/03-05-system-behavior-under-load.md))
+(→ [3.2 Core metrics and formulas](./03-02-core-metrics-and-formulas.md))  
+(→ [3.5 System behavior under load](./03-05-system-behavior-under-load.md))
 
 ---
 
@@ -203,6 +227,8 @@ Hypothesis:
 
 - increased arrival rate → queue buildup → longer waiting time → CPU saturation  
 
+This connects observable signals to a queueing mechanism.
+
 ---
 
 ### Requirements
@@ -211,13 +237,21 @@ A valid hypothesis must be:
 
 - consistent with observed data  
 - grounded in system behavior  
-- testable  
+- testable through measurement or change  
+
+---
+
+### Diagnostic implication
+
+A hypothesis guides investigation.
+
+Without it, analysis becomes reactive and unstructured.
 
 ---
 
 ### Key idea
 
-Diagnosis proceeds through explicit hypotheses, not assumptions.
+Diagnosis proceeds through explicit, testable hypotheses, not assumptions.
 
 ---
 
@@ -225,7 +259,9 @@ Diagnosis proceeds through explicit hypotheses, not assumptions.
 
 ### Definition
 
-Diagnostics aims to identify the resource or mechanism limiting system performance.
+Diagnostics aims to identify the resource or mechanism that limits system performance.
+
+This limiting factor determines the overall system behavior under load.
 
 ---
 
@@ -238,8 +274,8 @@ The analysis focuses on:
 - network delays  
 - memory pressure  
 
-(→ [3.8 Resource-level performance](docs/en/03-08-resource-level-performance.md))  
-(→ [3.7 Runtime and memory model](docs/en/03-07-runtime-and-memory-model.md))
+(→ [3.8 Resource-level performance](./03-08-resource-level-performance.md))  
+(→ [3.7 Runtime and memory model](./03-07-runtime-and-memory-model.md))
 
 ---
 
@@ -248,6 +284,8 @@ The analysis focuses on:
 - isolate one dimension at a time  
 - compare signals across resources  
 - identify the dominant constraint  
+
+This reduces complexity by focusing on the most impactful factor.
 
 ---
 
@@ -263,13 +301,15 @@ Then:
 
 - I/O is likely the limiting factor  
 
+The system is not CPU-bound, even if CPU is active.
+
 ---
 
 ### Diagnostic implication
 
-Performance is typically limited by a single dominant bottleneck.
+Performance is typically limited by a single dominant bottleneck at a given time.
 
-Identifying it is essential before optimization.
+Optimizing non-limiting resources produces little or no improvement.
 
 ---
 
@@ -285,6 +325,8 @@ Effective diagnosis reduces the system to its limiting factor.
 
 Diagnosis is an iterative process of testing and refining hypotheses.
 
+It evolves through successive observations and validations.
+
 ---
 
 ### Process
@@ -293,6 +335,8 @@ Diagnosis is an iterative process of testing and refining hypotheses.
 2. build hypothesis  
 3. test through changes or measurements  
 4. validate or reject  
+
+Each step refines the understanding of the system.
 
 ---
 
@@ -327,9 +371,9 @@ This hypothesis can be tested by:
 A hypothesis is validated if:
 
 - changes produce expected effects  
-- signals evolve consistently  
+- signals evolve consistently with the proposed mechanism  
 
-Otherwise, it must be revised.
+If not, the hypothesis must be revised.
 
 ---
 
@@ -337,7 +381,7 @@ Otherwise, it must be revised.
 
 - avoid one-step conclusions  
 - iterate systematically  
-- validate assumptions with data  
+- validate assumptions with observable data  
 
 ---
 
@@ -345,5 +389,6 @@ Otherwise, it must be revised.
 
 Diagnosis is a loop.
 
-Understanding emerges through iteration and validation.
+Understanding emerges through iteration, verification, and refinement.
 
+---
