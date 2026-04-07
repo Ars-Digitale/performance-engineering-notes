@@ -103,6 +103,8 @@ CPU, memory, disk, network, and external resources.
 ### 3.9 Common performance problems
 Latency, throughput collapse, tail issues.
 
+→ [3.9 Common performance problems](docs/en/03-09-common-performance-problems.md)
+
 ### 3.10 Diagnostics and analysis
 Investigation and reasoning.
 
