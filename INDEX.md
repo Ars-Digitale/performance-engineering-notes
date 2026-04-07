@@ -108,6 +108,8 @@ Latency, throughput collapse, tail issues.
 ### 3.10 Diagnostics and analysis
 Investigation and reasoning.
 
+→ [3.10 Diagnostics and analysis](docs/en/03-10-diagnostics-and-analysis.md)
+
 ### 3.11 Practical checklists
 Operational guidelines.
 
