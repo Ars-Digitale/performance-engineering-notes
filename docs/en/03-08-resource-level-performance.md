@@ -13,7 +13,7 @@
 
 ### Definition
 
-The CPU is responsible for executing instructions.
+The **CPU** is responsible for executing instructions.
 
 CPU performance is determined not only by how fast instructions are executed, but by how execution is scheduled across competing workloads.
 
@@ -45,15 +45,15 @@ They are scheduled by the operating system.
 
 At any moment:
 
-- some threads are running
-- some are waiting to run (**run queue**)
+- some threads are **running**
+- some are **waiting** to run (run queue)
 
 When the number of runnable threads exceeds available CPU cores:
 
 - threads accumulate in the run queue
 - scheduling delays increase
 
-This directly impacts latency.
+This directly impacts latency (→ [3.5 System behavior under load](docs/en/03-05-system-behavior-under-load.md)) and can be reasoned using concurrency relationships (→ [3.2.1 Little’s Law (system-level concurrency)](docs/en/03-02-core-metrics-and-formulas.md#321-littles-law-system-level-concurrency)).
 
 ---
 
@@ -75,7 +75,7 @@ Interpretation:
 - CPU idle (`id`) is close to zero → no available capacity  
 - CPU usage (`us + sy`) is near saturation  
 
-This indicates that threads are ready to execute but cannot be scheduled immediately.
+This indicates that threads are ready to execute but cannot be scheduled immediately (→ [3.6 Concurrency and parallelism](docs/en/03-06-concurrency-and-parallelism.md)).
 
 ---
 
@@ -87,9 +87,7 @@ When CPU becomes saturated:
 - response time increases
 - throughput may plateau or decrease
 
-This effect is non-linear:
-
-- small increases in load can cause large increases in latency
+This effect is non-linear (→ [3.5.3 Non-linear degradation](docs/en/03-05-system-behavior-under-load.md#353-non-linear-degradation)).
 
 ---
 
@@ -105,7 +103,7 @@ As concurrency grows:
 
 Beyond a certain point:
 
-- adding threads reduces performance instead of improving it
+- adding threads reduces performance instead of improving it (→ [3.6 Concurrency and parallelism](docs/en/03-06-concurrency-and-parallelism.md)).
 
 ---
 
@@ -115,7 +113,7 @@ To reason about CPU behavior:
 
 - distinguish utilization from saturation
 - observe runnable threads, not just %CPU
-- correlate CPU metrics with latency
+- correlate CPU metrics with latency (→ [3.2 Core metrics and formulas](docs/en/03-02-core-metrics-and-formulas.md))
 
 CPU issues are often not about raw usage, but about **contention for execution**.
 
@@ -174,7 +172,9 @@ When multiple requests perform I/O:
 As queue length grows:
 
 - latency increases
-- variability increases
+- variability increases (→ [3.5 System behavior under load](docs/en/03-05-system-behavior-under-load.md))
+
+This can be expressed as queueing delay (→ [3.2.3 Service time vs response time (queueing)](docs/en/03-02-core-metrics-and-formulas.md#323-service-time-vs-response-time-queueing)).
 
 ---
 
@@ -194,6 +194,8 @@ Interpretation:
 - high `await` → requests spend significant time waiting  
 - `%util` near 100% → device is saturated  
 - increasing latency indicates queue buildup  
+
+This reflects queueing effects (→ [3.2 Core metrics and formulas](docs/en/03-02-core-metrics-and-formulas.md)).
 
 ---
 
@@ -215,7 +217,7 @@ More concurrent requests lead to:
 - longer device queues
 - increased latency
 
-Increasing concurrency does not improve performance if the device is saturated.
+Increasing concurrency does not improve performance if the device is saturated (→ [3.6 Concurrency and parallelism](docs/en/03-06-concurrency-and-parallelism.md)).
 
 ---
 
@@ -225,7 +227,7 @@ To reason about I/O behavior:
 
 - focus on latency (`await`), not only throughput  
 - identify queue buildup  
-- correlate I/O wait with application latency  
+- correlate I/O wait with application latency (→ [3.5 System behavior under load](docs/en/03-05-system-behavior-under-load.md))  
 
 ---
 
@@ -241,7 +243,7 @@ As queues grow, latency increases and system responsiveness degrades.
 
 ### Definition
 
-**Network performance** is determined by the transfer of data between systems.
+**Network** performance is determined by the transfer of data between systems.
 
 It depends on both latency and bandwidth.
 
@@ -257,7 +259,7 @@ Each exchange introduces:
 - propagation delay
 - processing delay
 
-Multiple round trips amplify total latency.
+Multiple round trips amplify total latency (→ [3.5 System behavior under load](docs/en/03-05-system-behavior-under-load.md)).
 
 ---
 
@@ -283,7 +285,7 @@ As load increases:
 This leads to:
 
 - increased latency
-- packet delays or retransmissions
+- packet delays or retransmissions (→ [3.5.5 Tail latency amplification](docs/en/03-05-system-behavior-under-load.md#355-tail-latency-amplification))
 
 ---
 
@@ -325,7 +327,7 @@ Network constraints lead to:
 Distributed systems amplify network effects:
 
 - multiple services introduce multiple network hops
-- latency accumulates across calls
+- latency accumulates across calls (→ [3.5 System behavior under load](docs/en/03-05-system-behavior-under-load.md))
 
 ---
 
@@ -364,7 +366,7 @@ At any moment, system performance is constrained by one dominant resource:
 - CPU
 - I/O
 - network
-- memory (indirectly through GC)
+- memory (indirectly through GC → [3.7 Runtime and memory model](docs/en/03-07-runtime-and-memory-model.md))
 
 Identifying this resource is essential.
 
@@ -388,7 +390,7 @@ When a resource becomes saturated:
 - latency increases
 - upstream components slow down
 
-This can propagate through the system.
+This can propagate through the system (→ [3.5 System behavior under load](docs/en/03-05-system-behavior-under-load.md)).
 
 ---
 
@@ -396,9 +398,9 @@ This can propagate through the system.
 
 Resources are not independent:
 
-- slow I/O increases thread wait time → affects CPU scheduling  
-- network delays increase request lifetime → increases memory usage  
-- CPU saturation delays processing → increases queue sizes  
+- slow I/O increases thread wait time → affects CPU scheduling (→ [3.8.1 CPU behavior](#381-cpu-behavior))  
+- network delays increase request lifetime → increases memory usage (→ [3.7 Runtime and memory model](docs/en/03-07-runtime-and-memory-model.md))  
+- CPU saturation delays processing → increases queue sizes (→ [3.2.1 Little’s Law (system-level concurrency)](docs/en/03-02-core-metrics-and-formulas.md#321-littles-law-system-level-concurrency))  
 
 ---
 
@@ -420,6 +422,11 @@ When a bottleneck is reached:
 - latency grows rapidly
 - system becomes unstable under further load
 
+This corresponds to:
+
+- non-linear degradation (→ [3.5.3 Non-linear degradation](docs/en/03-05-system-behavior-under-load.md#353-non-linear-degradation))  
+- throughput collapse (→ [3.5.4 Throughput collapse](docs/en/03-05-system-behavior-under-load.md#354-throughput-collapse))  
+
 ---
 
 ### Practical implications
@@ -434,7 +441,6 @@ To analyze performance:
 
 ### Key idea
 
-System performance is limited by its bottleneck.
+**System performance is limited by its bottleneck**.
 
 Understanding which resource is saturated is essential to explain and improve behavior under load.
-
