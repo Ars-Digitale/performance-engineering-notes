@@ -71,7 +71,7 @@ Process and methodology.
 ### 3.4 Types of performance tests
 Load, stress, spike, soak, capacity.
 
-
+→ [3.4 Types of performance tests](docs/en/03-04-types-of-performance-tests.md)
 
 ### 3.5 System behavior under load
 Saturation, queueing, degradation.
@@ -112,6 +112,8 @@ Investigation and reasoning.
 
 ### 3.11 Practical checklists
 Operational guidelines.
+
+→ [3.11 Practical checklists](docs/en/03-11-practical-checklists.md)
 
 ---
 
