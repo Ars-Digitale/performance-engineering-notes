@@ -1,0 +1,13 @@
+docs/en/index.md
+
+docs/en/03-01-foundations.md
+docs/en/03-02-core-metrics-and-formulas.md
+docs/en/03-03-work-of-a-performance-engineer.md
+docs/en/03-04-types-of-performance-tests.md
+docs/en/03-05-system-behavior-under-load.md
+docs/en/03-06-concurrency-and-parallelism.md
+docs/en/03-07-runtime-and-memory-model.md
+docs/en/03-08-resource-level-performance.md
+docs/en/03-09-common-performance-problems.md
+docs/en/03-10-diagnostics-and-analysis.md
+docs/en/03-11-practical-checklists.md
