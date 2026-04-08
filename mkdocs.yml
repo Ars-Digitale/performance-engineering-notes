@@ -1,10 +1,11 @@
-site_name: Performance Engineering Guide
-site_url: https://ars-digitale.github.io/performance-engineering-guide/
-repo_url: https://github.com/Ars-Digitale/performance-engineering-guide
-repo_name: Ars-Digitale/performance-engineering-guide
+site_name: Performance Engineering Notes
+site_url: https://ars-digitale.github.io/performance-engineering-notes/
+repo_url: https://github.com/Ars-Digitale/performance-engineering-notes
+repo_name: Ars-Digitale/performance-engineering-notes
 
 docs_dir: docs
 site_dir: site
+use_directory_urls: true
 
 theme:
   name: material
@@ -41,4 +42,16 @@ nav:
       - 3.10 Diagnostics and analysis: en/03-10-diagnostics-and-analysis.md
       - 3.11 Practical checklists: en/03-11-practical-checklists.md
 
+  - Français:
+      - Index: fr/index.md
+
+  - Italiano:
+      - Index: it/index.md
+
   - Ars Digitale: https://www.ars-digitale.com/
+  
+extra:
+  social:
+    - icon: fontawesome/solid/globe
+      link: https://www.ars-digitale.com/
+      name: Ars Digitale
