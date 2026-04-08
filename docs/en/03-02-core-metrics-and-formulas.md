@@ -229,9 +229,7 @@ Reducing service demand is often more effective than increasing raw capacity.
 Requests completed per unit of time.
 
 ### Formula
-$$
-X = \frac{N}{T}
-$$
+**Formula:** `X = N / T`
 
 ### Where
 - `N` = number of completed requests
@@ -263,9 +261,7 @@ Fraction of requests that fail (timeouts, 5xx, etc.).
 
 ### Formula
 
-$$
-\mathrm{ErrorRate} = \frac{N_{\mathrm{err}}}{N_{\mathrm{total}}} \times 100\%
-$$
+**Formula:** `ErrorRate = (N_err / N_total) × 100%`
 
 ---
 
@@ -321,9 +317,7 @@ $$
 
 Compute the theoretical position:
 
-$$
-P = \frac{p}{100}(N + 1)
-$$
+**Formula:** `P = (p / 100) × (N + 1)`
 
 - If `P` is an integer → percentile = `v_P`
 - If not, let `k = floor(P)` and `δ = P - k` (fractional part), then interpolate:
@@ -370,9 +364,7 @@ Ignoring percentiles often leads to incorrect conclusions about system performan
 Given a threshold `t`, the empirical cumulative distribution function (CDF) tells the fraction of samples at or below `t`.
 
 ### Formula
-$$
-F(t) = \frac{\left|\{x_i \le t\}\right|}{N}
-$$
+**Formula:** `F(t) = count(x_i ≤ t) / N`
 
 ### Practical meaning
 CDF answers: “If my SLO is 200 ms, what % of requests meet it?”

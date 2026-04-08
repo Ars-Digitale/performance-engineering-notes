@@ -53,7 +53,7 @@ Relates average **concurrency** to **throughput** and **time in system**.
 
 ### Formula
 $$
-{\Large L = \lambda \cdot W}
+L = \lambda \cdot W
 $$
 
 ### Where
@@ -103,7 +103,7 @@ It is “busy time percentage”.
 
 ### Formula
 $$
-{\Large U = X \cdot S}
+U = X \cdot S
 $$
 
 ### Where
@@ -148,7 +148,7 @@ Response time at a resource includes:
 
 ### Formula
 $$
-{\Large R = S + W_q}
+R = S + W_q
 $$
 
 ### Where
@@ -186,7 +186,7 @@ Total service required on a resource per request, accounting for multiple visits
 
 ### Formula
 $$
-{\Large D = V \cdot S}
+D = V \cdot S
 $$
 
 ### Where
@@ -224,7 +224,7 @@ Requests completed per unit of time.
 
 ### Formula
 $$
-{\Large X = \frac{N}{T}}
+X = \frac{N}{T}
 $$
 
 ### Where
@@ -257,7 +257,7 @@ Fraction of requests that fail (timeouts, 5xx, etc.).
 ### Formula
 
 $$
-\mathrm{ErrorRate} = \dfrac{N_{\mathrm{err}}}{N_{\mathrm{total}}}\times 100\%
+\mathrm{ErrorRate} = \frac{N_{\mathrm{err}}}{N_{\mathrm{total}}} \times 100\%
 $$
 
 ---
@@ -307,7 +307,7 @@ This difference is critical for system evaluation and SLO definition.
 Given `N` values sorted ascending:
 
 $$
-{\Large v_1 \le v_2 \le \dots \le v_N}
+v_1 \le v_2 \le \dots \le v_N
 $$
 
 Compute the theoretical position:
@@ -360,7 +360,7 @@ Given a threshold `t`, the empirical cumulative distribution function (CDF) tell
 
 ### Formula
 $$
-{\Large F(t) = \frac{\left|\{x_i \le t\}\right|}{N}}
+F(t) = \frac{\left|\{x_i \le t\}\right|}{N}
 $$
 
 ### Practical meaning
