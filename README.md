@@ -1,24 +1,119 @@
-# performance-engineering-notes
+# Performance Engineering Notes
 
-A practical collection of notes on performance engineering: from core formulas and metrics to load testing, tuning, and diagnostics.
+This repository contains a **structured, system-level reference guide for performance engineering**.
 
-## Scope
+It focuses on **application + system performance**, covering diagnostics, bottlenecks, queueing behavior, concurrency, and resource-level analysis.
 
-These notes focus on:
-- Core formulas (Little’s Law, Utilization Law, queueing basics)
-- Key metrics (throughput, latency, percentiles, error rate)
-- Test types and strategies (load, stress, soak, spike)
-- Practical diagnostics (contention, pools, GC, downstream dependencies)
+The guide is designed as a **technical reference**, not as introductory or blog-style material.
 
-## Guide
+---
 
-- [Guide index](INDEX.md)
-- [Documentation index](docs/index.md)
+## ✅ Project status
 
+- ✅ **English**: complete and aligned (core technical content)
+- 🚧 **Italian / French**: planned (to be aligned with EN)
 
-## License
+This repository evolves incrementally and is maintained as a **documentation-first technical guide**.
 
-This work is licensed under the **Creative Commons Attribution 4.0 International (CC BY 4.0)**.
+---
 
-© 2026 Alessandro Fabri  
-https://creativecommons.org/licenses/by/4.0/
+## 📖 Start here
+
+➡️ **Documentation (recommended entry point):**  
+👉 [`docs/index.md`](docs/index.md)
+
+This is the entry point for the online documentation (GitHub Pages / MkDocs), with language selection.
+
+---
+
+## 📚 Repository structure
+
+- **`docs/en/`** – Core technical guide (English, reference version)
+- **`docs/it/`**, **`docs/fr/`** – Planned translations
+- **`docs/index.md`** – Documentation entry point (language selector)
+- **`assets/`** – Stylesheets and images used in EPUB/PDF outputs
+- **`scripts/`** – Build utilities (EPUB / PDF generation)
+- **`dist/`** – Generated outputs (EPUB, PDF)
+- **`mkdocs.yml`** – Documentation configuration (GitHub Pages)
+
+---
+
+## 🧠 Scope of the guide
+
+The guide covers practical performance engineering for software systems, including:
+
+- performance models and terminology
+- core metrics and formulas
+- workload modeling and test design
+- system behavior under load and saturation
+- concurrency, parallelism, and contention
+- runtime and memory behavior
+- CPU, memory, disk, and network performance
+- diagnostics and bottleneck analysis
+- common failure modes under load
+
+---
+
+## 🚀 How to use this guide
+
+The guide can be used in two ways:
+
+### 📖 Sequential reading
+
+Start from the foundations and progress through:
+
+- metrics and models
+- system behavior
+- concurrency and runtime
+- diagnostics and analysis
+
+This approach provides a **progressive understanding of performance engineering**.
+
+---
+
+### 🔎 Reference usage
+
+Use the guide as a **technical reference**:
+
+- jump directly to specific topics
+- consult formulas, models, and diagnostics patterns
+- use checklists for practical analysis
+
+---
+
+## 🌍 Languages
+
+| Language | Status | Location |
+|--------|--------|----------|
+| 🇬🇧 English | Complete (reference) | `docs/en/` |
+| 🇮🇹 Italiano | Planned | `docs/it/` |
+| 🇫🇷 Français | Planned | `docs/fr/` |
+
+---
+
+## 📄 Outputs
+
+The guide is designed to be consumed in multiple formats:
+
+- **Online documentation** (GitHub Pages / MkDocs)
+- **Markdown source** (this repository)
+- **EPUB / PDF** (generated via Pandoc)
+
+---
+
+## ⚙️ Tooling
+
+- Markdown (documentation source)
+- MkDocs (online documentation)
+- Pandoc (EPUB / PDF generation)
+- Custom scripts in `scripts/`
+
+---
+
+## 📜 License
+
+This project is released under the license specified in [`LICENSE`](LICENSE).
+
+Unless otherwise stated, the material is intended for **educational and professional use**.
+
+© 2026 Ars Digitale

@@ -1,5 +1,6 @@
 # 3.2 – Core metrics and formulas
 
+<a id="32-core-metrics-and-formulas"></a>
 
 A compact reference of the main formulas used in **application + system performance engineering**.
 
@@ -8,6 +9,9 @@ These formulas formalize the concepts introduced in:
 → [3.1 Foundations](03-01-foundations.md)
 
 They should be read as a complement to the conceptual model, not in isolation.
+
+They provide the quantitative basis used to reason about system behavior, validate assumptions, and interpret performance test results.
+
 
 ## Table of Contents
 
@@ -26,6 +30,7 @@ They should be read as a complement to the conceptual model, not in isolation.
 
 ---
 
+<a id="notation-typical"></a>
 ## **Notation** (typical)
 
 | Symbol | Definition |
@@ -38,8 +43,11 @@ They should be read as a complement to the conceptual model, not in isolation.
 | `V`        | **average number of visits** to a resource per request	|
 | `D`        | **service demand** on a resource (seconds per request)	|
 
+This notation is used consistently across the guide and allows formulas to be applied in a uniform way across different contexts.
+
 ---
 
+<a id="321-littles-law-system-level-concurrency"></a>
 ## 3.2.1 Little’s Law (system-level concurrency)
 
 ### Definition
@@ -58,6 +66,8 @@ $$
 ### Practical meaning
 If you know throughput and average response time, you can estimate how many requests are concurrently “in flight”.
 
+This makes Little’s Law one of the most useful tools for reasoning about system load and concurrency.
+
 ### Example
 If `λ = 200 req/s` and `W = 0.15 s`:
 
@@ -69,6 +79,25 @@ About **30** requests are in flight on average.
 
 ---
 
+### Practical interpretation
+
+Little’s Law connects three observable quantities:
+
+- throughput  
+- latency  
+- concurrency  
+
+This allows:
+
+- estimating concurrency from measurements  
+- validating system behavior  
+- detecting inconsistencies in metrics  
+
+It is widely used in performance engineering, capacity planning, and system diagnostics.
+
+---
+
+<a id="322-utilization-law-resource-level-busy-time"></a>
 ## 3.2.2 Utilization Law (resource-level busy time)
 
 ### Definition
@@ -99,6 +128,21 @@ Interpretation: the resource is busy **0.5 seconds per second**.
 
 ---
 
+### Practical interpretation
+
+Utilization is a key indicator of resource saturation.
+
+As utilization approaches 1:
+
+- queueing increases  
+- latency grows non-linearly  
+- system stability decreases  
+
+This makes utilization one of the most important signals when diagnosing bottlenecks.
+
+---
+
+<a id="323-service-time-vs-response-time-queueing"></a>
 ## 3.2.3 Service time vs response time (queueing)
 
 ### Definition
@@ -121,6 +165,25 @@ As utilization approaches saturation, queueing grows non-linearly and **dominate
 
 ---
 
+### Practical interpretation
+
+This formula explains why systems slow down under load even when computation cost does not change.
+
+In many real systems:
+
+- service time remains relatively stable  
+- waiting time increases rapidly  
+
+As a result:
+
+- response time is dominated by queueing  
+- latency becomes unpredictable  
+
+Understanding this distinction is essential for diagnosing performance issues.
+
+---
+
+<a id="324-service-demand-visits--service-time"></a>
 ## 3.2.4 Service Demand (visits × service time)
 
 ### Definition
@@ -145,6 +208,21 @@ $$
 
 ---
 
+### Practical interpretation
+
+Service demand represents the total work required from a resource per request.
+
+It is particularly useful for:
+
+- identifying heavily used resources  
+- estimating capacity limits  
+- understanding scaling behavior  
+
+Reducing service demand is often more effective than increasing raw capacity.
+
+---
+
+<a id="325-throughput"></a>
 ## 3.2.5 Throughput
 
 ### Definition
@@ -161,22 +239,51 @@ $$
 
 ---
 
+### Practical interpretation
+
+Throughput is one of the primary indicators of system performance.
+
+It reflects the system’s ability to process work.
+
+However, throughput must always be interpreted together with:
+
+- latency  
+- error rate  
+- resource utilization  
+
+High throughput alone does not guarantee acceptable system behavior.
+
+---
+
+<a id="326-error-rate"></a>
 ## 3.2.6 Error rate
 
 ### Definition
 Fraction of requests that fail (timeouts, 5xx, etc.).
 
 ### Formula
-<div style="font-size:1.9rem">
 
 $$
 \mathrm{ErrorRate} = \dfrac{N_{\mathrm{err}}}{N_{\mathrm{total}}}\times 100\%
 $$
 
-</div>
+---
+
+### Practical interpretation
+
+Error rate reflects system reliability under load.
+
+An increase in error rate often indicates:
+
+- overload conditions  
+- resource exhaustion  
+- instability  
+
+Error rate should always be monitored together with latency and throughput.
 
 ---
 
+<a id="327-percentiles-p50-p95-p99"></a>
 ## 3.2.7 Percentiles (p50, p95, p99)
 
 ### Definition
@@ -190,6 +297,20 @@ Percentiles capture **distribution** and **tail behavior** better than averages.
 
 ---
 
+### Practical interpretation
+
+Percentiles are essential for understanding real user experience.
+
+In many systems:
+
+- average latency appears acceptable  
+- tail latency (p95/p99) is significantly worse  
+
+This difference is critical for system evaluation and SLO definition.
+
+---
+
+<a id="3271-how-to-compute-a-percentile-ordered-sample"></a>
 ### 3.2.7.1 How to compute a percentile (ordered sample)
 
 Given `N` values sorted ascending:
@@ -215,6 +336,7 @@ $$
 
 ---
 
+<a id="3272-interpretation-vs-average-why-tails-matter"></a>
 ### 3.2.7.2 Interpretation vs average (why tails matter)
 
 - If `p50` is much lower than the mean, the distribution is **right-skewed** (few slow requests inflate the mean).
@@ -227,6 +349,21 @@ A typical pattern:
 
 ---
 
+### Practical interpretation
+
+Percentiles highlight behavior that averages hide.
+
+They are essential for:
+
+- defining service level objectives (SLOs)  
+- detecting tail latency issues  
+- understanding worst-case behavior  
+
+Ignoring percentiles often leads to incorrect conclusions about system performance.
+
+---
+
+<a id="328-empirical-cdf-threshold--percentage"></a>
 ## 3.2.8 Empirical CDF (threshold → percentage)
 
 ### Definition
@@ -244,17 +381,35 @@ Percentiles answer the inverse: “What threshold corresponds to 95% of requests
 
 ---
 
+### Practical interpretation
+
+CDF and percentiles are complementary views of the same data.
+
+- CDF: given a threshold → what fraction meets it  
+- Percentile: given a fraction → what threshold corresponds  
+
+Both are useful for performance analysis and SLO validation.
+
+---
+
+<a id="329-long-tail-latency-what-it-is"></a>
 ## 3.2.9 Long-tail latency (what it is)
 
 ### Definition
 A small fraction of requests (e.g. 5% or 1%) is **much slower** than the majority.
 
+---
+
 ### Why the tail “dominates”
+
 - SLOs are typically defined on `p95/p99`, so tails drive pass/fail.
 - In distributed systems, the slowest dependency often determines end-to-end latency.
 - Tail events are frequently driven by **contention/queueing**.
 
+---
+
 ### Common causes (high-level)
+
 - thread pool / connection pool saturation (queueing)
 - lock contention / synchronization hot spots
 - slow DB queries, missing indexes, lock waits
@@ -266,6 +421,20 @@ A small fraction of requests (e.g. 5% or 1%) is **much slower** than the majorit
 
 ---
 
+### Practical interpretation
+
+Long-tail latency is one of the most critical aspects of system performance.
+
+It explains why:
+
+- average metrics can appear acceptable  
+- user experience is still degraded  
+
+Managing tail latency is often more important than improving average performance.
+
+---
+
+<a id="3210-quick-checklist-what-to-measure-in-tests"></a>
 ## 3.2.10 Quick checklist (what to measure in tests)
 
 - Latency: `p50/p90/p95/p99`
@@ -274,3 +443,27 @@ A small fraction of requests (e.g. 5% or 1%) is **much slower** than the majorit
 - Utilization: CPU, memory, DB, pools
 - Queue lengths: thread pools, connection pools, message backlogs
 - Dependency timings: DB/Redis/external APIs
+
+---
+
+### Practical interpretation
+
+These metrics form the minimal set required to understand system behavior during performance tests.
+
+They allow:
+
+- identifying bottlenecks  
+- detecting instability  
+- correlating workload with system behavior  
+
+Measuring only a subset of these metrics often leads to incomplete or misleading analysis.
+
+---
+
+### Key idea
+
+Formulas are not isolated abstractions.
+
+They are tools used to explain observed behavior and validate system models.
+
+Understanding how to apply them is essential for performance engineering.

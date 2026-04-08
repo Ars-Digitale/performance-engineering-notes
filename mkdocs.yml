@@ -1,0 +1,44 @@
+site_name: Performance Engineering Guide
+site_url: https://ars-digitale.github.io/performance-engineering-guide/
+repo_url: https://github.com/Ars-Digitale/performance-engineering-guide
+repo_name: Ars-Digitale/performance-engineering-guide
+
+docs_dir: docs
+site_dir: site
+
+theme:
+  name: material
+  language: en
+
+plugins:
+  - search
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.arithmatex:
+      generic: true
+
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
+
+nav:
+  - Home: index.md
+
+  - English:
+      - Index: en/index.md
+      - 3.1 Foundations: en/03-01-foundations.md
+      - 3.2 Core metrics and formulas: en/03-02-core-metrics-and-formulas.md
+      - 3.3 Work of a performance engineer: en/03-03-work-of-a-performance-engineer.md
+      - 3.4 Types of performance tests: en/03-04-types-of-performance-tests.md
+      - 3.5 System behavior under load: en/03-05-system-behavior-under-load.md
+      - 3.6 Concurrency and parallelism: en/03-06-concurrency-and-parallelism.md
+      - 3.7 Runtime and memory model: en/03-07-runtime-and-memory-model.md
+      - 3.8 Resource-level performance: en/03-08-resource-level-performance.md
+      - 3.9 Common performance problems: en/03-09-common-performance-problems.md
+      - 3.10 Diagnostics and analysis: en/03-10-diagnostics-and-analysis.md
+      - 3.11 Practical checklists: en/03-11-practical-checklists.md
+
+  - Ars Digitale: https://www.ars-digitale.com/

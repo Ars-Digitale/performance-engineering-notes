@@ -1,5 +1,13 @@
 # 3.6 – Concurrency and parallelism
 
+<a id="36-concurrency-and-parallelism"></a>
+
+This chapter introduces concurrency and parallelism as core concepts in system performance engineering.
+
+It explains how work is scheduled, how multiple tasks interact, and why coordination overhead, contention, and synchronization often become limiting factors under load.
+
+Concurrency and parallelism are essential to scalability, but they also introduce complexity, overhead, and failure modes that directly affect latency, throughput, and system stability.
+
 ## Table of Contents
 
 - [3.6.1 Concurrency vs parallelism](#361-concurrency-vs-parallelism)
@@ -14,6 +22,7 @@
 
 ---
 
+<a id="361-concurrency-vs-parallelism"></a>
 ## 3.6.1 Concurrency vs parallelism
 
 ### Definition
@@ -21,6 +30,8 @@
 **Concurrency** and **parallelism** are related but distinct concepts.
 
 They are often confused, but they describe different aspects of system behavior.
+
+Understanding the distinction is essential because a system may handle many tasks at once from a structural point of view without actually executing many tasks simultaneously at the hardware level.
 
 ---
 
@@ -40,6 +51,8 @@ Concurrency is about:
 - coordination
 - managing multiple in-flight operations
 
+It is therefore primarily concerned with how work is organized and scheduled.
+
 ---
 
 ### Parallelism
@@ -57,6 +70,8 @@ Parallelism is about:
 - hardware utilization
 - doing more work at the same instant
 
+It is therefore primarily concerned with actual simultaneous progress.
+
 ---
 
 ### Key difference
@@ -68,6 +83,8 @@ A system can be:
 
 - concurrent but not parallel (single core, interleaving tasks)
 - parallel but not highly concurrent (few long-running tasks)
+
+This distinction matters because the scalability properties of a system depend not only on how much work exists, but also on how that work is coordinated and scheduled.
 
 ---
 
@@ -90,6 +107,8 @@ Both influence:
 - latency
 - scalability
 
+In practice, adding concurrency without sufficient parallelism may increase waiting and contention, while adding parallelism without good concurrency control may waste resources or expose coordination problems.
+
 ---
 
 ### Practical intuition
@@ -104,6 +123,10 @@ A parallel system:
 - can process multiple requests at the same time
 - but may still suffer from contention or coordination overhead
 
+For this reason, concurrency and parallelism should not be treated as automatically beneficial.
+
+Their value depends on how they interact with workload, shared resources, and execution constraints.
+
 ---
 
 ### Link with previous concepts
@@ -117,6 +140,23 @@ This leads to:
 - resource sharing
 - potential queueing (→ [3.5.2 Saturation and queueing](03-05-system-behavior-under-load.md#352-saturation-and-queueing))
 
+This is one of the main reasons concurrency becomes a central topic in performance engineering rather than only a programming concern.
+
+---
+
+### Practical interpretation
+
+Concurrency is often required to support many simultaneous operations, especially in networked and I/O-driven systems.
+
+However, concurrency also increases the probability of:
+
+- shared state interactions
+- queue buildup
+- lock contention
+- coordination overhead
+
+Parallelism may increase throughput, but only if useful work is actually being performed rather than blocked or serialized.
+
 ---
 
 ### Key idea
@@ -129,6 +169,7 @@ Performance depends on both, and on how they interact with system resources.
 
 ---
 
+<a id="362-threads-and-execution-model"></a>
 ## 3.6.2 Threads and execution model
 
 ### Definition
@@ -136,6 +177,8 @@ Performance depends on both, and on how they interact with system resources.
 The **execution model** defines how work is executed within a system.
 
 In most systems, work is performed by **threads**, which run within a **process**.
+
+The execution model determines how requests are mapped to execution units, how waiting is handled, and how system resources are consumed under load.
 
 ---
 
@@ -156,6 +199,8 @@ In most applications:
 - one process hosts multiple threads
 - threads handle incoming requests
 
+This shared-memory model makes threads efficient for communication, but also introduces shared-state complexity.
+
 ---
 
 ### Threads
@@ -172,6 +217,10 @@ Multiple threads allow a system to:
 - overlap computation and waiting
 - increase concurrency
 
+However, threads are not free.
+
+Each additional thread adds memory overhead, scheduling overhead, and coordination complexity.
+
 ---
 
 ### Thread lifecycle
@@ -183,6 +232,10 @@ A thread typically goes through several states:
 - **waiting** / blocked (waiting for a resource or event)
 
 Performance is affected by how threads move between these states.
+
+A system with many runnable or blocked threads may appear active, but still make limited useful progress.
+
+Understanding thread states is therefore essential when diagnosing concurrency issues.
 
 ---
 
@@ -201,6 +254,8 @@ Implications:
 
 This is particularly relevant in high-concurrency systems.
 
+Thread count therefore affects not only scheduling, but also memory footprint and stability.
+
 ---
 
 ### Execution models
@@ -209,6 +264,7 @@ Different systems use different **execution models**.
 
 Common models include:
 
+---
 
 #### One thread per request
 
@@ -225,6 +281,9 @@ Limitations:
 - high memory usage with many threads
 - limited scalability under high concurrency
 
+This model is conceptually simple, but it often performs poorly when concurrency becomes very large or when blocking is frequent.
+
+---
 
 #### Thread pool
 
@@ -242,6 +301,9 @@ Limitations:
 - queueing when all threads are busy
 - potential saturation of the pool
 
+This model is widely used because it provides controlled resource usage, but it introduces an explicit queue and therefore a visible capacity limit.
+
+---
 
 #### Event-driven / asynchronous model
 
@@ -256,6 +318,8 @@ Limitations:
 
 - more complex programming model
 - requires careful handling of asynchronous flows
+
+This model reduces the number of blocked threads, but it shifts complexity into coordination, callbacks, state handling, and non-blocking design.
 
 ---
 
@@ -287,6 +351,8 @@ For a detailed explanation of threads in Java, see:
 
 → https://ars-digitale.github.io/java-21-study-guide/en/module-07/threads/
 
+This example is simple, but it highlights a key idea: bounded execution resources naturally introduce queueing when demand exceeds immediate processing capacity.
+
 ---
 
 ### Blocking vs non-blocking
@@ -306,6 +372,10 @@ Non-blocking approaches aim to:
 - reduce idle waiting
 - improve resource utilization
 
+The distinction is important because high thread count does not necessarily mean high throughput.
+
+If threads spend most of their time waiting, concurrency is present, but productive execution is limited.
+
 ---
 
 ### Practical implications
@@ -322,6 +392,8 @@ Typical effects include:
 - blocking operations → reduced throughput
 - too many threads → context switching overhead
 
+The execution model also determines where bottlenecks become visible: in queues, in pools, in blocked threads, or in event loops.
+
 ---
 
 ### Link with previous concepts
@@ -331,6 +403,25 @@ Thread behavior directly impacts:
 - queueing (→ [3.5.2 Saturation and queueing](03-05-system-behavior-under-load.md#352-saturation-and-queueing))
 - latency under load
 - effective capacity of the system
+
+It also influences how quickly a system moves from stable behavior to saturation when concurrency increases.
+
+---
+
+### Practical interpretation
+
+Choosing an execution model is not only a programming decision.
+
+It is a performance decision.
+
+The model affects:
+
+- memory consumption
+- scheduling overhead
+- latency under waiting conditions
+- scalability under real workload
+
+A design that is easy to implement may not be the design that behaves best under sustained load.
 
 ---
 
@@ -348,6 +439,7 @@ How they are used determines:
 
 ---
 
+<a id="363-contention-and-synchronization"></a>
 ## 3.6.3 Contention and synchronization
 
 ### Definition
@@ -357,6 +449,8 @@ How they are used determines:
 **Synchronization** is the mechanism used to coordinate access to shared resources.
 
 These concepts are central to understanding performance degradation in concurrent systems.
+
+They connect correctness and performance: the same mechanisms that protect shared state can also become the source of waiting and reduced scalability.
 
 ---
 
@@ -374,6 +468,8 @@ When access is not coordinated, data **corruption** may occur.
 
 When access is coordinated, **contention** may appear.
 
+This makes synchronization necessary, but not free.
+
 ---
 
 ### Synchronization
@@ -388,6 +484,13 @@ Common mechanisms include:
 - atomic operations
 
 Synchronization guarantees correctness, but introduces overhead.
+
+That overhead may come from:
+
+- waiting
+- serialization of execution
+- additional memory barriers
+- coordination costs between threads
 
 ---
 
@@ -406,6 +509,8 @@ The more threads compete:
 - the higher the waiting time
 - the lower the effective parallelism
 
+A highly concurrent system can therefore behave like a partially serialized system if too much of its work depends on the same shared resources.
+
 ---
 
 ### Lock contention
@@ -423,6 +528,8 @@ Effects include:
 - reduced throughput
 - potential bottlenecks
 
+Lock contention is especially problematic when critical sections are long, frequently accessed, or placed on hot execution paths.
+
 ---
 
 ### Contention vs utilization
@@ -437,6 +544,8 @@ For example:
 
 This is a common source of misleading diagnostics.
 
+It explains why low or moderate CPU usage does not necessarily mean that the system has available capacity.
+
 ---
 
 ### Fine-grained vs coarse-grained synchronization
@@ -450,6 +559,8 @@ Trade-offs:
 
 - **coarse-grained** → simpler but higher contention
 - **fine-grained** → more scalable but more complex
+
+Choosing between them depends on workload characteristics, access patterns, and the cost of added design complexity.
 
 ---
 
@@ -482,6 +593,8 @@ If many threads attempt to enter the same critical section:
 - threads block
 - performance degrades
 
+This example highlights how a correctness mechanism can become a scalability constraint under load.
+
 ---
 
 ### Symptoms of contention
@@ -492,6 +605,8 @@ Typical indicators include:
 - low CPU utilization with high latency
 - threads in blocked or waiting states
 - long queues on shared resources
+
+These symptoms often appear before total saturation and may be mistaken for other resource problems if not analyzed carefully.
 
 ---
 
@@ -510,6 +625,8 @@ A system may not scale if:
 
 Reducing contention often has a larger impact than optimizing individual operations.
 
+This is especially true for systems where performance is constrained by shared access rather than by raw computation.
+
 ---
 
 ### Link with previous concepts
@@ -519,6 +636,16 @@ Contention contributes to:
 - queueing (→ [3.5.2 Saturation and queueing](03-05-system-behavior-under-load.md#352-saturation-and-queueing))
 - non-linear degradation (→ [3.5.3 Non-linear degradation](03-05-system-behavior-under-load.md#353-non-linear-degradation))
 - throughput collapse (→ [3.5.4 Throughput collapse](03-05-system-behavior-under-load.md#354-throughput-collapse))
+
+Contention is therefore both a local synchronization phenomenon and a system-level performance mechanism.
+
+---
+
+### Practical interpretation
+
+Concurrency increases opportunities for useful overlap, but it also increases competition for shared resources.
+
+The practical challenge is not simply to add more threads, but to ensure that additional concurrency results in useful work rather than additional waiting.
 
 ---
 
@@ -534,6 +661,7 @@ Understanding and controlling contention is essential for scalable systems.
 
 ---
 
+<a id="364-common-concurrency-issues"></a>
 ## 3.6.4 Common concurrency issues
 
 Concurrency introduces complexity.
@@ -542,15 +670,20 @@ When multiple threads interact, incorrect assumptions or poor coordination can l
 
 These issues often appear under load and can severely impact performance and correctness.
 
+Many of them are difficult to reproduce in light testing because they depend on timing, scheduling, or resource pressure.
+
 ---
 
-
+<a id="3641-race-conditions"></a>
 ### 3.6.4.1 Race conditions
 
 ### Definition
 
 A **race condition** occurs when multiple threads access shared data without proper synchronization, and the result depends on timing.
 
+The outcome is therefore not deterministic and may vary from one execution to another.
+
+---
 
 ### Example
 
@@ -564,7 +697,9 @@ Two threads update a shared counter:
 Expected result: 12  
 Actual result: 11
 
+The final value depends on the order in which unsynchronized operations happen to execute.
 
+---
 
 ### Impact
 
@@ -572,6 +707,9 @@ Actual result: 11
 - inconsistent system state
 - difficult-to-reproduce bugs
 
+Race conditions may also corrupt internal assumptions in ways that only appear later under load.
+
+---
 
 ### Performance relevance
 
@@ -580,8 +718,11 @@ Race conditions may not always cause visible failures, but:
 - they often require additional synchronization
 - improper fixes can introduce contention
 
+This is one reason correctness and performance cannot be treated as completely separate concerns in concurrent systems.
+
 ---
 
+<a id="3642-deadlocks"></a>
 ### 3.6.4.2 Deadlocks
 
 ### Definition
@@ -590,6 +731,9 @@ A **deadlock** occurs when two or more threads wait indefinitely for each other.
 
 Each thread holds a resource and waits for another resource held by another thread.
 
+As a result, progress stops completely.
+
+---
 
 ### Example
 
@@ -598,6 +742,9 @@ Each thread holds a resource and waits for another resource held by another thre
 
 Neither can proceed.
 
+This circular waiting pattern is the defining characteristic of deadlock.
+
+---
 
 ### Impact
 
@@ -605,20 +752,29 @@ Neither can proceed.
 - requests never complete
 - resources remain locked
 
+Deadlocks are especially severe because they convert active resources into permanently blocked ones.
+
+---
 
 ### Detection
 
 - threads remain blocked
 - thread dumps show circular waiting
 
+Deadlocks are often detected through thread analysis rather than through general performance metrics alone.
+
 ---
 
+<a id="3643-livelocks"></a>
 ## 3.6.4.3 Livelocks
 
 ### Definition
 
 A **livelock** occurs when threads are not blocked but continuously change state in response to each other without making progress.
 
+Unlike deadlock, activity continues, but useful work does not.
+
+---
 
 ### Example
 
@@ -628,14 +784,20 @@ Two threads repeatedly retry an operation:
 - both retry at the same time
 - conflict persists
 
+The system remains active, but the conflicting behavior continues indefinitely.
+
+---
 
 ### Impact
 
 - CPU is used
 - no useful work is completed
 
+Livelocks may therefore look like active processing even though progress is effectively zero.
+
 ---
 
+<a id="3644-starvation"></a>
 ## 3.6.4.4 Starvation
 
 ### Definition
@@ -644,6 +806,9 @@ Two threads repeatedly retry an operation:
 
 Other threads continue to execute while some are effectively ignored.
 
+This means the system is making progress, but not fairly or predictably for all work.
+
+---
 
 ### Causes
 
@@ -651,6 +816,9 @@ Other threads continue to execute while some are effectively ignored.
 - high-priority threads dominating execution
 - resource monopolization
 
+Starvation is especially problematic when a subset of requests experiences extreme latency while the rest of the system appears functional.
+
+---
 
 ### Impact
 
@@ -658,14 +826,20 @@ Other threads continue to execute while some are effectively ignored.
 - system appears partially functional
 - tail latency increases
 
+This makes starvation particularly relevant from both a performance and user-experience perspective.
+
 ---
 
+<a id="3645-thread-pool-exhaustion"></a>
 ## 3.6.4.5 Thread pool exhaustion
 
 ### Definition
 
 **Thread pool exhaustion** occurs when all threads in a pool are busy and incoming tasks must wait.
 
+This is one of the most common concurrency-related bottlenecks in real systems.
+
+---
 
 ### Causes
 
@@ -673,7 +847,9 @@ Other threads continue to execute while some are effectively ignored.
 - insufficient pool size
 - long-running tasks
 
+These causes may exist independently or reinforce each other under increasing load.
 
+---
 
 ### Effects
 
@@ -681,6 +857,9 @@ Other threads continue to execute while some are effectively ignored.
 - latency increases
 - throughput may degrade
 
+If saturation continues, thread pool exhaustion may also contribute to timeouts, retries, and instability in upstream components.
+
+---
 
 ### Link with previous concepts
 
@@ -688,6 +867,8 @@ Thread pool exhaustion is a direct example of:
 
 - saturation (→ [3.5.2 Saturation and queueing](03-05-system-behavior-under-load.md#352-saturation-and-queueing))
 - non-linear degradation (→ [3.5.3 Non-linear degradation](03-05-system-behavior-under-load.md#353-non-linear-degradation))
+
+It is therefore one of the clearest practical expressions of the system behaviors introduced in the previous chapter.
 
 ---
 

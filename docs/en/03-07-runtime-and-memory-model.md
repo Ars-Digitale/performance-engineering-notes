@@ -1,5 +1,13 @@
 ## 3.7 – Runtime and memory model
 
+<a id="37-runtime-and-memory-model"></a>
+
+This chapter explains how managed runtimes organize memory, allocate objects, reclaim unused memory, and behave under memory pressure.
+
+It focuses on the runtime and memory mechanisms that directly affect latency, stability, and throughput under load.
+
+Understanding these mechanisms is essential because many performance problems are not caused only by CPU or I/O limits, but by the way memory is allocated, retained, and reclaimed over time.
+
 ## Table of Contents
 
 - [3.7.1 Memory structure (heap, stack)](#371-memory-structure-heap-stack)
@@ -9,6 +17,7 @@
 
 ---
 
+<a id="371-memory-structure-heap-stack"></a>
 ## 3.7.1 Memory structure (heap, stack)
 
 ### Memory management models
@@ -28,6 +37,8 @@ This guide focuses on **managed memory systems**, where:
 - objects are allocated dynamically
 - memory is reclaimed automatically (garbage collection)
 
+This distinction matters because performance behavior changes significantly depending on whether memory lifecycle is controlled directly by the programmer or indirectly by the runtime.
+
 ---
 
 ### Definition
@@ -38,6 +49,8 @@ The two most important areas for performance reasoning are:
 
 - **heap**
 - **stack**
+
+These two regions support different aspects of program execution and have very different performance implications.
 
 ---
 
@@ -57,6 +70,8 @@ Implications:
 - garbage collection impacts performance
 - shared access may introduce contention
 
+The heap is therefore not only a storage area, but a central part of runtime behavior under load.
+
 ---
 
 ### Stack
@@ -74,6 +89,8 @@ Characteristics:
 - private to each thread
 - grows and shrinks during execution
 - typically much smaller than the heap
+
+Because the stack is private to the thread, access is simple and efficient, but the number of threads directly affects total stack memory usage.
 
 ---
 
@@ -106,6 +123,8 @@ This interaction is a source of:
 - contention (shared objects)
 - coordination overhead
 
+It also explains why concurrency and memory behavior are tightly linked in managed systems.
+
 ---
 
 ### Performance implications
@@ -121,6 +140,23 @@ Stack:
 - many threads → higher total memory usage (one stack per thread)
 - deep call chains → increased stack usage
 - stack overflow → failure in extreme cases
+
+These implications become especially important when the system is under sustained or high-concurrency load.
+
+---
+
+### Practical interpretation
+
+Heap and stack are not just implementation details.
+
+They affect:
+
+- how data is shared
+- how work is executed
+- how memory grows under concurrency
+- where runtime overhead appears
+
+A system with many threads and frequent allocation will stress both regions differently: the stack through thread count and call depth, the heap through object creation and retention.
 
 ---
 
@@ -142,8 +178,11 @@ Memory behavior directly impacts:
 - contention (→ [3.6.3 Contention and synchronization](03-06-concurrency-and-parallelism.md#363-contention-and-synchronization))
 - latency under load (→ [3.5 System behavior under load](03-05-system-behavior-under-load.md))
 
+This is why runtime and memory model cannot be analyzed separately from concurrency and system behavior.
+
 ---
 
+<a id="372-allocation-and-object-lifecycle"></a>
 ## 3.7.2 Allocation and object lifecycle
 
 ### Definition
@@ -151,6 +190,8 @@ Memory behavior directly impacts:
 In managed memory systems, objects are created dynamically and live for a certain period of time before being reclaimed.
 
 The way objects are allocated and how long they live has a direct impact on performance.
+
+Allocation behavior is therefore not only a memory concern, but also a latency and stability concern.
 
 ---
 
@@ -170,6 +211,8 @@ Examples of allocation:
 - building data structures
 - processing intermediate results
 
+In high-throughput systems, allocation is often continuous and closely tied to workload intensity.
+
 ---
 
 ### Allocation rate
@@ -185,6 +228,8 @@ High allocation rate means:
 - increased pressure on the runtime
 
 Even if individual allocations are fast, large volumes impact the system.
+
+This is one of the reasons why “fast allocation” does not automatically mean “low memory overhead.”
 
 ---
 
@@ -205,6 +250,8 @@ Typical categories include:
 
 Understanding object lifetime is essential for reasoning about memory behavior.
 
+It determines how much memory remains live over time and how the runtime must organize reclamation work.
+
 ---
 
 ### Allocation patterns
@@ -220,6 +267,8 @@ These patterns determine:
 - memory usage
 - garbage collection behavior
 - performance stability
+
+Allocation patterns are often more informative than isolated allocation events, because the runtime reacts to aggregate behavior over time.
 
 ---
 
@@ -238,6 +287,8 @@ High allocation rate can lead to:
 - increased latency
 - unpredictable pauses
 
+The important point is that memory cost is often indirect: the system pays not only for creating objects, but for managing the consequences of creating many of them.
+
 ---
 
 ### Under load
@@ -253,6 +304,8 @@ This amplifies:
 - memory pressure
 - garbage collection activity
 - latency variability
+
+A system that is stable at low load may therefore become memory-sensitive as request volume rises, even if the logic of each request remains unchanged.
 
 ---
 
@@ -271,6 +324,8 @@ In high-concurrency systems:
 - allocation rate grows with concurrency
 - memory becomes a shared bottleneck
 
+This is one of the ways in which concurrency and memory behavior reinforce each other under load.
+
 ---
 
 ### Practical implications
@@ -287,6 +342,18 @@ Understanding allocation is essential to:
 - identify bottlenecks
 - predict system limits
 
+It also helps distinguish between problems caused by computation and problems caused by memory churn.
+
+---
+
+### Practical interpretation
+
+Allocation is often invisible at the code level because it is easy to write and usually inexpensive per operation.
+
+However, at the system level, repeated allocation changes the runtime’s workload.
+
+A design that creates large numbers of temporary objects may work correctly, but still impose significant pressure on the memory subsystem.
+
 ---
 
 ### Link with next concepts
@@ -296,6 +363,8 @@ Allocation and object lifetime directly influence:
 - garbage collection behavior (→ next section)
 - memory pressure
 - latency under load
+
+They therefore form the causal basis for the runtime effects described in the rest of this chapter.
 
 ---
 
@@ -307,6 +376,7 @@ Allocation patterns shape system behavior under load.
 
 ---
 
+<a id="373-garbage-collection-conceptual"></a>
 ## 3.7.3 Garbage collection (conceptual)
 
 ### Definition
@@ -318,6 +388,8 @@ Instead of requiring explicit deallocation, the runtime:
 - identifies unused objects
 - frees their memory
 - makes space available for new allocations
+
+Garbage collection is one of the defining mechanisms of managed runtimes and one of the main ways memory behavior becomes visible in performance analysis.
 
 ---
 
@@ -336,6 +408,8 @@ The runtime periodically:
 - identifies unreachable objects
 - reclaims their memory
 
+This model allows memory to be managed automatically, but it also means that reclamation work must be performed during program execution.
+
 ---
 
 ### Allocation and reclamation cycle
@@ -347,6 +421,8 @@ Memory usage follows a cycle:
 3. garbage collection reclaims memory
 
 This cycle repeats continuously during execution.
+
+The runtime therefore alternates between allocating new memory and reclaiming old memory, with overall behavior driven by allocation rate and retention patterns.
 
 ---
 
@@ -378,6 +454,8 @@ If such allocation patterns occur under load:
 
 The impact depends not on a single allocation, but on the **allocation rate over time**.
 
+This is why memory behavior should be analyzed as a pattern, not as an isolated operation.
+
 ### Example: object retention
 
 Objects that remain referenced are not collected.
@@ -402,6 +480,8 @@ This leads to:
 - more expensive garbage collection
 - potential system instability
 
+This example illustrates the difference between temporary allocation churn and persistent retention.
+
 ### Cost of garbage collection
 
 Garbage collection is not free.
@@ -416,6 +496,8 @@ The cost depends on:
 - allocation rate
 - number of live objects
 - memory size
+
+In other words, GC cost depends not only on how much memory exists, but on how much memory is active, changing, and still reachable.
 
 ---
 
@@ -433,6 +515,8 @@ Even short pauses can:
 - increase latency
 - affect tail response times (p95, p99)
 
+This is one of the reasons GC issues often appear first in percentile-based latency analysis rather than in averages alone.
+
 ---
 
 ### Generational behavior (conceptual)
@@ -449,6 +533,8 @@ Memory is organized so that:
 - short-lived objects are collected frequently
 - long-lived objects are collected less often
 
+This improves efficiency because reclaiming many short-lived objects is usually cheaper than repeatedly scanning long-lived memory.
+
 ---
 
 ### Under load
@@ -464,6 +550,8 @@ This can lead to:
 - more frequent pauses
 - increased latency variability
 
+Under heavy load, GC may therefore shift from being a background maintenance mechanism to being a visible part of the system’s performance behavior.
+
 ---
 
 ### Interaction with object lifecycle
@@ -478,6 +566,8 @@ Typical patterns:
 - many short-lived objects → frequent collections
 - many long-lived objects → heavier collections
 
+This is why allocation and retention must be analyzed together: object count alone is not enough.
+
 ---
 
 ### Observable effects
@@ -488,6 +578,8 @@ Garbage collection issues often appear as:
 - long-tail latency (p95/p99 degradation)
 - periodic pauses
 - increased CPU usage without clear cause
+
+These symptoms are often intermittent, which makes GC-related problems difficult to diagnose without correlating memory and latency signals.
 
 ---
 
@@ -505,6 +597,18 @@ Optimization typically focuses on:
 - reducing unnecessary object creation
 - controlling memory pressure
 
+Tuning the collector may help, but it is usually more effective to first understand why the runtime is under pressure.
+
+---
+
+### Practical interpretation
+
+Garbage collection is not a bug or an anomaly.
+
+It is a necessary runtime mechanism.
+
+The performance question is not whether GC exists, but whether its cost remains compatible with the workload and latency objectives of the system.
+
 ---
 
 ### Link with previous concepts
@@ -514,6 +618,8 @@ Garbage collection is directly linked to:
 - allocation (→ [3.7.2 Allocation and object lifecycle](#372-allocation-and-object-lifecycle))
 - memory structure (→ [3.7.1 Memory structure](#371-memory-structure-heap-stack))
 - tail latency (→ [3.5.5 Tail latency amplification](03-05-system-behavior-under-load.md#355-tail-latency-amplification))
+
+It is therefore both a runtime mechanism and a system-level contributor to performance variability.
 
 ---
 
@@ -525,6 +631,7 @@ Performance depends on how efficiently memory is reclaimed.
 
 ---
 
+<a id="374-memory-pressure-and-performance"></a>
 ## 3.7.4 Memory pressure and performance
 
 ### Definition
@@ -532,6 +639,8 @@ Performance depends on how efficiently memory is reclaimed.
 Memory pressure refers to the stress placed on the memory system when allocation, retention, and reclamation interact under load.
 
 It is not only about how much memory is used, but how memory behaves over time.
+
+Memory pressure is therefore a dynamic condition, not simply a static measure of heap occupancy.
 
 ---
 
@@ -544,6 +653,8 @@ Memory pressure is driven by a combination of factors:
 - long object lifetimes
 - inefficient memory reclamation
 
+These factors reinforce each other and determine how much work the runtime must perform to keep memory usable.
+
 ---
 
 ### Allocation vs retention
@@ -555,6 +666,12 @@ Two different patterns can create pressure:
 
 - **high retention**  
   objects remain in memory for long periods
+
+These patterns create pressure in different ways.
+
+High allocation increases churn and collection frequency.
+
+High retention increases the amount of memory that remains live and must be scanned or preserved.
 
 ---
 
@@ -577,6 +694,8 @@ Effects:
 - increased GC activity
 - CPU overhead
 - potential latency spikes
+
+This example highlights pressure driven by churn rather than by long-term retention.
 
 ---
 
@@ -601,6 +720,8 @@ Effects:
 - heavier garbage collection cycles
 - eventual instability or failure
 
+This example highlights pressure driven by retained memory rather than temporary allocation frequency alone.
+
 ---
 
 ### Under load
@@ -622,6 +743,8 @@ Memory pressure amplifies:
 - latency variability
 - tail latency
 
+This is why memory-related degradation often becomes more visible as the system moves from moderate load to sustained high load.
+
 ---
 
 ### Interaction with garbage collection
@@ -639,6 +762,8 @@ In extreme cases:
 - GC dominates execution
 - useful work decreases
 
+When this happens, the runtime is spending a significant share of its effort managing memory instead of processing application work.
+
 ---
 
 ### Observable symptoms
@@ -650,6 +775,8 @@ Memory pressure often appears as:
 - periodic pauses
 - increased GC frequency
 - growing memory usage over time
+
+These symptoms are especially important because they can be mistaken for generic slowness unless memory behavior is examined directly.
 
 ---
 
@@ -665,6 +792,8 @@ This often indicates:
 - memory pressure
 - GC-related overhead
 
+This is one of the main reasons why CPU alone is not sufficient to assess system health.
+
 ---
 
 ### Simplified model
@@ -676,6 +805,8 @@ System behavior can be approximated as:
 - GC activity ↑ → latency variability ↑  
 
 These relationships are not linear.
+
+They depend on runtime strategy, workload shape, object lifetimes, and the amount of live data.
 
 ---
 
@@ -694,6 +825,8 @@ Optimization should focus on:
 - controlling object lifetime
 - avoiding unbounded retention
 
+In many cases, the most effective fix is not collector tuning, but reducing the memory work the runtime is forced to perform.
+
 ---
 
 ### Link with previous concepts
@@ -703,6 +836,18 @@ Memory pressure contributes to:
 - non-linear degradation (→ [3.5.3 Non-linear degradation](03-05-system-behavior-under-load.md#353-non-linear-degradation))
 - throughput collapse (→ [3.5.4 Throughput collapse](03-05-system-behavior-under-load.md#354-throughput-collapse))
 - tail latency amplification (→ [3.5.5 Tail latency amplification](03-05-system-behavior-under-load.md#355-tail-latency-amplification))
+
+It is therefore a direct bridge between runtime internals and visible system behavior under load.
+
+---
+
+### Practical interpretation
+
+Memory pressure explains why a system may degrade even when it is not obviously CPU-bound or externally blocked.
+
+A runtime under memory stress can still appear active, but produce increasing latency, reduced throughput, and unstable behavior.
+
+This makes memory pressure one of the most important hidden causes of performance degradation in managed runtimes.
 
 ---
 

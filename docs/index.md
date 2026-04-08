@@ -1,27 +1,16 @@
-# Performance Engineering Guide
+# Ars Digitale Technical Guides
 
-This section contains the documentation of the guide, organized by language.
+## Performance Engineering Guide
 
-## Table of Contents
+A structured technical guide focused on application and system performance engineering:
+diagnostics, bottlenecks, queueing, concurrency, CPU, memory, I/O, and performance analysis.
 
-- [English](#english)
-- [Italiano](#italiano)
-- [Français](#français)
+## Languages
 
----
-
-## English
-
-_Content not available yet._
+- [English](en/index.md)
+- Français (coming soon)
+- Italiano (coming soon)
 
 ---
 
-## Italiano
-
-_Content not available yet._
-
----
-
-## Français
-
-_Content not available yet._
+© 2026 Ars Digitale

@@ -1,5 +1,7 @@
 # 3.3 – Work of a performance engineer
 
+<a id="33-work-of-a-performance-engineer"></a>
+
 This section describes what performance engineering is in practice and how it is applied to real systems.
 
 ## Table of Contents
@@ -12,6 +14,7 @@ This section describes what performance engineering is in practice and how it is
 
 ---
 
+<a id="331-what-performance-engineering-is-in-practice"></a>
 ## 3.3.1 What performance engineering is (in practice)
 
 ### Definition
@@ -21,6 +24,8 @@ Performance engineering is the discipline of understanding, measuring, and contr
 It is not limited to performance testing, nor to a specific tool or technology.
 
 It is a way of reasoning about systems under load or when they are stressed.
+
+It focuses on behavior as a whole, not on isolated metrics or individual components.
 
 ---
 
@@ -42,6 +47,8 @@ They emerge together as the system is pushed.
 
 Load acts as a forcing function that reveals how the system behaves.
 
+A system that appears correct under low load may exhibit completely different behavior when stressed.
+
 ---
 
 ### What performance engineering actually observes
@@ -59,6 +66,8 @@ This requires:
 - understanding the system model (→ [3.1 Foundations](03-01-foundations.md))
 - measuring key metrics (→ [3.2 Core metrics and formulas](03-02-core-metrics-and-formulas.md))
 - identifying limiting factors
+
+The objective is not only to observe behavior, but also to explain it.
 
 ---
 
@@ -80,6 +89,8 @@ But performance engineering also includes:
 - investigating production issues
 - dimensioning resources (heaps, pools, threads, connections)
 - explaining observed behavior
+
+Testing without analysis produces data without understanding.
 
 ---
 
@@ -122,6 +133,7 @@ Understanding these mechanisms is the core of performance engineering.
 
 ---
 
+<a id="332-typical-workflow"></a>
 ## 3.3.2 Typical workflow
 
 Performance engineering is an iterative process where the system is progressively exercised, analyzed, stabilized, and understood under increasing levels of load.
@@ -130,6 +142,7 @@ The objective is not only to detect problems, but to build a reliable model of h
 
 ---
 
+<a id="3321-environment-preparation-and-calibration"></a>
 ### 3.3.2.1 Environment preparation and calibration
 
 - verify and align test environment with production characteristics (as much as possible)
@@ -141,10 +154,11 @@ Goal:
 - establish a reliable baseline
 - ensure repeatability of results
 
-Without calibration, measurements are difficult to interpret.
+Without calibration, measurements are difficult to interpret and comparisons become unreliable.
 
 ---
 
+<a id="3322-use-case-definition-and-workload-modeling"></a>
 ### 3.3.2.2 Use case definition and workload modeling
 
 Before applying load, the workload must be defined.
@@ -164,8 +178,13 @@ A realistic workload includes:
 - weighted distribution (e.g. percentages of traffic)
 - different request types and costs
 
+Workload definition is one of the most critical steps.
+
+Incorrect workload leads to misleading conclusions.
+
 ---
 
+<a id="3322-non-functional-requirements"></a>
 ### Non-functional requirements (NFRs)
 
 In parallel with workload definition, **non-functional requirements** must be clarified.
@@ -210,6 +229,9 @@ Otherwise:
 
 Incorrect workload definition or missing NFRs leads to results that are technically correct but not actionable.
 
+---
+
+<a id="3323-initial-load-stress-testing"></a>
 ### 3.3.2.3 Initial load / stress testing (problem discovery)
 
 The first phase under load aims to expose major issues.
@@ -230,6 +252,7 @@ The objective is discovery, not precision.
 
 ---
 
+<a id="3324-analysis-and-bottleneck-identification"></a>
 ### 3.3.2.4 Analysis and bottleneck identification
 
 Once issues appear, the system must be analyzed.
@@ -253,6 +276,7 @@ This step relies on:
 
 ---
 
+<a id="3325-fixes-and-iterative-validation"></a>
 ### 3.3.2.5 Fixes and iterative validation
 
 After identifying bottlenecks, fixes are applied.
@@ -273,6 +297,7 @@ The goal is to progressively stabilize the system.
 
 ---
 
+<a id="3326-intermediate-validation"></a>
 ### 3.3.2.6 Intermediate validation (stable baseline)
 
 Before moving to long-duration tests, the system must reach a stable baseline.
@@ -290,6 +315,7 @@ This phase ensures that:
 
 ---
 
+<a id="3327-long-duration-validation"></a>
 ### 3.3.2.7 Long-duration validation (soak / endurance)
 
 Once the system is stable, it must be observed over time.
@@ -316,6 +342,7 @@ The results of this phase directly impact:
 
 ---
 
+<a id="3328-dimensioning-and-capacity-definition"></a>
 ### 3.3.2.8 Dimensioning and capacity definition
 
 Based on previous observations and also from unitary testing after the phase of baseline stabilization, system components are dimensioned.
@@ -338,6 +365,7 @@ Dimensioning must be based on observed behavior, not assumptions.
 
 ---
 
+<a id="3329-tuning"></a>
 ### 3.3.2.9 Tuning
 
 Once dimensioning is defined, tuning refines system behavior.
@@ -359,6 +387,7 @@ It is often iterative and context-dependent.
 
 ---
 
+<a id="33210-verification-and-regression"></a>
 ### 3.3.2.10 Verification and regression
 
 After tuning, the system must be re-validated.
@@ -373,6 +402,7 @@ This phase ensures consistency and reliability.
 
 ---
 
+<a id="33211-benchmarking"></a>
 ### 3.3.2.11 Benchmarking and reference points
 
 Finally, benchmarks are established.
@@ -402,6 +432,7 @@ The objective is not only to improve performance, but to understand system limit
 
 ---
 
+<a id="333-black-box-vs-white-box"></a>
 ## 3.3.3 Black-box vs white-box
 
 Performance engineering can be approached from two complementary perspectives:
@@ -413,6 +444,7 @@ Both are required to understand system behavior under load.
 
 ---
 
+<a id="3331-black-box"></a>
 ### 3.3.3.1 Black-box approach
 
 In a black-box approach, the system is observed from the outside.
@@ -455,6 +487,7 @@ It shows symptoms, not causes.
 
 ---
 
+<a id="3332-white-box"></a>
 ### 3.3.3.2 White-box approach
 
 In a white-box approach, internal system behavior is observed.
@@ -507,6 +540,7 @@ A system can appear efficient internally but still fail under real workload cond
 
 ---
 
+<a id="3333-observability-and-tooling"></a>
 ### 3.3.3.3 Observability and tooling
 
 Observability provides the data required for white-box analysis.
@@ -546,6 +580,7 @@ They are usually heavier and more intrusive than observability tools, and are us
 
 ---
 
+<a id="3334-combining-both"></a>
 ### 3.3.3.4 Combining both approaches
 
 Effective performance engineering requires combining both perspectives.
@@ -570,9 +605,9 @@ This creates a feedback loop:
 
 Both are necessary to understand and control system behavior under load.
 
-
 ---
 
+<a id="334-load-testing-vs-diagnostics"></a>
 ## 3.3.4 Load testing vs diagnostics
 
 Load testing and diagnostics are often confused.
@@ -583,6 +618,7 @@ Both are required to understand system behavior under load.
 
 ---
 
+<a id="3341-load-testing"></a>
 ### 3.3.4.1 Load testing
 
 Load testing applies controlled workload to the system.
@@ -623,6 +659,7 @@ It reveals behavior, but not causes.
 
 ---
 
+<a id="3342-diagnostics"></a>
 ### 3.3.4.2 Diagnostics
 
 Diagnostics investigates the internal behavior of the system.
@@ -676,6 +713,7 @@ It can explain a problem, but not necessarily reproduce it.
 
 ---
 
+<a id="3343-relationship-between-load-testing-and-diagnostics"></a>
 ### 3.3.4.3 Relationship between load testing and diagnostics
 
 Load testing and diagnostics must be combined.
@@ -705,6 +743,7 @@ Understanding system behavior requires both.
 
 ---
 
+<a id="335-what-actually-matters-and-what-doesnt"></a>
 ## 3.3.5 What actually matters (and what doesn’t)
 
 Performance engineering involves many tools, metrics, and techniques.
@@ -794,4 +833,3 @@ Performance engineering is not about collecting data.
 It is about understanding what the data means.
 
 The goal is not to produce numbers, but to explain system behavior and make informed decisions.
-
