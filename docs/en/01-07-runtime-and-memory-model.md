@@ -1,6 +1,6 @@
-## 3.7 – Runtime and memory model
+## 1.7 – Runtime and memory model
 
-<a id="37-runtime-and-memory-model"></a>
+<a id="17-runtime-and-memory-model"></a>
 
 This chapter explains how managed runtimes organize memory, allocate objects, reclaim unused memory, and behave under memory pressure.
 
@@ -10,14 +10,15 @@ Understanding these mechanisms is essential because many performance problems ar
 
 ## Table of Contents
 
-- [3.7.1 Memory structure (heap, stack)](#371-memory-structure-heap-stack)
-- [3.7.2 Allocation and object lifecycle](#372-allocation-and-object-lifecycle)
-- [3.7.3 Garbage collection (conceptual)](#373-garbage-collection-conceptual)
-- [3.7.4 Memory pressure and performance](#374-memory-pressure-and-performance)
+- [1.7.1 Memory structure (heap, stack)](#171-memory-structure-heap-stack)
+- [1.7.2 Allocation and object lifecycle](#172-allocation-and-object-lifecycle)
+- [1.7.3 Garbage collection (conceptual)](#173-garbage-collection-conceptual)
+- [1.7.4 Memory pressure and performance](#174-memory-pressure-and-performance)
 
 ---
 
-## 3.7.1 Memory structure (heap, stack) {#371-memory-structure-heap-stack}
+<a id="171-memory-structure-heap-stack"></a>
+## 1.7.1 Memory structure (heap, stack)
 
 ### Memory management models
 
@@ -173,15 +174,16 @@ Performance depends on how these two interact under load.
 
 Memory behavior directly impacts:
 
-- thread execution (→ [3.6.2 Threads and execution model](#chap-03-06-concurrency-and-parallelism))
-- contention (→ [3.6.3 Contention and synchronization](#chap-03-06-concurrency-and-parallelism))
-- latency under load (→ [3.5 System behavior under load](#chap-03-05-system-behavior-under-load))
+- thread execution (→ [1.6.2 Threads and execution model](01-06-concurrency-and-parallelism.md#162-threads-and-execution-model))
+- contention (→ [1.6.3 Contention and synchronization](01-06-concurrency-and-parallelism.md#163-contention-and-synchronization))
+- latency under load (→ [1.5 System behavior under load](01-05-system-behavior-under-load.md))
 
 This is why runtime and memory model cannot be analyzed separately from concurrency and system behavior.
 
 ---
 
-## 3.7.2 Allocation and object lifecycle {#372-allocation-and-object-lifecycle}
+<a id="172-allocation-and-object-lifecycle"></a>
+## 1.7.2 Allocation and object lifecycle
 
 ### Definition
 
@@ -374,7 +376,8 @@ Allocation patterns shape system behavior under load.
 
 ---
 
-## 3.7.3 Garbage collection (conceptual) {#373-garbage-collection-conceptual}
+<a id="173-garbage-collection-conceptual"></a>
+## 1.7.3 Garbage collection (conceptual)
 
 ### Definition
 
@@ -612,9 +615,9 @@ The performance question is not whether GC exists, but whether its cost remains 
 
 Garbage collection is directly linked to:
 
-- allocation (→ [3.7.2 Allocation and object lifecycle](#372-allocation-and-object-lifecycle))
-- memory structure (→ [3.7.1 Memory structure](#371-memory-structure-heap-stack))
-- tail latency (→ [3.5.5 Tail latency amplification](#chap-03-05-system-behavior-under-load))
+- allocation (→ [1.7.2 Allocation and object lifecycle](#172-allocation-and-object-lifecycle))
+- memory structure (→ [1.7.1 Memory structure](#171-memory-structure-heap-stack))
+- tail latency (→ [1.5.5 Tail latency amplification](01-05-system-behavior-under-load.md#155-tail-latency-amplification))
 
 It is therefore both a runtime mechanism and a system-level contributor to performance variability.
 
@@ -628,7 +631,8 @@ Performance depends on how efficiently memory is reclaimed.
 
 ---
 
-## 3.7.4 Memory pressure and performance {#374-memory-pressure-and-performance}
+<a id="174-memory-pressure-and-performance"></a>
+## 1.7.4 Memory pressure and performance
 
 ### Definition
 
@@ -829,9 +833,9 @@ In many cases, the most effective fix is not collector tuning, but reducing the 
 
 Memory pressure contributes to:
 
-- non-linear degradation (→ [3.5.3 Non-linear degradation](#chap-03-05-system-behavior-under-load))
-- throughput collapse (→ [3.5.4 Throughput collapse](#chap-03-05-system-behavior-under-load))
-- tail latency amplification (→ [3.5.5 Tail latency amplification](#chap-03-05-system-behavior-under-load))
+- non-linear degradation (→ [1.5.3 Non-linear degradation](01-05-system-behavior-under-load.md#153-non-linear-degradation))
+- throughput collapse (→ [1.5.4 Throughput collapse](01-05-system-behavior-under-load.md#154-throughput-collapse))
+- tail latency amplification (→ [1.5.5 Tail latency amplification](01-05-system-behavior-under-load.md#155-tail-latency-amplification))
 
 It is therefore a direct bridge between runtime internals and visible system behavior under load.
 

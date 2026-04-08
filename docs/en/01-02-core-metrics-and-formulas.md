@@ -1,12 +1,12 @@
-# 3.2 – Core metrics and formulas
+# 1.2 – Core metrics and formulas
 
-<a id="32-core-metrics-and-formulas"></a>
+<a id="12-core-metrics-and-formulas"></a>
 
 A compact reference of the main formulas used in **application + system performance engineering**.
 
 These formulas formalize the concepts introduced in:
 
-→ [3.1 Foundations](#chap-03-01-foundations)
+→ [1.1 Foundations](01-01-foundations.md)
 
 They should be read as a complement to the conceptual model, not in isolation.
 
@@ -15,22 +15,23 @@ They provide the quantitative basis used to reason about system behavior, valida
 
 ## Table of Contents
 
-- [3.2.1 Little’s Law (system-level concurrency)](#321-littles-law-system-level-concurrency)
-- [3.2.2 Utilization Law (resource-level busy time)](#322-utilization-law-resource-level-busy-time)
-- [3.2.3 Service time vs response time (queueing)](#323-service-time-vs-response-time-queueing)
-- [3.2.4 Service Demand (visits × service time)](#324-service-demand-visits--service-time)
-- [3.2.5 Throughput](#325-throughput)
-- [3.2.6 Error rate](#326-error-rate)
-- [3.2.7 Percentiles (p50, p95, p99)](#327-percentiles-p50-p95-p99)
-	- [3.2.7.1 How to compute a percentile (ordered sample)](#3271-how-to-compute-a-percentile-ordered-sample)
-	- [3.2.7.2 Interpretation vs average (why tails matter)](#3272-interpretation-vs-average-why-tails-matter)
-- [3.2.8 Empirical CDF (threshold → percentage)](#328-empirical-cdf-threshold--percentage)
-- [3.2.9 Long-tail latency (what it is)](#329-long-tail-latency-what-it-is)
-- [3.2.10 Quick checklist (what to measure in tests)](#3210-quick-checklist-what-to-measure-in-tests)
+- [1.2.1 Little’s Law (system-level concurrency)](#121-littles-law-system-level-concurrency)
+- [1.2.2 Utilization Law (resource-level busy time)](#122-utilization-law-resource-level-busy-time)
+- [1.2.3 Service time vs response time (queueing)](#123-service-time-vs-response-time-queueing)
+- [1.2.4 Service Demand (visits × service time)](#124-service-demand-visits--service-time)
+- [1.2.5 Throughput](#125-throughput)
+- [1.2.6 Error rate](#126-error-rate)
+- [1.2.7 Percentiles (p50, p95, p99)](#127-percentiles-p50-p95-p99)
+	- [1.2.7.1 How to compute a percentile (ordered sample)](#1271-how-to-compute-a-percentile-ordered-sample)
+	- [1.2.7.2 Interpretation vs average (why tails matter)](#1272-interpretation-vs-average-why-tails-matter)
+- [1.2.8 Empirical CDF (threshold → percentage)](#128-empirical-cdf-threshold--percentage)
+- [1.2.9 Long-tail latency (what it is)](#129-long-tail-latency-what-it-is)
+- [1.2.10 Quick checklist (what to measure in tests)](#1210-quick-checklist-what-to-measure-in-tests)
 
 ---
 
-## **Notation** (typical) {#notation-typical}
+<a id="notation-typical"></a>
+## **Notation** (typical)
 
 | Symbol | Definition |
 | ------ | ------ |
@@ -46,7 +47,8 @@ This notation is used consistently across the guide and allows formulas to be ap
 
 ---
 
-## 3.2.1 Little’s Law (system-level concurrency) {#321-littles-law-system-level-concurrency}
+<a id="121-littles-law-system-level-concurrency"></a>
+## 1.2.1 Little’s Law (system-level concurrency)
 
 ### Definition
 Relates average **concurrency** to **throughput** and **time in system**.
@@ -95,7 +97,8 @@ It is widely used in performance engineering, capacity planning, and system diag
 
 ---
 
-## 3.2.2 Utilization Law (resource-level busy time) {#322-utilization-law-resource-level-busy-time}
+<a id="122-utilization-law-resource-level-busy-time"></a>
+## 1.2.2 Utilization Law (resource-level busy time)
 
 ### Definition
 Utilization is the **fraction of time** a *single resource* is busy during a fixed interval (typically 1 second).  
@@ -139,7 +142,8 @@ This makes utilization one of the most important signals when diagnosing bottlen
 
 ---
 
-## 3.2.3 Service time vs response time (queueing) {#323-service-time-vs-response-time-queueing}
+<a id="123-service-time-vs-response-time-queueing"></a>
+## 1.2.3 Service time vs response time (queueing)
 
 ### Definition
 Response time at a resource includes:
@@ -179,7 +183,8 @@ Understanding this distinction is essential for diagnosing performance issues.
 
 ---
 
-## 3.2.4 Service Demand (visits × service time) {#324-service-demand-visits--service-time}
+<a id="124-service-demand-visits--service-time"></a>
+## 1.2.4 Service Demand (visits × service time)
 
 ### Definition
 Total service required on a resource per request, accounting for multiple visits.
@@ -217,15 +222,14 @@ Reducing service demand is often more effective than increasing raw capacity.
 
 ---
 
-## 3.2.5 Throughput {#325-throughput}
+<a id="125-throughput"></a>
+## 1.2.5 Throughput
 
 ### Definition
 Requests completed per unit of time.
 
 ### Formula
-$$
-X = \frac{N}{T}
-$$
+**Formula:** `X = N / T`
 
 ### Where
 - `N` = number of completed requests
@@ -249,16 +253,15 @@ High throughput alone does not guarantee acceptable system behavior.
 
 ---
 
-## 3.2.6 Error rate {#326-error-rate}
+<a id="126-error-rate"></a>
+## 1.2.6 Error rate
 
 ### Definition
 Fraction of requests that fail (timeouts, 5xx, etc.).
 
 ### Formula
 
-$$
-\mathrm{ErrorRate} = \frac{N_{\mathrm{err}}}{N_{\mathrm{total}}} \times 100\%
-$$
+**Formula:** `ErrorRate = (N_err / N_total) × 100%`
 
 ---
 
@@ -276,7 +279,8 @@ Error rate should always be monitored together with latency and throughput.
 
 ---
 
-## 3.2.7 Percentiles (p50, p95, p99) {#327-percentiles-p50-p95-p99}
+<a id="127-percentiles-p50-p95-p99"></a>
+## 1.2.7 Percentiles (p50, p95, p99)
 
 ### Definition
 The `p`-th percentile is the value below which **p% of observations** fall.
@@ -302,7 +306,8 @@ This difference is critical for system evaluation and SLO definition.
 
 ---
 
-### 3.2.7.1 How to compute a percentile (ordered sample) {#3271-how-to-compute-a-percentile-ordered-sample}
+<a id="1271-how-to-compute-a-percentile-ordered-sample"></a>
+### 1.2.7.1 How to compute a percentile (ordered sample)
 
 Given `N` values sorted ascending:
 
@@ -312,9 +317,7 @@ $$
 
 Compute the theoretical position:
 
-$$
-P = \frac{p}{100}(N + 1)
-$$
+**Formula:** `P = (p / 100) × (N + 1)`
 
 - If `P` is an integer → percentile = `v_P`
 - If not, let `k = floor(P)` and `δ = P - k` (fractional part), then interpolate:
@@ -327,7 +330,8 @@ $$
 
 ---
 
-### 3.2.7.2 Interpretation vs average (why tails matter) {#3272-interpretation-vs-average-why-tails-matter}
+<a id="1272-interpretation-vs-average-why-tails-matter"></a>
+### 1.2.7.2 Interpretation vs average (why tails matter)
 
 - If `p50` is much lower than the mean, the distribution is **right-skewed** (few slow requests inflate the mean).
 - If `p95` or `p99` is far above the mean, you have **long-tail latency**.
@@ -353,15 +357,14 @@ Ignoring percentiles often leads to incorrect conclusions about system performan
 
 ---
 
-## 3.2.8 Empirical CDF (threshold → percentage) {#328-empirical-cdf-threshold--percentage}
+<a id="128-empirical-cdf-threshold--percentage"></a>
+## 1.2.8 Empirical CDF (threshold → percentage)
 
 ### Definition
 Given a threshold `t`, the empirical cumulative distribution function (CDF) tells the fraction of samples at or below `t`.
 
 ### Formula
-$$
-F(t) = \frac{\left|\{x_i \le t\}\right|}{N}
-$$
+**Formula:** `F(t) = count(x_i ≤ t) / N`
 
 ### Practical meaning
 CDF answers: “If my SLO is 200 ms, what % of requests meet it?”
@@ -381,7 +384,8 @@ Both are useful for performance analysis and SLO validation.
 
 ---
 
-## 3.2.9 Long-tail latency (what it is) {#329-long-tail-latency-what-it-is}
+<a id="129-long-tail-latency-what-it-is"></a>
+## 1.2.9 Long-tail latency (what it is)
 
 ### Definition
 A small fraction of requests (e.g. 5% or 1%) is **much slower** than the majority.
@@ -422,7 +426,8 @@ Managing tail latency is often more important than improving average performance
 
 ---
 
-## 3.2.10 Quick checklist (what to measure in tests) {#3210-quick-checklist-what-to-measure-in-tests}
+<a id="1210-quick-checklist-what-to-measure-in-tests"></a>
+## 1.2.10 Quick checklist (what to measure in tests)
 
 - Latency: `p50/p90/p95/p99`
 - Throughput: `RPS/TPS`

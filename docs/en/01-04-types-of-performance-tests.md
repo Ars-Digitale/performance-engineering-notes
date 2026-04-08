@@ -1,6 +1,6 @@
-## 3.4 – Types of performance tests
+## 1.4 – Types of performance tests
 
-<a id="34-types-of-performance-tests"></a>
+<a id="14-types-of-performance-tests"></a>
 
 This chapter introduces the main categories of performance tests used in performance engineering.
 
@@ -10,16 +10,17 @@ Together, they help evaluate performance, stability, scalability, recovery, and 
 
 ## Table of Contents
 
-- [3.4.1 Purpose of performance testing](#341-purpose-of-performance-testing)
-- [3.4.2 Load testing](#342-load-testing)
-- [3.4.3 Stress testing](#343-stress-testing)
-- [3.4.4 Spike testing](#344-spike-testing)
-- [3.4.5 Soak testing](#345-soak-testing)
-- [3.4.6 Capacity testing](#346-capacity-testing)
+- [1.4.1 Purpose of performance testing](#141-purpose-of-performance-testing)
+- [1.4.2 Load testing](#142-load-testing)
+- [1.4.3 Stress testing](#143-stress-testing)
+- [1.4.4 Spike testing](#144-spike-testing)
+- [1.4.5 Soak testing](#145-soak-testing)
+- [1.4.6 Capacity testing](#146-capacity-testing)
 
 ---
 
-## 3.4.1 Purpose of performance testing {#341-purpose-of-performance-testing}
+<a id="141-purpose-of-performance-testing"></a>
+## 1.4.1 Purpose of performance testing
 
 ### Definition
 
@@ -32,7 +33,7 @@ It provides measurable data about:
 - error rate  
 - resource usage  
 
-(→ [3.2 Core metrics and formulas](#chap-03-02-core-metrics-and-formulas))
+(→ [1.2 Core metrics and formulas](./01-02-core-metrics-and-formulas.md))
 
 Performance testing is therefore not only a measurement activity, but also a validation activity.
 
@@ -72,7 +73,7 @@ It defines:
 - concurrency (number of active users or requests)  
 - request patterns (distribution, mix of operations)  
 
-(→ [3.2.1 Little’s Law (system-level concurrency)](#chap-03-02-core-metrics-and-formulas))
+(→ [1.2.1 Little’s Law (system-level concurrency)](./01-02-core-metrics-and-formulas.md#121-littles-law-system-level-concurrency))
 
 A workload is not the real production environment itself.
 
@@ -105,10 +106,10 @@ Performance testing is the practical entry point for many of the concepts develo
 
 It exposes:
 
-- queueing and saturation effects (→ [3.5 System behavior under load](#chap-03-05-system-behavior-under-load))
-- concurrency limits (→ [3.6 Concurrency and parallelism](#chap-03-06-concurrency-and-parallelism))
-- runtime and memory effects (→ [3.7 Runtime and memory model](#chap-03-07-runtime-and-memory-model))
-- resource saturation (→ [3.8 Resource-level performance](#chap-03-08-resource-level-performance))
+- queueing and saturation effects (→ [1.5 System behavior under load](./01-05-system-behavior-under-load.md))
+- concurrency limits (→ [1.6 Concurrency and parallelism](./01-06-concurrency-and-parallelism.md))
+- runtime and memory effects (→ [1.7 Runtime and memory model](./01-07-runtime-and-memory-model.md))
+- resource saturation (→ [1.8 Resource-level performance](./01-08-resource-level-performance.md))
 
 For that reason, test design should always be connected to system reasoning.
 
@@ -141,7 +142,8 @@ Their value lies not only in the measurements they produce, but also in the unde
 
 ---
 
-## 3.4.2 Load testing {#342-load-testing}
+<a id="142-load-testing"></a>
+## 1.4.2 Load testing
 
 ### Definition
 
@@ -235,7 +237,8 @@ It establishes the baseline against which all other performance tests can be int
 
 ---
 
-## 3.4.3 Stress testing {#343-stress-testing}
+<a id="143-stress-testing"></a>
+## 1.4.3 Stress testing
 
 ### Definition
 
@@ -260,7 +263,7 @@ Stress testing is primarily concerned with limit behavior and degradation under 
 - workload increases beyond normal levels  
 - system approaches or reaches saturation  
 
-(→ [3.8 Resource-level performance](#chap-03-08-resource-level-performance))
+(→ [1.8 Resource-level performance](./01-08-resource-level-performance.md))
 
 The overload may be applied progressively or maintained at a clearly excessive level.
 
@@ -274,8 +277,8 @@ In both cases, the goal is to expose how the system behaves when demand exceeds 
 - throughput plateaus or decreases  
 - error rate increases  
 
-(→ [3.5.3 Non-linear degradation](#chap-03-05-system-behavior-under-load))  
-(→ [3.5.4 Throughput collapse](#chap-03-05-system-behavior-under-load))
+(→ [1.5.3 Non-linear degradation](./01-05-system-behavior-under-load.md#153-non-linear-degradation))  
+(→ [1.5.4 Throughput collapse](./01-05-system-behavior-under-load.md#154-throughput-collapse))
 
 Additional effects may include:
 
@@ -351,7 +354,8 @@ It reveals how the system degrades, how it fails, and how much overload it can t
 
 ---
 
-## 3.4.4 Spike testing {#344-spike-testing}
+<a id="144-spike-testing"></a>
+## 1.4.4 Spike testing
 
 ### Definition
 
@@ -388,7 +392,7 @@ A system may handle a high load when it is reached gradually, but behave poorly 
 - queue buildup  
 - potential errors during transition  
 
-(→ [3.5 System behavior under load](#chap-03-05-system-behavior-under-load))
+(→ [1.5 System behavior under load](./01-05-system-behavior-under-load.md))
 
 Additional effects may include:
 
@@ -447,7 +451,8 @@ It evaluates not only resistance to bursts, but also the ability to recover clea
 
 ---
 
-## 3.4.5 Soak testing {#345-soak-testing}
+<a id="145-soak-testing"></a>
+## 1.4.5 Soak testing
 
 ### Definition
 
@@ -486,7 +491,7 @@ Some systems behave correctly for minutes but degrade after hours because of acc
 - resource leaks  
 - performance degradation over time  
 
-(→ [3.7 Runtime and memory model](#chap-03-07-runtime-and-memory-model))
+(→ [1.7 Runtime and memory model](./01-07-runtime-and-memory-model.md))
 
 Additional long-duration symptoms may include:
 
@@ -565,7 +570,8 @@ It validates long-duration behavior and reveals issues caused by accumulation, d
 
 ---
 
-## 3.4.6 Capacity testing {#346-capacity-testing}
+<a id="146-capacity-testing"></a>
+## 1.4.6 Capacity testing
 
 ### Definition
 
@@ -605,8 +611,8 @@ The capacity limit is reached when:
 - error rate increases  
 - throughput no longer scales  
 
-(→ [3.2 Core metrics and formulas](#chap-03-02-core-metrics-and-formulas))  
-(→ [3.5 System behavior under load](#chap-03-05-system-behavior-under-load))
+(→ [1.2 Core metrics and formulas](./01-02-core-metrics-and-formulas.md))  
+(→ [1.5 System behavior under load](./01-05-system-behavior-under-load.md))
 
 In practice, the limit is not always a single exact value.
 

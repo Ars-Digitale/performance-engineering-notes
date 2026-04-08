@@ -2,30 +2,36 @@
 
 ---
 
-# Performance Engineering Guide
+# Performance Engineering Guide {#book-index}
 
 This index provides the complete **English (EN)** structure of the  
 **Performance Engineering Guide**.
 
 The guide can be read sequentially or used as a technical reference.
 
-This published documentation currently covers the **core technical body of the guide**,  
-corresponding to **Part III** of the overall editorial structure.
+This published documentation currently covers the **core technical body of the guide**.
 
 ---
 
-## Chapter 3 — Guide structure {#chapter-3-guide-structure}
+## Guide structure {#guide-structure}
 
-- [3.1 Foundations](#chap-03-01-foundations)
-- [3.2 Core metrics and formulas](#chap-03-02-core-metrics-and-formulas)
-- [3.3 Work of a performance engineer](#chap-03-03-work-of-a-performance-engineer)
-- [3.4 Types of performance tests](#chap-03-04-types-of-performance-tests)
-- [3.5 System behavior under load](#chap-03-05-system-behavior-under-load)
-- [3.6 Concurrency and parallelism](#chap-03-06-concurrency-and-parallelism)
-- [3.7 Runtime and memory model](#chap-03-07-runtime-and-memory-model)
-- [3.8 Resource-level performance](#chap-03-08-resource-level-performance)
-- [3.9 Common performance problems](#chap-03-09-common-performance-problems)
-- [3.10 Diagnostics and analysis](#chap-03-10-diagnostics-and-analysis)
-- [3.11 Practical checklists](#chap-03-11-practical-checklists)
+- [1.1 Foundations](#chap-01-01-foundations)
+- [1.2 Core metrics and formulas](#chap-01-02-core-metrics-and-formulas)
+- [1.3 Work of a performance engineer](#chap-01-03-work-of-a-performance-engineer)
+- [1.4 Types of performance tests](#chap-01-04-types-of-performance-tests)
+- [1.5 System behavior under load](#chap-01-05-system-behavior-under-load)
+- [1.6 Concurrency and parallelism](#chap-01-06-concurrency-and-parallelism)
+- [1.7 Runtime and memory model](#chap-01-07-runtime-and-memory-model)
+- [1.8 Resource-level performance](#chap-01-08-resource-level-performance)
+- [1.9 Common performance problems](#chap-01-09-common-performance-problems)
+- [1.10 Diagnostics and analysis](#chap-01-10-diagnostics-and-analysis)
+- [1.11 Practical checklists](#chap-01-11-practical-checklists)
 
+
+
+---
+
+::: {.chapter-nav}
+◀ | [▲ Index](#book-index) | [1.1 – Foundations ▶](#chap-01-01-foundations)
+:::
 

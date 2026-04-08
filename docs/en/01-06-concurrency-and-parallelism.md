@@ -1,6 +1,6 @@
-# 3.6 – Concurrency and parallelism
+# 1.6 – Concurrency and parallelism
 
-<a id="36-concurrency-and-parallelism"></a>
+<a id="16-concurrency-and-parallelism"></a>
 
 This chapter introduces concurrency and parallelism as core concepts in system performance engineering.
 
@@ -10,20 +10,20 @@ Concurrency and parallelism are essential to scalability, but they also introduc
 
 ## Table of Contents
 
-- [3.6.1 Concurrency vs parallelism](#361-concurrency-vs-parallelism)
-- [3.6.2 Threads and execution model](#362-threads-and-execution-model)
-- [3.6.3 Contention and synchronization](#363-contention-and-synchronization)
-- [3.6.4 Common concurrency issues](#364-common-concurrency-issues)
-	- [3.6.4.1 Race conditions](#3641-race-conditions)
-	- [3.6.4.2 Deadlocks](#3642-deadlocks)
-	- [3.6.4.3 Livelocks](#3643-livelocks)
-	- [3.6.4.4 Starvation](#3644-starvation)
-	- [3.6.4.5 Thread pool exhaustion](#3645-thread-pool-exhaustion)
+- [1.6.1 Concurrency vs parallelism](#161-concurrency-vs-parallelism)
+- [1.6.2 Threads and execution model](#162-threads-and-execution-model)
+- [1.6.3 Contention and synchronization](#163-contention-and-synchronization)
+- [1.6.4 Common concurrency issues](#164-common-concurrency-issues)
+	- [1.6.4.1 Race conditions](#1641-race-conditions)
+	- [1.6.4.2 Deadlocks](#1642-deadlocks)
+	- [1.6.4.3 Livelocks](#1643-livelocks)
+	- [1.6.4.4 Starvation](#1644-starvation)
+	- [1.6.4.5 Thread pool exhaustion](#1645-thread-pool-exhaustion)
 
 ---
 
-<a id="361-concurrency-vs-parallelism"></a>
-## 3.6.1 Concurrency vs parallelism
+<a id="161-concurrency-vs-parallelism"></a>
+## 1.6.1 Concurrency vs parallelism
 
 ### Definition
 
@@ -133,12 +133,12 @@ Their value depends on how they interact with workload, shared resources, and ex
 
 Concurrency increases:
 
-- the number of in-flight requests (→ [3.2.1 Little’s Law](03-02-core-metrics-and-formulas.md#321-littles-law-system-level-concurrency))
+- the number of in-flight requests (→ [1.2.1 Little’s Law](01-02-core-metrics-and-formulas.md#121-littles-law-system-level-concurrency))
 
 This leads to:
 
 - resource sharing
-- potential queueing (→ [3.5.2 Saturation and queueing](03-05-system-behavior-under-load.md#352-saturation-and-queueing))
+- potential queueing (→ [1.5.2 Saturation and queueing](01-05-system-behavior-under-load.md#152-saturation-and-queueing))
 
 This is one of the main reasons concurrency becomes a central topic in performance engineering rather than only a programming concern.
 
@@ -169,8 +169,8 @@ Performance depends on both, and on how they interact with system resources.
 
 ---
 
-<a id="362-threads-and-execution-model"></a>
-## 3.6.2 Threads and execution model
+<a id="162-threads-and-execution-model"></a>
+## 1.6.2 Threads and execution model
 
 ### Definition
 
@@ -400,7 +400,7 @@ The execution model also determines where bottlenecks become visible: in queues,
 
 Thread behavior directly impacts:
 
-- queueing (→ [3.5.2 Saturation and queueing](03-05-system-behavior-under-load.md#352-saturation-and-queueing))
+- queueing (→ [1.5.2 Saturation and queueing](01-05-system-behavior-under-load.md#152-saturation-and-queueing))
 - latency under load
 - effective capacity of the system
 
@@ -439,8 +439,8 @@ How they are used determines:
 
 ---
 
-<a id="363-contention-and-synchronization"></a>
-## 3.6.3 Contention and synchronization
+<a id="163-contention-and-synchronization"></a>
+## 1.6.3 Contention and synchronization
 
 ### Definition
 
@@ -633,9 +633,9 @@ This is especially true for systems where performance is constrained by shared a
 
 Contention contributes to:
 
-- queueing (→ [3.5.2 Saturation and queueing](03-05-system-behavior-under-load.md#352-saturation-and-queueing))
-- non-linear degradation (→ [3.5.3 Non-linear degradation](03-05-system-behavior-under-load.md#353-non-linear-degradation))
-- throughput collapse (→ [3.5.4 Throughput collapse](03-05-system-behavior-under-load.md#354-throughput-collapse))
+- queueing (→ [1.5.2 Saturation and queueing](01-05-system-behavior-under-load.md#152-saturation-and-queueing))
+- non-linear degradation (→ [1.5.3 Non-linear degradation](01-05-system-behavior-under-load.md#153-non-linear-degradation))
+- throughput collapse (→ [1.5.4 Throughput collapse](01-05-system-behavior-under-load.md#154-throughput-collapse))
 
 Contention is therefore both a local synchronization phenomenon and a system-level performance mechanism.
 
@@ -661,8 +661,8 @@ Understanding and controlling contention is essential for scalable systems.
 
 ---
 
-<a id="364-common-concurrency-issues"></a>
-## 3.6.4 Common concurrency issues
+<a id="164-common-concurrency-issues"></a>
+## 1.6.4 Common concurrency issues
 
 Concurrency introduces complexity.
 
@@ -674,8 +674,8 @@ Many of them are difficult to reproduce in light testing because they depend on 
 
 ---
 
-<a id="3641-race-conditions"></a>
-### 3.6.4.1 Race conditions
+<a id="1641-race-conditions"></a>
+### 1.6.4.1 Race conditions
 
 ### Definition
 
@@ -722,8 +722,8 @@ This is one reason correctness and performance cannot be treated as completely s
 
 ---
 
-<a id="3642-deadlocks"></a>
-### 3.6.4.2 Deadlocks
+<a id="1642-deadlocks"></a>
+### 1.6.4.2 Deadlocks
 
 ### Definition
 
@@ -765,8 +765,8 @@ Deadlocks are often detected through thread analysis rather than through general
 
 ---
 
-<a id="3643-livelocks"></a>
-## 3.6.4.3 Livelocks
+<a id="1643-livelocks"></a>
+## 1.6.4.3 Livelocks
 
 ### Definition
 
@@ -797,8 +797,8 @@ Livelocks may therefore look like active processing even though progress is effe
 
 ---
 
-<a id="3644-starvation"></a>
-## 3.6.4.4 Starvation
+<a id="1644-starvation"></a>
+## 1.6.4.4 Starvation
 
 ### Definition
 
@@ -830,8 +830,8 @@ This makes starvation particularly relevant from both a performance and user-exp
 
 ---
 
-<a id="3645-thread-pool-exhaustion"></a>
-## 3.6.4.5 Thread pool exhaustion
+<a id="1645-thread-pool-exhaustion"></a>
+## 1.6.4.5 Thread pool exhaustion
 
 ### Definition
 
@@ -865,8 +865,8 @@ If saturation continues, thread pool exhaustion may also contribute to timeouts,
 
 Thread pool exhaustion is a direct example of:
 
-- saturation (→ [3.5.2 Saturation and queueing](03-05-system-behavior-under-load.md#352-saturation-and-queueing))
-- non-linear degradation (→ [3.5.3 Non-linear degradation](03-05-system-behavior-under-load.md#353-non-linear-degradation))
+- saturation (→ [1.5.2 Saturation and queueing](01-05-system-behavior-under-load.md#152-saturation-and-queueing))
+- non-linear degradation (→ [1.5.3 Non-linear degradation](01-05-system-behavior-under-load.md#153-non-linear-degradation))
 
 It is therefore one of the clearest practical expressions of the system behaviors introduced in the previous chapter.
 

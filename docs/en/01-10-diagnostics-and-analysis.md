@@ -1,6 +1,6 @@
-## 3.10 – Diagnostics and analysis
+## 1.10 – Diagnostics and analysis
 
-<a id="310-diagnostics-and-analysis"></a>
+<a id="110-diagnostics-and-analysis"></a>
 
 This chapter explains how performance problems are investigated, interpreted, and validated.
 
@@ -11,17 +11,17 @@ It is the discipline of interpreting that data correctly and connecting symptoms
 
 ## Table of Contents
 
-- [3.10.1 Observability and signals](#3101-observability-and-signals)
-- [3.10.2 Symptom vs cause](#3102-symptom-vs-cause)
-- [3.10.3 Correlation and causality](#3103-correlation-and-causality)
-- [3.10.4 Building a hypothesis](#3104-building-a-hypothesis)
-- [3.10.5 Narrowing down the bottleneck](#3105-narrowing-down-the-bottleneck)
-- [3.10.6 Iterative analysis and validation](#3106-iterative-analysis-and-validation)
+- [1.10.1 Observability and signals](#1101-observability-and-signals)
+- [1.10.2 Symptom vs cause](#1102-symptom-vs-cause)
+- [1.10.3 Correlation and causality](#1103-correlation-and-causality)
+- [1.10.4 Building a hypothesis](#1104-building-a-hypothesis)
+- [1.10.5 Narrowing down the bottleneck](#1105-narrowing-down-the-bottleneck)
+- [1.10.6 Iterative analysis and validation](#1106-iterative-analysis-and-validation)
 
 ---
 
-<a id="3101-observability-and-signals"></a>
-## 3.10.1 Observability and signals
+<a id="1101-observability-and-signals"></a>
+## 1.10.1 Observability and signals
 
 ### Definition
 
@@ -44,8 +44,8 @@ The primary signals are:
 - resource utilization (CPU, memory, I/O, network)  
 - queue lengths  
 
-(→ [3.2 Core metrics and formulas](./03-02-core-metrics-and-formulas.md))  
-(→ [3.8 Resource-level performance](./03-08-resource-level-performance.md))
+(→ [1.2 Core metrics and formulas](./01-02-core-metrics-and-formulas.md))  
+(→ [1.8 Resource-level performance](./01-08-resource-level-performance.md))
 
 Each signal captures a different dimension of system behavior.  
 Only their combination provides a meaningful view.
@@ -126,8 +126,8 @@ Diagnostics depends on both the availability and the correct interpretation of o
 
 ---
 
-<a id="3102-symptom-vs-cause"></a>
-## 3.10.2 Symptom vs cause
+<a id="1102-symptom-vs-cause"></a>
+## 1.10.2 Symptom vs cause
 
 ### Definition
 
@@ -167,7 +167,7 @@ A system may show the same symptom for very different reasons, and the same caus
   - I/O delays  
   - synchronization  
 
-(→ [3.9 Common performance problems](./03-09-common-performance-problems.md))
+(→ [1.9 Common performance problems](./01-09-common-performance-problems.md))
 
 This is why symptoms must be treated as entry points for investigation, not as explanations.
 
@@ -232,8 +232,8 @@ Diagnosis requires mapping symptoms to the mechanisms that generate them.
 
 ---
 
-<a id="3103-correlation-and-causality"></a>
-## 3.10.3 Correlation and causality
+<a id="1103-correlation-and-causality"></a>
+## 1.10.3 Correlation and causality
 
 ### Definition
 
@@ -271,8 +271,8 @@ Possible interpretations:
 - I/O delays → more concurrent threads → higher CPU usage  
 - contention → retries → both CPU and latency increase  
 
-(→ [3.5 System behavior under load](./03-05-system-behavior-under-load.md))  
-(→ [3.8 Resource-level performance](./03-08-resource-level-performance.md))
+(→ [1.5 System behavior under load](./01-05-system-behavior-under-load.md))  
+(→ [1.8 Resource-level performance](./01-08-resource-level-performance.md))
 
 In all three cases, CPU and latency move together, but the underlying mechanism is different.
 
@@ -349,8 +349,8 @@ Diagnosis requires identifying the mechanism that links signals.
 
 ---
 
-<a id="3104-building-a-hypothesis"></a>
-## 3.10.4 Building a hypothesis
+<a id="1104-building-a-hypothesis"></a>
+## 1.10.4 Building a hypothesis
 
 ### Definition
 
@@ -370,8 +370,8 @@ A hypothesis is built by:
 2. identifying consistent patterns  
 3. mapping them to known mechanisms  
 
-(→ [3.2 Core metrics and formulas](./03-02-core-metrics-and-formulas.md))  
-(→ [3.5 System behavior under load](./03-05-system-behavior-under-load.md))
+(→ [1.2 Core metrics and formulas](./01-02-core-metrics-and-formulas.md))  
+(→ [1.5 System behavior under load](./01-05-system-behavior-under-load.md))
 
 This process transforms raw data into a testable explanation.
 
@@ -477,8 +477,8 @@ Diagnosis proceeds through explicit, testable hypotheses, not assumptions.
 
 ---
 
-<a id="3105-narrowing-down-the-bottleneck"></a>
-## 3.10.5 Narrowing down the bottleneck
+<a id="1105-narrowing-down-the-bottleneck"></a>
+## 1.10.5 Narrowing down the bottleneck
 
 ### Definition
 
@@ -499,8 +499,8 @@ The analysis focuses on:
 - network delays  
 - memory pressure  
 
-(→ [3.8 Resource-level performance](./03-08-resource-level-performance.md))  
-(→ [3.7 Runtime and memory model](./03-07-runtime-and-memory-model.md))
+(→ [1.8 Resource-level performance](./01-08-resource-level-performance.md))  
+(→ [1.7 Runtime and memory model](./01-07-runtime-and-memory-model.md))
 
 These dimensions are examined because most performance limits eventually manifest through one or more of them.
 
@@ -591,8 +591,8 @@ Effective diagnosis reduces the system to its limiting factor.
 
 ---
 
-<a id="3106-iterative-analysis-and-validation"></a>
-## 3.10.6 Iterative analysis and validation
+<a id="1106-iterative-analysis-and-validation"></a>
+## 1.10.6 Iterative analysis and validation
 
 ### Definition
 

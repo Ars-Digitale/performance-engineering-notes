@@ -1,6 +1,6 @@
-# 3.5 – System behavior under load
+# 1.5 – System behavior under load
 
-<a id="35-system-behavior-under-load"></a>
+<a id="15-system-behavior-under-load"></a>
 
 This chapter explains how systems behave as workload increases and capacity limits are approached.
 
@@ -10,15 +10,16 @@ These concepts are central to performance engineering because they explain why s
 
 ## Table of Contents
 
-- [3.5.1 Load vs capacity](#351-load-vs-capacity)
-- [3.5.2 Saturation and queueing](#352-saturation-and-queueing)
-- [3.5.3 Non-linear degradation](#353-non-linear-degradation)
-- [3.5.4 Throughput collapse](#354-throughput-collapse)
-- [3.5.5 Tail latency amplification](#355-tail-latency-amplification)
+- [1.5.1 Load vs capacity](#151-load-vs-capacity)
+- [1.5.2 Saturation and queueing](#152-saturation-and-queueing)
+- [1.5.3 Non-linear degradation](#153-non-linear-degradation)
+- [1.5.4 Throughput collapse](#154-throughput-collapse)
+- [1.5.5 Tail latency amplification](#155-tail-latency-amplification)
 
 ---
 
-## 3.5.1 Load vs capacity {#351-load-vs-capacity}
+<a id="151-load-vs-capacity"></a>
+## 1.5.1 Load vs capacity
 
 ### Definition
 
@@ -124,7 +125,7 @@ It may also reduce the system’s ability to recover quickly after overload.
 
 The relationship between load, latency, and concurrency is formalized by:
 
-→ [3.2.1 Little’s Law](#chap-03-02-core-metrics-and-formulas)
+→ [1.2.1 Little’s Law](01-02-core-metrics-and-formulas.md#121-littles-law-system-level-concurrency)
 
 As load increases:
 
@@ -166,7 +167,8 @@ The goal of performance engineering is to identify:
 
 --- 
 
-## 3.5.2 Saturation and queueing {#352-saturation-and-queueing}
+<a id="152-saturation-and-queueing"></a>
+## 1.5.2 Saturation and queueing
 
 ### Definition
 
@@ -216,7 +218,7 @@ This affects response time:
 - service time remains the same
 - waiting time grows
 
-→ [3.2.3 Service time vs response time](#chap-03-02-core-metrics-and-formulas)
+→ [1.2.3 Service time vs response time](01-02-core-metrics-and-formulas.md#123-service-time-vs-response-time-queueing)
 
 Queueing is therefore the visible consequence of insufficient processing capacity at a given resource.
 
@@ -242,7 +244,7 @@ This is why systems often appear stable for a long time and then degrade suddenl
 
 Utilization plays a central role:
 
-→ [3.2.2 Utilization Law](#chap-03-02-core-metrics-and-formulas)
+→ [1.2.2 Utilization Law](01-02-core-metrics-and-formulas.md#122-utilization-law-resource-level-busy-time)
 
 As utilization approaches its limit:
 
@@ -331,7 +333,8 @@ This is the primary mechanism behind performance degradation under load.
 
 ---
 
-## 3.5.3 Non-linear degradation {#353-non-linear-degradation}
+<a id="153-non-linear-degradation"></a>
+## 1.5.3 Non-linear degradation
 
 ### Definition
 
@@ -372,7 +375,7 @@ It begins to react disproportionately to additional work.
 
 Non-linear degradation is primarily caused by:
 
-- queueing effects (→ [3.5.2 Saturation and queueing](#352-saturation-and-queueing))
+- queueing effects (→ [1.5.2 Saturation and queueing](#152-saturation-and-queueing))
 - high resource utilization
 - contention between requests
 
@@ -454,8 +457,8 @@ It is what allows the system to absorb normal variability without entering unsta
 
 Non-linear degradation is the visible effect of:
 
-- increasing utilization (→ [3.2.2 Utilization Law](#chap-03-02-core-metrics-and-formulas))
-- growing queueing (→ [3.5.2 Saturation and queueing](#352-saturation-and-queueing))
+- increasing utilization (→ [1.2.2 Utilization Law](01-02-core-metrics-and-formulas.md#122-utilization-law-resource-level-busy-time))
+- growing queueing (→ [1.5.2 Saturation and queueing](#152-saturation-and-queueing))
 
 It is therefore a system-level consequence of mechanisms already introduced in the previous sections.
 
@@ -484,7 +487,8 @@ Understanding this non-linearity is essential to avoid operating systems too clo
 
 ---
 
-## 3.5.4 Throughput collapse {#354-throughput-collapse}
+<a id="154-throughput-collapse"></a>
+## 1.5.4 Throughput collapse
 
 ### Definition
 
@@ -667,7 +671,8 @@ Understanding throughput collapse is essential to avoid overload conditions.
 
 ---
 
-## 3.5.5 Tail latency amplification {#355-tail-latency-amplification}
+<a id="155-tail-latency-amplification"></a>
+## 1.5.5 Tail latency amplification
 
 ### Definition
 
@@ -693,7 +698,7 @@ Under load:
 - average latency may increase moderately
 - tail latency can increase dramatically
 
-→ [3.2.7 Percentiles](#chap-03-02-core-metrics-and-formulas)
+→ [1.2.7 Percentiles](01-02-core-metrics-and-formulas.md#127-percentiles-p50-p95-p99)
 
 For this reason, averages alone are not sufficient to assess real performance quality.
 
@@ -803,8 +808,8 @@ This is particularly important for distributed systems, APIs, and interactive ap
 
 Tail latency amplification is a consequence of:
 
-- queueing (→ [3.5.2 Saturation and queueing](#352-saturation-and-queueing))
-- non-linear degradation (→ [3.5.3 Non-linear degradation](#353-non-linear-degradation))
+- queueing (→ [1.5.2 Saturation and queueing](#152-saturation-and-queueing))
+- non-linear degradation (→ [1.5.3 Non-linear degradation](#153-non-linear-degradation))
 - system interactions and dependencies
 
 It is therefore one of the most visible manifestations of system stress under load.

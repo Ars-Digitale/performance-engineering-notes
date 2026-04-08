@@ -1,6 +1,6 @@
-## 3.9 – Common performance problems
+## 1.9 – Common performance problems
 
-<a id="39-common-performance-problems"></a>
+<a id="19-common-performance-problems"></a>
 
 This chapter describes common performance problems that appear in real systems under load.
 
@@ -10,17 +10,17 @@ The purpose of this chapter is to connect recurring symptoms to the underlying m
 
 ## Table of Contents
 
-- [3.9.1 CPU-bound inefficiency](#391-cpu-bound-inefficiency)
-- [3.9.2 Excessive allocation and memory churn](#392-excessive-allocation-and-memory-churn)
-- [3.9.3 Contention and synchronization hot spots](#393-contention-and-synchronization-hot-spots)
-- [3.9.4 Blocking and waiting bottlenecks](#394-blocking-and-waiting-bottlenecks)
-- [3.9.5 Queue buildup and saturation effects](#395-queue-buildup-and-saturation-effects)
-- [3.9.6 Dependency amplification and cascading latency](#396-dependency-amplification-and-cascading-latency)
+- [1.9.1 CPU-bound inefficiency](#191-cpu-bound-inefficiency)
+- [1.9.2 Excessive allocation and memory churn](#192-excessive-allocation-and-memory-churn)
+- [1.9.3 Contention and synchronization hot spots](#193-contention-and-synchronization-hot-spots)
+- [1.9.4 Blocking and waiting bottlenecks](#194-blocking-and-waiting-bottlenecks)
+- [1.9.5 Queue buildup and saturation effects](#195-queue-buildup-and-saturation-effects)
+- [1.9.6 Dependency amplification and cascading latency](#196-dependency-amplification-and-cascading-latency)
 
 ---
 
-<a id="391-cpu-bound-inefficiency"></a>
-## 3.9.1 CPU-bound inefficiency
+<a id="191-cpu-bound-inefficiency"></a>
+## 1.9.1 CPU-bound inefficiency
 
 ### Definition
 
@@ -91,7 +91,7 @@ This transforms inefficient code into a system-level bottleneck when request vol
 - reduced throughput
 - earlier CPU saturation
 
-This leads to scheduling delays (→ [3.8.1 CPU behavior](./03-08-resource-level-performance.md#381-cpu-behavior)) and non-linear latency growth (→ [3.5.3 Non-linear degradation](./03-05-system-behavior-under-load.md#353-non-linear-degradation)).
+This leads to scheduling delays (→ [1.8.1 CPU behavior](./01-08-resource-level-performance.md#181-cpu-behavior)) and non-linear latency growth (→ [1.5.3 Non-linear degradation](./01-05-system-behavior-under-load.md#153-non-linear-degradation)).
 
 In practical terms, the system reaches its CPU limit sooner than expected, leaving less headroom for bursts or concurrent traffic growth.
 
@@ -140,8 +140,8 @@ CPU inefficiency reduces the amount of useful work the system can perform before
 
 ---
 
-<a id="392-excessive-allocation-and-memory-churn"></a>
-## 3.9.2 Excessive allocation and memory churn
+<a id="192-excessive-allocation-and-memory-churn"></a>
+## 1.9.2 Excessive allocation and memory churn
 
 ### Definition
 
@@ -174,8 +174,8 @@ If this pattern appears in frequently executed code, total allocation volume can
 - high allocation rate increases memory churn
 - garbage collection runs more frequently
 
-(→ [3.7.2 Allocation and object lifecycle](./03-07-runtime-and-memory-model.md#372-allocation-and-object-lifecycle))  
-(→ [3.7.3 Garbage collection](./03-07-runtime-and-memory-model.md#373-garbage-collection-conceptual))
+(→ [1.7.2 Allocation and object lifecycle](./01-07-runtime-and-memory-model.md#172-allocation-and-object-lifecycle))  
+(→ [1.7.3 Garbage collection](./01-07-runtime-and-memory-model.md#173-garbage-collection-conceptual))
 
 The system therefore pays not only for creating objects, but for reclaiming them, tracking them, and managing the runtime effects of frequent memory turnover.
 
@@ -187,7 +187,7 @@ The system therefore pays not only for creating objects, but for reclaiming them
 - CPU overhead for memory management
 - latency variability
 
-This contributes to memory pressure (→ [3.7.4 Memory pressure and performance](./03-07-runtime-and-memory-model.md#374-memory-pressure-and-performance)).
+This contributes to memory pressure (→ [1.7.4 Memory pressure and performance](./01-07-runtime-and-memory-model.md#174-memory-pressure-and-performance)).
 
 As load increases, allocation-related overhead often becomes more visible through pauses, jitter, and widening latency percentiles.
 
@@ -239,8 +239,8 @@ Memory churn increases runtime overhead and introduces latency variability.
 
 ---
 
-<a id="393-contention-and-synchronization-hot-spots"></a>
-## 3.9.3 Contention and synchronization hot spots
+<a id="193-contention-and-synchronization-hot-spots"></a>
+## 1.9.3 Contention and synchronization hot spots
 
 ### Definition
 
@@ -279,7 +279,7 @@ The issue is not that synchronization exists, but that a frequently accessed sha
 - threads block while waiting for the lock
 - contention increases with concurrency
 
-(→ [3.6 Concurrency and parallelism](./03-06-concurrency-and-parallelism.md))
+(→ [1.6 Concurrency and parallelism](./01-06-concurrency-and-parallelism.md))
 
 As more threads compete for the same synchronized section:
 
@@ -297,7 +297,7 @@ This causes the system to behave as if its concurrency were lower than its threa
 - reduced throughput
 - latency increases
 
-This leads to queueing effects (→ [3.5 System behavior under load](./03-05-system-behavior-under-load.md)).
+This leads to queueing effects (→ [1.5 System behavior under load](./01-05-system-behavior-under-load.md)).
 
 Under higher load, synchronization hot spots often become visible as latency growth without proportional CPU growth, because threads are waiting rather than computing.
 
@@ -350,8 +350,8 @@ Performance engineering therefore focuses not only on adding concurrency, but on
 
 ---
 
-<a id="394-blocking-and-waiting-bottlenecks"></a>
-## 3.9.4 Blocking and waiting bottlenecks
+<a id="194-blocking-and-waiting-bottlenecks"></a>
+## 1.9.4 Blocking and waiting bottlenecks
 
 ### Definition
 
@@ -393,7 +393,7 @@ The thread exists, but it is not advancing useful work during the blocked period
 - threads spend time waiting instead of executing
 - thread pools may become saturated
 
-(→ [3.6 Concurrency and parallelism](./03-06-concurrency-and-parallelism.md))
+(→ [1.6 Concurrency and parallelism](./01-06-concurrency-and-parallelism.md))
 
 As more threads become blocked:
 
@@ -411,7 +411,7 @@ This is why blocking bottlenecks often coexist with moderate CPU usage.
 - reduced throughput
 - thread exhaustion
 
-This amplifies queueing and saturation (→ [3.5 System behavior under load](./03-05-system-behavior-under-load.md)).
+This amplifies queueing and saturation (→ [1.5 System behavior under load](./01-05-system-behavior-under-load.md)).
 
 Under sustained load, blocking behavior often creates a feedback loop where queued requests wait for threads that are themselves waiting on slow operations.
 
@@ -463,8 +463,8 @@ Blocking reduces effective concurrency and limits system throughput.
 
 ---
 
-<a id="395-queue-buildup-and-saturation-effects"></a>
-## 3.9.5 Queue buildup and saturation effects
+<a id="195-queue-buildup-and-saturation-effects"></a>
+## 1.9.5 Queue buildup and saturation effects
 
 ### Definition
 
@@ -479,7 +479,7 @@ This is one of the most common and most important performance problems because q
 - arrival rate exceeds service capacity
 - queues grow over time
 
-This can be described using Little’s Law (→ [3.2.1 Little’s Law (system-level concurrency)](./03-02-core-metrics-and-formulas.md#321-littles-law-system-level-concurrency)).
+This can be described using Little’s Law (→ [1.2.1 Little’s Law (system-level concurrency)](./01-02-core-metrics-and-formulas.md#121-littles-law-system-level-concurrency)).
 
 As incoming demand continues while processing remains limited, waiting accumulates and response time begins to include increasingly large queue delay.
 
@@ -491,7 +491,7 @@ As incoming demand continues while processing remains limited, waiting accumulat
 - response time increases
 - latency becomes unstable
 
-This leads to non-linear degradation (→ [3.5.3 Non-linear degradation](./03-05-system-behavior-under-load.md#353-non-linear-degradation)) and throughput limits.
+This leads to non-linear degradation (→ [1.5.3 Non-linear degradation](./01-05-system-behavior-under-load.md#153-non-linear-degradation)) and throughput limits.
 
 Once queueing becomes dominant, the system can deteriorate very quickly even if the original increase in load was relatively small.
 
@@ -547,8 +547,8 @@ A system may still be functioning, but once work begins to wait systematically, 
 
 ---
 
-<a id="396-dependency-amplification-and-cascading-latency"></a>
-## 3.9.6 Dependency amplification and cascading latency
+<a id="196-dependency-amplification-and-cascading-latency"></a>
+## 1.9.6 Dependency amplification and cascading latency
 
 ### Definition
 
@@ -593,7 +593,7 @@ In real systems, this effect becomes stronger when requests depend on many servi
 - increased variability
 - tail latency degradation
 
-(→ [3.5.5 Tail latency amplification](./03-05-system-behavior-under-load.md#355-tail-latency-amplification))
+(→ [1.5.5 Tail latency amplification](./01-05-system-behavior-under-load.md#155-tail-latency-amplification))
 
 Under load, dependency amplification often becomes more severe because slow downstream systems retain upstream threads, requests, and queues for longer periods.
 

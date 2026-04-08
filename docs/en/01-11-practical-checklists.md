@@ -1,6 +1,6 @@
-## 3.11 – Practical checklists
+## 1.11 – Practical checklists
 
-<a id="311-practical-checklists"></a>
+<a id="111-practical-checklists"></a>
 
 This chapter provides practical checklists for preparing, running, and analyzing performance tests.
 
@@ -10,14 +10,15 @@ The goal is to reduce avoidable mistakes and ensure that performance tests produ
 
 ## Table of Contents
 
-- [3.11.1 Before running a test](#3111-before-running-a-test)
-- [3.11.2 During test execution](#3112-during-test-execution)
-- [3.11.3 After test analysis](#3113-after-test-analysis)
-- [3.11.4 Common pitfalls](#3114-common-pitfalls)
+- [1.11.1 Before running a test](#1111-before-running-a-test)
+- [1.11.2 During test execution](#1112-during-test-execution)
+- [1.11.3 After test analysis](#1113-after-test-analysis)
+- [1.11.4 Common pitfalls](#1114-common-pitfalls)
 
 ---
 
-## 3.11.1 Before running a test {#3111-before-running-a-test}
+<a id="1111-before-running-a-test"></a>
+## 1.11.1 Before running a test
 
 ### Objectives
 
@@ -45,7 +46,7 @@ Define the workload precisely:
 - request mix  
 - duration  
 
-(→ [3.4 Types of performance tests](#chap-03-04-types-of-performance-tests))
+(→ [1.4 Types of performance tests](./01-04-types-of-performance-tests.md))
 
 The workload must be specific enough to be reproducible and realistic enough to be meaningful.
 
@@ -82,7 +83,7 @@ Verify that all required metrics are available:
 - resource utilization  
 - error rate  
 
-(→ [3.2 Core metrics and formulas](#chap-03-02-core-metrics-and-formulas))
+(→ [1.2 Core metrics and formulas](./01-02-core-metrics-and-formulas.md))
 
 It is also useful to ensure that supporting signals are available when relevant, such as:
 
@@ -130,7 +131,8 @@ A test is only meaningful if objectives, workload, and measurements are clearly 
 
 ---
 
-## 3.11.2 During test execution {#3112-during-test-execution}
+<a id="1112-during-test-execution"></a>
+## 1.11.2 During test execution
 
 ### Monitoring
 
@@ -177,7 +179,7 @@ Watch for:
 - unexpected errors  
 - resource saturation  
 
-(→ [3.8 Resource-level performance](#chap-03-08-resource-level-performance))
+(→ [1.8 Resource-level performance](./01-08-resource-level-performance.md))
 
 These are often the first signs that the system is approaching a limit or that the workload is exposing an unanticipated bottleneck.
 
@@ -247,7 +249,8 @@ Continuous observation is required to detect anomalies early.
 
 ---
 
-## 3.11.3 After test analysis {#3113-after-test-analysis}
+<a id="1113-after-test-analysis"></a>
+## 1.11.3 After test analysis
 
 ### Data review
 
@@ -277,7 +280,7 @@ Relate signals:
 - latency vs I/O  
 - errors vs load  
 
-(→ [3.10 Diagnostics and analysis](#chap-03-10-diagnostics-and-analysis))
+(→ [1.10 Diagnostics and analysis](./01-10-diagnostics-and-analysis.md))
 
 Correlation helps identify which resource or mechanism is most likely associated with the observed degradation.
 
@@ -359,14 +362,15 @@ Analysis transforms raw data into actionable understanding.
 
 ---
 
-## 3.11.4 Common pitfalls {#3114-common-pitfalls}
+<a id="1114-common-pitfalls"></a>
+## 1.11.4 Common pitfalls
 
 ### Misinterpreting averages
 
 - averages hide tail latency  
 - percentiles provide a clearer view  
 
-(→ [3.2.7 Percentiles](#chap-03-02-core-metrics-and-formulas))
+(→ [1.2.7 Percentiles](./01-02-core-metrics-and-formulas.md#127-percentiles-p50-p95-p99))
 
 A system can appear healthy on average while still producing unacceptable performance for a meaningful fraction of requests.
 
@@ -390,7 +394,7 @@ Realism does not require perfect reproduction, but it does require credible appr
 - high CPU is not always the root problem  
 - latency must be analyzed in context  
 
-(→ [3.10 Diagnostics and analysis](#chap-03-10-diagnostics-and-analysis))
+(→ [1.10 Diagnostics and analysis](./01-10-diagnostics-and-analysis.md))
 
 This pitfall often leads to ineffective optimization.
 
@@ -403,7 +407,7 @@ The visible symptom may be only the consequence of a deeper mechanism such as qu
 - optimizing non-limiting resources has little effect  
 - focus must remain on the dominant constraint  
 
-(→ [3.8 Resource-level performance](#chap-03-08-resource-level-performance))
+(→ [1.8 Resource-level performance](./01-08-resource-level-performance.md))
 
 This is a frequent source of wasted effort.
 

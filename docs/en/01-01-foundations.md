@@ -1,6 +1,6 @@
-# 3.1 – Foundations
+# 1.1 – Foundations
 
-<a id="31-foundations"></a>
+<a id="11-foundations"></a>
 
 This section introduces the fundamental concepts required to reason about system performance.
 
@@ -10,16 +10,16 @@ It defines the core principles used in performance engineering to analyze system
 
 ## Table of Contents
 
-- [3.1.1 Throughput, latency, concurrency](#311-throughput-latency-concurrency)
-- [3.1.2 Service time vs response time](#312-service-time-vs-response-time)
-- [3.1.3 Systems under load](#313-systems-under-load)
-- [3.1.4 Saturation and bottlenecks](#314-saturation-and-bottlenecks)
-- [3.1.5 Why systems slow down](#315-why-systems-slow-down)
+- [1.1.1 Throughput, latency, concurrency](#111-throughput-latency-concurrency)
+- [1.1.2 Service time vs response time](#112-service-time-vs-response-time)
+- [1.1.3 Systems under load](#113-systems-under-load)
+- [1.1.4 Saturation and bottlenecks](#114-saturation-and-bottlenecks)
+- [1.1.5 Why systems slow down](#115-why-systems-slow-down)
 
 ---
 
-<a id="311-throughput-latency-concurrency"></a>
-## 3.1.1 Throughput, latency, concurrency
+<a id="111-throughput-latency-concurrency"></a>
+## 1.1.1 Throughput, latency, concurrency
 
 ### Definition
 
@@ -78,7 +78,7 @@ then, on average:
 
 This relationship is formalized by **Little’s Law**:
 
-→ [3.2.1 Little’s Law](03-02-core-metrics-and-formulas.md#321-littles-law-system-level-concurrency)
+→ [1.2.1 Little’s Law](01-02-core-metrics-and-formulas.md#121-littles-law-system-level-concurrency)
 
 ---
 
@@ -98,8 +98,8 @@ Understanding this relationship is essential for diagnosing performance issues.
 
 ---
 
-<a id="312-service-time-vs-response-time"></a>
-## 3.1.2 Service time vs response time
+<a id="112-service-time-vs-response-time"></a>
+## 1.1.2 Service time vs response time
 
 ### Definition
 
@@ -139,7 +139,7 @@ As load increases:
 
 This decomposition is formalized as:
 
-→ [3.2.3 Service time vs response time](03-02-core-metrics-and-formulas.md#323-service-time-vs-response-time-queueing)
+→ [1.2.3 Service time vs response time](01-02-core-metrics-and-formulas.md#123-service-time-vs-response-time-queueing)
 
 ---
 
@@ -155,8 +155,8 @@ In many real systems, latency issues are caused primarily by queueing rather tha
 
 ---
 
-<a id="313-systems-under-load"></a>
-## 3.1.3 Systems under load
+<a id="113-systems-under-load"></a>
+## 1.1.3 Systems under load
 
 ### Definition
 
@@ -213,8 +213,8 @@ It explains why systems may appear stable in testing but fail under slightly hig
 
 ---
 
-<a id="314-saturation-and-bottlenecks"></a>
-## 3.1.4 Saturation and bottlenecks
+<a id="114-saturation-and-bottlenecks"></a>
+## 1.1.4 Saturation and bottlenecks
 
 ### Saturation
 
@@ -268,8 +268,8 @@ Correctly identifying the bottleneck is essential to avoid ineffective optimizat
 
 ---
 
-<a id="315-why-systems-slow-down"></a>
-## 3.1.5 Why systems slow down
+<a id="115-why-systems-slow-down"></a>
+## 1.1.5 Why systems slow down
 
 ### Common mechanisms
 
@@ -293,7 +293,7 @@ As utilization approaches its limit:
 
 This behavior is closely related to utilization and queueing effects:
 
-→ [3.2.2 Utilization Law](03-02-core-metrics-and-formulas.md#322-utilization-law-resource-level-busy-time)
+→ [1.2.2 Utilization Law](01-02-core-metrics-and-formulas.md#122-utilization-law-resource-level-busy-time)
 
 ---
 

@@ -1,4 +1,4 @@
-/* Tipografia base */
+/* Base layout */
 
 html, body {
     margin: 0;
@@ -7,44 +7,47 @@ html, body {
 
 body {
     font-family: Georgia, "Times New Roman", serif;
-    line-height: 1.55;
+    line-height: 1.62;
     font-size: 1em;
     color: #222;
     widows: 2;
     orphans: 2;
+    text-align: left;
 }
 
 p {
-    margin: 0.7em 0;
+    margin: 0.75em 0 0.95em 0;
     text-align: justify;
 }
 
-/* Titoli */
+/* Headings */
+
 h1, h2, h3, h4 {
     font-family: "Helvetica Neue", Arial, sans-serif;
     line-height: 1.2;
     page-break-after: avoid;
     break-after: avoid;
+    color: #111;
 }
 
 h1 {
-    font-size: 1.8em;
-    margin-top: 2.2em;
-    margin-bottom: 0.8em;
+    font-size: 1.85em;
+    margin-top: 2.4em;
+    margin-bottom: 0.85em;
     page-break-before: always;
     break-before: page;
 }
 
 h2 {
     font-size: 1.4em;
-    margin-top: 1.8em;
-    margin-bottom: 0.7em;
+    margin-top: 1.9em;
+    margin-bottom: 0.75em;
 }
 
 h3 {
-    font-size: 1.15em;
-    margin-top: 1.4em;
-    margin-bottom: 0.5em;
+    font-size: 1.14em;
+    margin-top: 1.45em;
+    margin-bottom: 0.55em;
 }
 
 h4 {
@@ -53,36 +56,45 @@ h4 {
     margin-bottom: 0.4em;
 }
 
-h1#chap-prerequisites::before {
-    content: "";
-    display: block;
-    border-top: 2px solid #d8d8d8;
-    margin: 2.5em 0 1.5em 0;
+/* Paragraph-level spacing helpers */
+
+hr {
+    border: 0;
+    border-top: 1px solid #d9d9d9;
+    margin: 1.8em 0;
 }
 
-/* liste & blocchi */
+/* Lists */
+
 ul, ol {
-    margin-top: 0.5em;
-    margin-bottom: 0.8em;
+    margin-top: 0.55em;
+    margin-bottom: 0.95em;
 }
 
 li {
-    margin: 0.2em 0;
+    margin: 0.24em 0;
 }
 
+li > p {
+    margin: 0.25em 0;
+}
+
+/* Blockquotes */
+
 blockquote {
-    margin: 1em 1.2em;
-    padding-left: 0.9em;
+    margin: 1.1em 1.2em;
+    padding-left: 0.95em;
     border-left: 3px solid #bbb;
     color: #444;
 }
 
-/*  codice inline e code block */
+/* Inline code and code blocks */
+
 code {
     font-family: "Courier New", Courier, monospace;
     font-size: 0.92em;
     background: #f5f5f5;
-    padding: 0.1em 0.3em;
+    padding: 0.08em 0.28em;
     border-radius: 3px;
 }
 
@@ -90,22 +102,27 @@ pre {
     background: #f7f7f7;
     border: 1px solid #ddd;
     border-radius: 6px;
-    padding: 1em;
+    padding: 0.9em 1em;
     overflow-x: auto;
-    margin: 1.2em 0 1.3em 0;
-    font-size: 0.92em;
+    margin: 1.25em 0 1.35em 0;
+    font-size: 0.9em;
+    line-height: 1.45;
+    white-space: pre-wrap;
+    word-wrap: break-word;
 }
 
 pre code {
     background: transparent;
     padding: 0;
+    border-radius: 0;
 }
 
-/* tabelle */
+/* Tables */
+
 table {
     width: 100%;
     border-collapse: collapse;
-    margin: 1em 0 1.2em 0;
+    margin: 1em 0 1.25em 0;
     font-size: 0.95em;
 }
 
@@ -120,7 +137,8 @@ th {
     text-align: left;
 }
 
-/* admonitions */
+/* Admonitions */
+
 .admonition {
     margin: 1.3em 0;
     padding: 0.9em 1em;
@@ -150,47 +168,89 @@ th {
     margin-bottom: 0;
 }
 
-/* TOC */
-nav#TOC {
-    margin-bottom: 2.6em;
-    padding-bottom: 1.3em;
-    border-bottom: 2px solid #d8d8d8;
+/* Title page */
+
+.book-title-page {
+    text-align: center;
+    margin-top: 5.5em;
+    margin-bottom: 4em;
+    page-break-after: always;
+    break-after: page;
 }
 
-nav#TOC ul {
+.book-title-page h1 {
+    font-size: 2.35em;
+    margin-top: 0;
+    margin-bottom: 0.55em;
+    line-height: 1.2;
+    page-break-before: avoid;
+    break-before: avoid;
+}
+
+.book-title-page h3 {
+    font-size: 1.08em;
+    font-weight: 400;
+    color: #555;
+    margin-top: 0;
+    margin-bottom: 2em;
+}
+
+.book-title-page strong {
+    font-size: 1.05em;
+}
+
+/* TOC */
+
+nav#TOC {
+    margin-bottom: 2.6em;
+    padding-bottom: 1.35em;
+    border-bottom: 2px solid #d8d8d8;
+    page-break-after: always;
+    break-after: page;
+}
+
+nav#TOC ul,
+nav#TOC ol {
     list-style: none;
     margin: 0;
     padding-left: 0;
 }
 
-nav#TOC > ul > li {
-    margin: 0.65em 0;
+nav#TOC > ul > li,
+nav#TOC > ol > li {
+    margin: 0.62em 0;
 }
 
-nav#TOC > ul > li > a {
+nav#TOC > ul > li > a,
+nav#TOC > ol > li > a {
     font-weight: 600;
-    font-size: 1.03em;
+    font-size: 1.02em;
 }
 
-nav#TOC ul ul {
-    margin-top: 0.35em;
-    margin-bottom: 0.45em;
-    padding-left: 1.3em;
+nav#TOC ul ul,
+nav#TOC ul ol,
+nav#TOC ol ul,
+nav#TOC ol ol {
+    margin-top: 0.32em;
+    margin-bottom: 0.42em;
+    padding-left: 1.25em;
 }
 
-nav#TOC ul ul li {
+nav#TOC li li {
     margin: 0.18em 0;
 }
 
 nav#TOC a {
     text-decoration: none;
+    color: #1b1b1b;
 }
 
 nav#TOC a:hover {
     text-decoration: underline;
 }
 
-/* footer & navigazione */
+/* Chapter navigation footer */
+
 .chapter-nav {
     margin-top: 2em;
     padding-top: 1em;
@@ -201,18 +261,15 @@ nav#TOC a:hover {
 
 .chapter-nav p {
     margin: 0;
+    text-align: center;
 }
 
 .chapter-nav a {
     text-decoration: none;
 }
 
-.chapter-nav .nav-sep {
-    color: #888;
-}
+/* Images */
 
-
-/* immagini */
 img {
     max-width: 100%;
     height: auto;
@@ -220,59 +277,24 @@ img {
     margin: 1em auto;
 }
 
-.module-separator {
-    margin: 3.5em 0 2.5em 0;
-    padding: 2em 0 1.6em 0;
-    border-top: 2px solid #cfcfcf;
-    border-bottom: 1px solid #e3e3e3;
-    text-align: center;
-    page-break-before: always;
-    break-before: page;
+/* Chapter opening refinement */
+
+h1 + p,
+h1 + ul,
+h1 + ol,
+h1 + table,
+h1 + blockquote,
+h1 + div,
+h2 + p,
+h3 + p {
+    margin-top: 0.35em;
 }
 
-.module-label {
-    margin: 0 0 0.4em 0;
-    font-family: "Helvetica Neue", Arial, sans-serif;
-    font-size: 0.85em;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: #777;
-}
+/* Prevent awkward breaks */
 
-.module-title {
-    margin: 0;
-    font-family: "Helvetica Neue", Arial, sans-serif;
-    font-size: 1.65em;
-    line-height: 1.2;
-    page-break-before: avoid;
-    break-before: avoid;
-}
-
-.book-title-page {
-    text-align: center;
-    margin-top: 6em;
-    margin-bottom: 4em;
-    page-break-after: always;
-    break-after: page;
-}
-
-.book-title-page h1 {
-    font-size: 2.4em;
-    margin-top: 0;
-    margin-bottom: 0.5em;
-    line-height: 1.2;
-    page-break-before: avoid;
-    break-before: avoid;
-}
-
-.book-title-page h3 {
-    font-size: 1.1em;
-    font-weight: 400;
-    color: #555;
-    margin-top: 0;
-    margin-bottom: 2em;
-}
-
-.book-title-page strong {
-    font-size: 1.05em;
+h2, h3, h4,
+table, pre, blockquote,
+.admonition {
+    page-break-inside: avoid;
+    break-inside: avoid;
 }

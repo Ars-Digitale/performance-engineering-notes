@@ -9,24 +9,23 @@ This index provides the complete **English (EN)** structure of the
 
 The guide can be read sequentially or used as a technical reference.
 
-This published documentation currently covers the **core technical body of the guide**,  
-corresponding to **Part III** of the overall editorial structure.
+This published documentation currently covers the **core technical body of the guide**.
 
 ---
 
-<a id="chapter-3-guide-structure"></a>
-## Chapter 3 — Guide structure
+<a id="guide-structure"></a>
+## Guide structure
 
-- [3.1 Foundations](03-01-foundations.md)
-- [3.2 Core metrics and formulas](03-02-core-metrics-and-formulas.md)
-- [3.3 Work of a performance engineer](03-03-work-of-a-performance-engineer.md)
-- [3.4 Types of performance tests](03-04-types-of-performance-tests.md)
-- [3.5 System behavior under load](03-05-system-behavior-under-load.md)
-- [3.6 Concurrency and parallelism](03-06-concurrency-and-parallelism.md)
-- [3.7 Runtime and memory model](03-07-runtime-and-memory-model.md)
-- [3.8 Resource-level performance](03-08-resource-level-performance.md)
-- [3.9 Common performance problems](03-09-common-performance-problems.md)
-- [3.10 Diagnostics and analysis](03-10-diagnostics-and-analysis.md)
-- [3.11 Practical checklists](03-11-practical-checklists.md)
+- [1.1 Foundations](01-01-foundations.md)
+- [1.2 Core metrics and formulas](01-02-core-metrics-and-formulas.md)
+- [1.3 Work of a performance engineer](01-03-work-of-a-performance-engineer.md)
+- [1.4 Types of performance tests](01-04-types-of-performance-tests.md)
+- [1.5 System behavior under load](01-05-system-behavior-under-load.md)
+- [1.6 Concurrency and parallelism](01-06-concurrency-and-parallelism.md)
+- [1.7 Runtime and memory model](01-07-runtime-and-memory-model.md)
+- [1.8 Resource-level performance](01-08-resource-level-performance.md)
+- [1.9 Common performance problems](01-09-common-performance-problems.md)
+- [1.10 Diagnostics and analysis](01-10-diagnostics-and-analysis.md)
+- [1.11 Practical checklists](01-11-practical-checklists.md)
 
 
