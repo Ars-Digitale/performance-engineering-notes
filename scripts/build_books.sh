@@ -23,7 +23,7 @@ INDEX_ANCHOR="book-index"
 
 case "$LANG" in
   en)
-    TITLE="Performance Engineering Guide"
+    TITLE="Performance Engineering Notes"
     BOOK_LIST="$ROOT_DIR/scripts/book-files-en.txt"
     OUTPUT_BASENAME="performance-engineering-guide-en"
     COVER_IMAGE="$ROOT_DIR/covers/generated/performance-en-cover-epub.png"
@@ -56,7 +56,7 @@ It aims to combine:
 The EPUB edition is optimized for digital reading and chapter-based navigation."
     ;;
   fr)
-    TITLE="Guide d’ingénierie de la performance"
+    TITLE="Notes de Performance Engineering"
     BOOK_LIST="$ROOT_DIR/scripts/book-files-fr.txt"
     OUTPUT_BASENAME="performance-engineering-guide-fr"
     COVER_IMAGE="$ROOT_DIR/covers/generated/performance-fr-cover-epub.png"
@@ -89,7 +89,7 @@ Il vise à combiner :
 L’édition EPUB est optimisée pour la lecture numérique et la navigation par chapitres."
     ;;
   it)
-    TITLE="Guida di Ingegneria delle Prestazioni"
+    TITLE="Note di Performance Engineering"
     BOOK_LIST="$ROOT_DIR/scripts/book-files-it.txt"
     OUTPUT_BASENAME="performance-engineering-guide-it"
     COVER_IMAGE="$ROOT_DIR/covers/generated/performance-it-cover-epub.png"

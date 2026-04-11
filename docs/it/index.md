@@ -2,10 +2,10 @@
 
 ---
 
-# Guida al Performance Engineering
+# Note di Performance Engineering
 
-Questo indice fornisce la struttura completa **italiana (IT)** della  
-**Note al Performance Engineering**.
+Questo indice fornisce la struttura completa **italiana (IT)** della guida
+**Note di Performance Engineering**.
 
 La guida può essere letta in modo sequenziale oppure utilizzata come riferimento tecnico.
 

@@ -2,10 +2,10 @@
 
 ---
 
-# Guide de Performance Engineering
+# Notes de Performance Engineering
 
-Cet index fournit la structure complète **française (FR)** du  
-**Guide de Performance Engineering**.
+Cet index fournit la structure complète **française (FR)** du guide
+**Notes de Performance Engineering**.
 
 Le guide peut être lu de manière séquentielle ou utilisé comme référence technique.
 

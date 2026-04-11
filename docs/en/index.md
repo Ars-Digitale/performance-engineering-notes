@@ -2,10 +2,10 @@
 
 ---
 
-# Performance Engineering Guide
+# Performance Engineering Notes
 
-This index provides the complete **English (EN)** structure of the  
-**Performance Engineering Guide**.
+This index provides the complete **English (EN)** structure of the guide 
+**Performance Engineering Notes**.
 
 The guide can be read sequentially or used as a technical reference.
 

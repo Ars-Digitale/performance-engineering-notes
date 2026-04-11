@@ -2,14 +2,14 @@
 
 ---
 
-# Performance Engineering Guide {#book-index}
+# Performance Engineering Notes
 
-This index provides the complete **English (EN)** structure of the  
-**Performance Engineering Guide**.
+This index provides the complete **English (EN)** structure of the guide 
+**Performance Engineering Notes**.
 
 The guide can be read sequentially or used as a technical reference.
 
-This published documentation currently covers the **core technical body of the guide**.
+This published documentation currently covers the **core theoretical body of the guide**.
 
 ---
 
@@ -27,11 +27,4 @@ This published documentation currently covers the **core technical body of the g
 - [1.10 Diagnostics and analysis](#chap-01-10-diagnostics-and-analysis)
 - [1.11 Practical checklists](#chap-01-11-practical-checklists)
 
-
-
----
-
-::: {.chapter-nav}
-◀ | [▲ Index](#book-index) | [1.1 – Foundations ▶](#chap-01-01-foundations)
-:::
 
