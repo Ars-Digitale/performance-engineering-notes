@@ -88,8 +88,8 @@ Use the guide as a **technical reference**:
 | Language | Status | Location |
 |--------|--------|----------|
 | 🇬🇧 English | Complete (reference) | `docs/en/` |
-| 🇮🇹 Italiano | Planned | `docs/it/` |
-| 🇫🇷 Français | Planned | `docs/fr/` |
+| 🇮🇹 Italiano | Complete (reference) | `docs/it/` |
+| 🇫🇷 Français | Complete (reference) | `docs/fr/` |
 
 ---
 
