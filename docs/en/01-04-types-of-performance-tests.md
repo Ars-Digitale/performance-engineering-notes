@@ -6,7 +6,7 @@ This chapter introduces the main categories of performance tests used in perform
 
 Each type of performance test answers a different question about system behavior under load.
 
-Together, they help evaluate performance, stability, scalability, recovery, and capacity in a controlled and measurable way.
+Taken together, they help evaluate system performance, stability, scalability, recovery, and capacity in a controlled and measurable way.
 
 ## Table of Contents
 
@@ -24,9 +24,9 @@ Together, they help evaluate performance, stability, scalability, recovery, and 
 
 ### Definition
 
-Performance testing evaluates how a system behaves under controlled workload conditions.
+Performance testing, as already discussed in the previous paragraphs, evaluates how a system behaves under controlled workload conditions.
 
-It provides measurable data about:
+It provides measurable data on:
 
 - latency  
 - throughput  
@@ -37,7 +37,7 @@ It provides measurable data about:
 
 Performance testing is therefore not only a measurement activity, but also a validation activity.
 
-It is used to compare expected behavior with observed behavior under defined workload conditions.
+It is used to compare expected behavior (defined in the NFRs) with observed behavior under defined workload conditions.
 
 ---
 
@@ -75,7 +75,7 @@ It defines:
 
 (→ [1.2.1 Little’s Law (system-level concurrency)](./01-02-core-metrics-and-formulas.md#121-littles-law-system-level-concurrency))
 
-A workload is not the real production environment itself.
+A workload is not the exact mirror of real production usage in itself.
 
 It is a practical approximation of the most relevant usage patterns.
 
@@ -85,39 +85,37 @@ For this reason, the value of a performance test depends strongly on how realist
 
 ### Controlled conditions
 
-A performance test is meaningful only if the execution conditions are understood.
+A performance test is meaningful only if the execution conditions are well defined and controlled.
 
 This includes:
 
-- the shape of the workload
+- workload definition
 - the duration of the test
 - the environment in which it runs
 - the metrics collected during execution
 
-If these conditions are unclear, results may still produce numbers, but those numbers are difficult to interpret and compare.
+If these conditions are unclear, the results, although still numerical, will have little or no knowledge value or predictive value.
 
-Controlled conditions are what transform a test from a simple exercise into a useful engineering activity.
+Control of the initial conditions is one of those parameters that transforms a test from a simple exercise into an indispensable engineering activity.
 
 ---
 
-### Relationship with the rest of the guide
+Performance testing is therefore the entry point to many of the concepts developed in the rest of this document.
 
-Performance testing is the practical entry point for many of the concepts developed in the rest of the guide.
-
-It exposes:
+As an overall testing practice, it reveals:
 
 - queueing and saturation effects (→ [1.5 System behavior under load](./01-05-system-behavior-under-load.md))
 - concurrency limits (→ [1.6 Concurrency and parallelism](./01-06-concurrency-and-parallelism.md))
 - runtime and memory effects (→ [1.7 Runtime and memory model](./01-07-runtime-and-memory-model.md))
 - resource saturation (→ [1.8 Resource-level performance](./01-08-resource-level-performance.md))
 
-For that reason, test design should always be connected to system reasoning.
+For this reason, test design should always be connected to deep and overall knowledge of the system.
 
 ---
 
 ### Practical meaning
 
-A good performance test does not only answer:
+A good performance test does not answer only:
 
 - “How fast is the system?”
 
@@ -138,7 +136,7 @@ Performance tests are controlled experiments.
 
 They are designed to observe system behavior under specific workload conditions.
 
-Their value lies not only in the measurements they produce, but also in the understanding they provide.
+Their value lies not only in the measurements they produce, but above all in the understanding they provide.
 
 ---
 
@@ -147,7 +145,7 @@ Their value lies not only in the measurements they produce, but also in the unde
 
 ### Definition
 
-**Load testing** evaluates system behavior under expected or typical workload.
+**Load testing** evaluates system behavior under standard or typical workload.
 
 It is the most common and most direct way to validate that a system behaves acceptably under normal operating conditions.
 
@@ -155,7 +153,7 @@ It is the most common and most direct way to validate that a system behaves acce
 
 ### Objective
 
-- verify that the system meets performance requirements  
+- verify that the system satisfies performance requirements  
 - validate latency and throughput targets  
 - observe resource usage under normal conditions  
 
@@ -169,7 +167,7 @@ Load testing answers the question of whether the system behaves correctly in the
 - system operates within its expected range  
 - focus is on steady-state behavior  
 
-The purpose is not to break the system, but to establish whether the system performs correctly under the load it was designed for.
+The purpose is not to bring the system to its limits, but to establish whether it behaves correctly under a (production) load it was designed for.
 
 ---
 
@@ -198,9 +196,9 @@ Load testing provides a baseline:
 - typical resource utilization  
 - expected throughput  
 
-This baseline is essential for comparison with other tests.
+This baseline is essential for comparison with the other tests.
 
-Without a reliable baseline, it is difficult to determine whether behavior observed in stress, spike, soak, or capacity tests is abnormal or simply normal for the system.
+Without a reliable baseline, it is difficult to determine whether behavior observed in stress, spike, soak, or capacity tests is abnormal or simply normal for the system under analysis.
 
 ---
 
@@ -209,11 +207,11 @@ Without a reliable baseline, it is difficult to determine whether behavior obser
 Load testing alone does not determine:
 
 - the maximum system capacity
-- the failure point of the system
+- the system breaking points
 - the long-term stability of the runtime
 - the recovery behavior after abrupt changes in load
 
-A system may pass a load test and still fail under overload, sustained execution, or rapid bursts of traffic.
+A system may pass a load test and still fail under overload, prolonged execution, or rapid bursts of traffic.
 
 For this reason, load testing is necessary but not sufficient.
 
@@ -223,9 +221,9 @@ For this reason, load testing is necessary but not sufficient.
 
 Load testing is the reference point for the rest of performance analysis.
 
-It defines the system’s normal operating behavior and allows later tests to be interpreted in context.
+It defines the system’s normal operating behavior and allows later tests to be interpreted in their context.
 
-If the system already behaves poorly under expected load, there is little value in moving immediately to more advanced test types.
+If the system already behaves poorly under standard load, there is little value in moving immediately to more advanced test types.
 
 ---
 
@@ -254,7 +252,7 @@ It is used to observe what happens when the system is pushed outside its intende
 - observe behavior under overload  
 - detect failure modes  
 
-Stress testing is primarily concerned with limit behavior and degradation under excessive demand.
+Stress testing mainly concerns system behavior at the limit and the degradation of working capacities under load exceeding expected standards.
 
 ---
 
@@ -267,7 +265,7 @@ Stress testing is primarily concerned with limit behavior and degradation under 
 
 The overload may be applied progressively or maintained at a clearly excessive level.
 
-In both cases, the goal is to expose how the system behaves when demand exceeds capacity.
+In both cases, the objective is to expose the way the system behaves when demand exceeds capacity.
 
 ---
 
@@ -306,7 +304,7 @@ Two systems with similar load-test results may behave very differently under str
 
 ### Failure behavior
 
-An important aspect of stress testing is not only whether the system fails, but how it fails.
+An important aspect of stress testing is not only whether and when the system fails, but how it fails.
 
 Relevant questions include:
 
@@ -321,10 +319,10 @@ These questions matter operationally because overload is a realistic scenario in
 
 ### Distinction from capacity testing
 
-Stress testing and capacity testing are related, but they are not identical.
+Stress testing and capacity testing are related, but different.
 
 - **stress testing** focuses on overload behavior and failure modes
-- **capacity testing** focuses on the maximum sustainable load that still meets requirements
+- **capacity testing** focuses on the maximum sustainable load that still satisfies requirements
 
 Stress testing therefore continues beyond the acceptable operating range in order to examine degradation and failure.
 
@@ -339,7 +337,7 @@ Stress testing is useful when the engineering question is not only:
 but also:
 
 - “What happens after it can no longer support the load?”
-- “Does it degrade gracefully?”
+- “Does it degrade gradually?”
 - “Can it recover cleanly?”
 
 These are essential questions for resilience and operational robustness.
@@ -371,16 +369,16 @@ Unlike load testing or gradual stress testing, spike testing focuses on rapid tr
 - evaluate elasticity and recovery  
 - detect transient instability  
 
-Spike testing is especially relevant for systems exposed to burst traffic, campaign peaks, event-driven demand, or short-lived surges in activity.
+Spike testing is particularly relevant for systems exposed to bursty traffic, campaign peaks, event-driven demand, or short-lived surges of activity.
 
 ---
 
 ### Characteristics
 
-- workload increases rapidly in a short time  
+- workload increases rapidly and in a very short time  
 - system must adapt quickly  
 
-The defining characteristic is not only the volume of load, but the speed at which the load changes.
+The defining characteristic is not only the volume of load, but the speed at which load changes.
 
 A system may handle a high load when it is reached gradually, but behave poorly when the same load arrives suddenly.
 
@@ -407,11 +405,11 @@ Additional effects may include:
 
 Spike testing reveals:
 
-- sensitivity to burst traffic  
+- sensitivity to bursty traffic  
 - queueing behavior under sudden load  
 - recovery capability after the spike  
 
-It is valuable because many systems are optimized for steady-state conditions but remain fragile during abrupt transitions.
+This type of testing is valuable because many systems are optimized for steady-state conditions but remain fragile during abrupt transitions.
 
 ---
 
@@ -432,7 +430,7 @@ A system that survives the spike but recovers slowly may still be operationally 
 
 ### Practical interpretation
 
-Spike testing is especially useful for systems that are:
+Spike testing is particularly useful for systems that are:
 
 - externally exposed to bursty traffic
 - dependent on auto-scaling or elastic behavior
@@ -470,7 +468,7 @@ Its purpose is to expose problems that do not appear in short-duration tests.
 - observe stability over time  
 - identify gradual degradation  
 
-Soak testing is less concerned with peak performance and more concerned with consistency, accumulation, and drift.
+Soak testing is less concerned with peak performance and more with consistency, accumulation, and drift.
 
 ---
 
@@ -507,19 +505,19 @@ Additional long-duration symptoms may include:
 
 Soak testing reveals:
 
-- memory leaks  
+- slow memory leaks  
 - resource exhaustion  
 - long-term instability  
 
-It is often the only reliable way to validate whether the system remains healthy during prolonged activity.
+It is often the only reliable way to validate whether the system remains healthy and operable during prolonged activity.
 
-This is essential for production systems expected to run continuously.
+This is essential for production systems that must run continuously.
 
 ---
 
 ### Time-dependent degradation
 
-Soak testing is important because some failures are not threshold-based, but time-based.
+Soak testing is important because some breakdowns are not threshold-based, but time-based.
 
 Examples include:
 
@@ -529,7 +527,7 @@ Examples include:
 - retry patterns slowly increasing pressure
 - caches growing without effective eviction
 
-These issues may not appear in load or stress tests of short duration.
+These issues may not appear in short-duration load tests or stress tests.
 
 ---
 
@@ -539,10 +537,10 @@ A system that performs well for ten minutes but degrades after six hours is not 
 
 Soak testing therefore contributes directly to:
 
-- production readiness
-- runtime confidence
+- validation for production deployment
+- confidence in the runtime
 - long-term reliability assessment
-- infrastructure and runtime dimensioning
+- infrastructure and runtime sizing
 
 It also helps validate that monitoring remains meaningful over long periods of operation.
 
@@ -575,7 +573,7 @@ It validates long-duration behavior and reveals issues caused by accumulation, d
 
 ### Definition
 
-**Capacity testing** determines the maximum workload a system can handle while meeting performance requirements.
+**Capacity testing** determines the maximum workload a system can handle while satisfying performance requirements.
 
 It is used to identify the practical operating limit of the system under acceptable conditions.
 
@@ -583,16 +581,17 @@ It is used to identify the practical operating limit of the system under accepta
 
 ### Objective
 
-- identify maximum sustainable throughput  
+- identify the maximum sustainable throughput  
 - determine safe operating limits  
 - support capacity planning  
 
-Capacity testing is therefore directly related to planning, sizing, forecasting, and operational decision-making.
+Capacity testing is therefore directly linked to planning, sizing, forecasting, and operational decisions.
 
 ---
 
 ### Method
 
+- possible unit tests for dimensional baseline
 - gradually increase workload  
 - monitor latency, throughput, and errors  
 - identify the point where performance degrades  
@@ -644,15 +643,15 @@ It helps answer questions such as:
 - When will scaling be required?
 - Which component constrains capacity first?
 
-This makes capacity testing especially useful for forecasting and operational preparation.
+This makes capacity testing particularly useful for forecasting and operational preparation.
 
 ---
 
 ### Distinction from stress testing
 
-Capacity testing is not about forcing failure for its own sake.
+Capacity testing does not consist in forcing failure for failure’s own sake.
 
-It is about identifying the highest load that still satisfies defined requirements.
+It consists in identifying the highest load that still satisfies defined requirements.
 
 - **capacity testing** stops at or near the acceptable limit
 - **stress testing** continues beyond that limit to examine overload behavior
@@ -673,7 +672,7 @@ It depends on:
 - acceptable error rate
 - resource constraints
 
-For this reason, any capacity number must always be interpreted in the context of the workload and acceptance criteria used during the test.
+For this reason, every capacity value must always be interpreted in the context of the workload and the acceptance criteria used during the test.
 
 ---
 
@@ -694,4 +693,4 @@ It is therefore one of the most decision-oriented forms of performance testing.
 
 Capacity testing answers: *“How far can the system scale before it degrades?”*
 
-It identifies the maximum sustainable operating range, not just the point of failure.
+It identifies the maximum sustainable operating range, not only the point of failure.

@@ -2,9 +2,9 @@
 
 <a id="18-resource-level-performance"></a>
 
-This chapter explains how core system resources behave under load and how they constrain performance.
+This chapter investigates how fundamental system resources behave under load and how they can constrain performance.
 
-It focuses on CPU, I/O, network behavior, and the way bottlenecks emerge when one resource becomes saturated before the others.
+The focus is on CPU, I/O, network, and on the ways in which bottlenecks can emerge when one of the resources becomes saturated before the others.
 
 Understanding resource-level performance is essential because system degradation is often the visible result of resource limits rather than application logic alone.
 
@@ -22,11 +22,11 @@ Understanding resource-level performance is essential because system degradation
 
 ### Definition
 
-The **CPU** is responsible for executing instructions.
+The **CPU** is the component responsible for executing instructions.
 
 CPU performance is determined not only by how fast instructions are executed, but by how execution is scheduled across competing workloads.
 
-This distinction is important because CPU-related degradation is often caused by scheduling pressure, queueing, and contention, not only by raw computational cost.
+This distinction is important because CPU-related degradation is often caused by scheduling pressure, queueing, and contention, rather than only by computational cost.
 
 ---
 
@@ -34,7 +34,7 @@ This distinction is important because CPU-related degradation is often caused by
 
 **CPU utilization** represents how much of the CPU capacity is being used.
 
-High utilization does not necessarily mean a problem.
+High utilization is not necessarily an indication of a possible problem.
 
 **CPU saturation** occurs when:
 
@@ -46,7 +46,7 @@ Key distinction:
 - **high utilization** → CPU is busy  
 - **saturation** → CPU is overloaded  
 
-A system may therefore show high CPU usage and still behave acceptably, as long as runnable work does not accumulate faster than the CPU can process it.
+A system may therefore show high CPU utilization and still continue to behave acceptably, as long as runnable work does not accumulate faster than the CPU can process it.
 
 ---
 
@@ -56,19 +56,19 @@ Threads do not execute continuously.
 
 They are scheduled by the operating system.
 
-At any moment:
+At every moment:
 
 - some threads are **running**
 - some are **waiting** to run (run queue)
 
-When the number of runnable threads exceeds available CPU cores:
+When the number of runnable threads exceeds the number of available CPU cores:
 
 - threads accumulate in the run queue
 - scheduling delays increase
 
-This directly impacts latency (→ [1.5 System behavior under load](./01-05-system-behavior-under-load.md)) and can be reasoned using concurrency relationships (→ [1.2.1 Little’s Law (system-level concurrency)](./01-02-core-metrics-and-formulas.md#121-littles-law-system-level-concurrency)).
+This directly impacts latency (→ [1.5 System behavior under load](./01-05-system-behavior-under-load.md)) and can be investigated using concurrency relationships (→ [1.2.1 Little’s Law (system-level concurrency)](./01-02-core-metrics-and-formulas.md#121-littles-law-system-level-concurrency)).
 
-The run queue is therefore a critical signal of CPU pressure, because it shows not just that the CPU is busy, but that work is waiting to be executed.
+The run queue is therefore a critical signal of CPU pressure, because it shows not only that the CPU is busy, but that there is work waiting to be executed.
 
 ---
 
@@ -86,11 +86,11 @@ procs -----------memory---------- ---swap-- -----io---- -system-- ------cpu-----
 
 Interpretation:
 
-- run queue (`r`) is high → threads waiting for CPU  
-- CPU idle (`id`) is close to zero → no available capacity  
-- CPU usage (`us + sy`) is near saturation  
+- high run queue (`r`) → threads waiting for CPU  
+- CPU idle (`id`) close to zero → no available capacity  
+- CPU utilization (`us + sy`) close to saturation  
 
-This indicates that threads are ready to execute but cannot be scheduled immediately (→ [1.6 Concurrency and parallelism](./01-06-concurrency-and-parallelism.md)).
+This indicates that there are threads ready to run but that cannot be scheduled immediately because of lack of available cores (→ [1.6 Concurrency and parallelism](./01-06-concurrency-and-parallelism.md)).
 
 The important point is that CPU saturation is not defined only by percentage values, but by the presence of runnable work that cannot make progress immediately.
 
@@ -106,7 +106,7 @@ When CPU becomes saturated:
 
 This effect is non-linear (→ [1.5.3 Non-linear degradation](./01-05-system-behavior-under-load.md#153-non-linear-degradation)).
 
-As CPU saturation increases, the system may spend progressively more time waiting to be scheduled rather than performing useful work.
+As CPU saturation increases, the application can spend (progressively) more time waiting to be scheduled for execution rather than performing useful work.
 
 ---
 
@@ -124,7 +124,7 @@ Beyond a certain point:
 
 - adding threads reduces performance instead of improving it (→ [1.6 Concurrency and parallelism](./01-06-concurrency-and-parallelism.md)).
 
-This is why adding more concurrent work does not always produce better throughput.
+This is the reason why adding more concurrent work does not always produce better throughput.
 
 If CPU time becomes the limiting resource, concurrency turns into scheduling pressure.
 
@@ -135,10 +135,10 @@ If CPU time becomes the limiting resource, concurrency turns into scheduling pre
 To reason about CPU behavior:
 
 - distinguish utilization from saturation
-- observe runnable threads, not just %CPU
+- observe runnable threads, not only %CPU
 - correlate CPU metrics with latency (→ [1.2 Core metrics and formulas](./01-02-core-metrics-and-formulas.md))
 
-CPU issues are often not about raw usage, but about **contention for execution**.
+CPU issues often do not concern pure utilization, but **contention for execution**.
 
 It is therefore possible for a system to appear “fully busy” without being unstable, or to appear only moderately busy while already showing scheduling delays.
 
@@ -171,7 +171,7 @@ When threads cannot be scheduled immediately, latency increases even if the syst
 
 Unlike CPU operations, I/O is typically slower and often blocking.
 
-This means that many performance problems involving I/O are dominated by waiting time rather than by active computation.
+This means that many performance problems involving I/O are dominated by waiting time rather than active computation.
 
 ---
 
@@ -184,7 +184,7 @@ I/O performance has two key dimensions:
 
 High throughput does not guarantee low latency.
 
-A system may move a large amount of data overall while individual requests still experience significant wait times.
+A system may move a large total amount of data while individual requests still experience significant wait times.
 
 ---
 
@@ -192,15 +192,15 @@ A system may move a large amount of data overall while individual requests still
 
 Many I/O operations are blocking:
 
-- a thread initiates an operation
-- it waits until completion
+- a thread starts an operation
+- it waits until its completion
 
 During this time:
 
-- the thread is not executing useful work
+- the thread does not perform useful work
 - it may hold resources (locks, connections)
 
-This is one of the main reasons why I/O bottlenecks often propagate into thread pool pressure, queueing, and reduced effective concurrency.
+This is one of the main reasons why I/O bottlenecks often propagate into thread pool pressure, queueing, and reduction of effective concurrency.
 
 ---
 
@@ -208,10 +208,10 @@ This is one of the main reasons why I/O bottlenecks often propagate into thread 
 
 When multiple requests perform I/O:
 
-- operations queue at the device level
+- operations queue at device level
 - waiting time increases
 
-As queue length grows:
+As queue length increases:
 
 - latency increases
 - variability increases (→ [1.5 System behavior under load](./01-05-system-behavior-under-load.md))
@@ -238,12 +238,12 @@ sda              130     90     42.0    98.0
 Interpretation:
 
 - high `await` → requests spend significant time waiting  
-- `%util` near 100% → device is saturated  
+- `%util` close to 100% → device is saturated  
 - increasing latency indicates queue buildup  
 
 This reflects queueing effects (→ [1.2 Core metrics and formulas](./01-02-core-metrics-and-formulas.md)).
 
-The increasing `await` value is especially important, because it often reveals that the device is not merely busy, but increasingly unable to absorb incoming work without additional delay.
+The increasing `await` value is particularly important, because it often reveals that the device is not simply busy, but increasingly unable to absorb incoming work without additional delay.
 
 ---
 
@@ -255,7 +255,7 @@ When I/O becomes a bottleneck:
 - throughput may degrade
 - threads spend more time waiting than executing
 
-This can reduce effective system capacity even when CPU usage remains moderate.
+This can reduce effective system capacity even when CPU utilization remains moderate.
 
 A system can therefore be I/O-bound without appearing CPU-bound.
 
@@ -266,7 +266,7 @@ A system can therefore be I/O-bound without appearing CPU-bound.
 More concurrent requests lead to:
 
 - more I/O operations
-- longer device queues
+- longer queues on the device
 - increased latency
 
 Increasing concurrency does not improve performance if the device is saturated (→ [1.6 Concurrency and parallelism](./01-06-concurrency-and-parallelism.md)).
@@ -279,7 +279,7 @@ Beyond a certain point, additional concurrency only increases waiting and worsen
 
 To reason about I/O behavior:
 
-- focus on latency (`await`), not only throughput  
+- focus on latency (`await`), not only on throughput  
 - identify queue buildup  
 - correlate I/O wait with application latency (→ [1.5 System behavior under load](./01-05-system-behavior-under-load.md))  
 
@@ -291,9 +291,9 @@ I/O problems are often misunderstood because throughput may remain acceptable wh
 
 I/O performance should be evaluated as a waiting system.
 
-The core question is not only how many operations per second the device can support, but how long operations wait when the workload intensifies.
+The central question is not only how many operations per second the device can support, but how long operations wait when workload intensifies.
 
-A storage subsystem that performs well at low concurrency may degrade sharply when requests begin to accumulate.
+A storage subsystem that behaves well at low concurrency may degrade sharply when requests begin to accumulate.
 
 ---
 
@@ -314,11 +314,11 @@ As queues grow, latency increases and system responsiveness degrades.
 
 It depends on both latency and bandwidth.
 
-In distributed systems, network behavior is often a major contributor to end-to-end response time, especially when requests traverse multiple services.
+In distributed systems, network behavior is often a main contributor to end-to-end response time, especially when requests cross multiple services.
 
 ---
 
-### Latency and round trips
+### Latency and round trip
 
 Network communication often requires multiple exchanges.
 
@@ -330,7 +330,7 @@ Each exchange introduces:
 
 Multiple round trips amplify total latency (→ [1.5 System behavior under load](./01-05-system-behavior-under-load.md)).
 
-This is especially important in request chains where each service call depends on the response of the previous one.
+This is particularly important in request chains in which each service call depends on the response of the previous one.
 
 Even small delays can accumulate significantly across multiple network hops.
 
@@ -338,16 +338,16 @@ Even small delays can accumulate significantly across multiple network hops.
 
 ### Bandwidth limitations
 
-Bandwidth defines how much data can be transferred per unit of time.
+Bandwidth defines the quantity of data that can be transferred per unit of time.
 
 When bandwidth is limited:
 
-- large payloads take longer to transfer
+- large payloads require more time to be transferred
 - throughput becomes constrained
 
-Bandwidth therefore matters most when the amount of transferred data becomes large enough to dominate communication time.
+Bandwidth therefore matters above all when the quantity of transferred data becomes large enough to dominate communication time.
 
-Latency, by contrast, matters even for small payloads when many round trips are required.
+Latency, by contrast, also matters for small payloads when many round trips are required.
 
 ---
 
@@ -364,13 +364,13 @@ This leads to:
 - increased latency
 - packet delays or retransmissions (→ [1.5.5 Tail latency amplification](./01-05-system-behavior-under-load.md#155-tail-latency-amplification))
 
-Under load, network variability becomes especially important because occasional delays can affect only part of the traffic while still degrading overall user experience.
+Under load, network variability becomes particularly important because occasional delays can affect only part of the traffic while still degrading the overall user experience.
 
 ---
 
 ### Observable behavior (example)
 
-A system under network pressure shows connection and queue buildup.
+A system under network pressure shows accumulation of connections and queues.
 
 ```bash
 $ ss -s
@@ -389,7 +389,7 @@ Interpretation:
 - large number of established connections → high concurrency  
 - accumulation of connections may indicate slow processing or network delays  
 
-A growing number of open connections may indicate that requests are not completing quickly enough, either because downstream services are slow or because the system is unable to process network work efficiently.
+A growing number of open connections may indicate that requests are not completing quickly enough, either because downstream services are slow or because the system is not able to process network work efficiently.
 
 ---
 
@@ -401,7 +401,7 @@ Network constraints lead to:
 - higher variability
 - cascading delays across services
 
-In distributed architectures, these delays often propagate and amplify because one slow network interaction can delay many dependent operations.
+In distributed architectures, these delays often propagate and amplify because a single slow network interaction can delay many dependent operations.
 
 ---
 
@@ -420,7 +420,7 @@ A system with many service boundaries may therefore suffer from network-induced 
 
 To reason about network behavior:
 
-- consider number of round trips  
+- consider the number of round trips  
 - observe connection patterns  
 - correlate network activity with latency  
 
@@ -438,7 +438,7 @@ These are related but not identical problems.
 
 Network performance is not only about how fast bytes move.
 
-It is also about how often systems communicate, how many dependencies are involved, and how delays in one component affect others.
+It is also about how often systems communicate, how many dependencies are involved, and how delays in one component influence the others.
 
 In many service architectures, reducing unnecessary round trips can improve latency more effectively than simply increasing bandwidth.
 
@@ -446,7 +446,7 @@ In many service architectures, reducing unnecessary round trips can improve late
 
 ### Key idea
 
-**Network performance is driven by latency and communication patterns**.
+**Network performance is driven by latency and by communication patterns**.
 
 Under load, small delays accumulate and significantly impact response time.
 
@@ -459,9 +459,9 @@ Under load, small delays accumulate and significantly impact response time.
 
 A **bottleneck** is the resource that limits system performance.
 
-Saturation occurs when that resource operates at or near its capacity.
+Saturation occurs when that resource operates at full capacity or in ranges close to its capacity limit.
 
-This is the point where additional workload no longer translates into proportional useful throughput.
+This is the point at which additional workload no longer translates into proportional useful throughput.
 
 ---
 
@@ -472,11 +472,11 @@ At any moment, system performance is constrained by one dominant resource:
 - CPU
 - I/O
 - network
-- memory (indirectly through GC → [1.7 Runtime and memory model](./01-07-runtime-and-memory-model.md))
+- memory (indirectly via GC → [1.7 Runtime and memory model](./01-07-runtime-and-memory-model.md))
 
 Identifying this resource is essential.
 
-Without identifying the actual limiting resource, optimization efforts often target symptoms rather than causes.
+Without identifying the real limiting resource, optimization efforts often target symptoms rather than causes.
 
 ---
 
@@ -490,7 +490,7 @@ Improving non-limiting resources has little effect.
 
 This principle is one of the reasons why performance engineering must remain system-oriented.
 
-Many resources may appear active, but only one usually determines the current capacity limit.
+Many resources may appear active, but only one, generally, determines the current capacity limit.
 
 ---
 
@@ -504,7 +504,7 @@ When a resource becomes saturated:
 
 This can propagate through the system (→ [1.5 System behavior under load](./01-05-system-behavior-under-load.md)).
 
-A local bottleneck can therefore become a system-wide problem as delays spread to callers, workers, pools, and dependent services.
+A local bottleneck can therefore become a problem extended to the whole system, since delays spread to callers, workers, pools, and dependent services.
 
 ---
 
@@ -512,13 +512,13 @@ A local bottleneck can therefore become a system-wide problem as delays spread t
 
 Resources are not independent:
 
-- slow I/O increases thread wait time → affects CPU scheduling (→ [1.8.1 CPU behavior](#181-cpu-behavior))  
-- network delays increase request lifetime → increases memory usage (→ [1.7 Runtime and memory model](./01-07-runtime-and-memory-model.md))  
-- CPU saturation delays processing → increases queue sizes (→ [1.2.1 Little’s Law (system-level concurrency)](./01-02-core-metrics-and-formulas.md#121-littles-law-system-level-concurrency))  
+- slow I/O increases thread waiting time → affects CPU scheduling (→ [1.8.1 CPU behavior](#181-cpu-behavior))  
+- network delays increase request duration → increase memory usage (→ [1.7 Runtime and memory model](./01-07-runtime-and-memory-model.md))  
+- CPU saturation delays processing → increases queue size (→ [1.2.1 Little’s Law (system-level concurrency)](./01-02-core-metrics-and-formulas.md#121-littles-law-system-level-concurrency))  
 
-This interaction explains why bottlenecks often move or appear coupled under changing workload conditions.
+This interaction explains why bottlenecks often move or appear coupled as workload conditions vary.
 
-The limiting factor may shift as one part of the system is improved or as workload composition changes.
+The limiting factor may change when one part of the system is improved or when workload composition changes.
 
 ---
 
@@ -526,9 +526,9 @@ The limiting factor may shift as one part of the system is improved or as worklo
 
 Common signs of bottlenecks:
 
-- CPU near saturation with high run queue  
-- I/O latency increasing with high device utilization  
-- network delays with growing connection counts  
+- CPU close to saturation with high run queue  
+- increasing I/O latency with high device utilization  
+- network delays with growing connection count  
 
 These patterns are useful because they connect system-level symptoms with specific resource behaviors.
 
@@ -542,14 +542,14 @@ When a bottleneck is reached:
 
 - throughput stops increasing
 - latency grows rapidly
-- system becomes unstable under further load
+- the system becomes unstable under additional load
 
 This corresponds to:
 
 - non-linear degradation (→ [1.5.3 Non-linear degradation](./01-05-system-behavior-under-load.md#153-non-linear-degradation))  
 - throughput collapse (→ [1.5.4 Throughput collapse](./01-05-system-behavior-under-load.md#154-throughput-collapse))  
 
-At this stage, additional demand often worsens the situation rather than increasing useful output.
+At this stage, additional demand often worsens the situation instead of increasing useful output.
 
 ---
 
@@ -561,7 +561,7 @@ To analyze performance:
 - correlate resource metrics with latency  
 - focus optimization on the limiting factor  
 
-A correct diagnosis therefore depends on understanding not just which resources are busy, but which one is currently controlling system behavior.
+A correct diagnosis therefore depends on understanding not only which resources are busy, but which of them is currently determining the behavior of the entire system.
 
 ---
 
@@ -569,7 +569,7 @@ A correct diagnosis therefore depends on understanding not just which resources 
 
 Bottleneck analysis is the bridge between observation and action.
 
-The purpose is not merely to collect CPU, I/O, or network metrics, but to determine which resource is constraining useful work at the current operating point.
+The purpose is not simply to collect CPU, I/O, or network metrics, but to determine which resource is constraining useful work at the current operating point.
 
 Once that resource is identified, optimization becomes meaningful.
 

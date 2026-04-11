@@ -2,11 +2,11 @@
 
 <a id="15-system-behavior-under-load"></a>
 
-This chapter explains how systems behave as workload increases and capacity limits are approached.
+This chapter analyzes system behavior as workload increases and as systems approach their capacity limits.
 
-It focuses on the main mechanisms that cause degradation under load, including **saturation**, **queueing**, **throughput loss**, and **tail latency amplification**.
+It focuses on the main mechanisms that can cause degradation under load, including **saturation**, **queueing**, **throughput loss**, and **tail latency amplification**.
 
-These concepts are central to performance engineering because they explain why systems often appear stable at low load and become unstable near their limits.
+These concepts are central in performance engineering because they analyze why systems may appear stable under low load and become unstable near their capacity limits.
 
 ## Table of Contents
 
@@ -23,12 +23,12 @@ These concepts are central to performance engineering because they explain why s
 
 ### Definition
 
-A system operates under load, but it has a finite capacity.
+A system operates under a workload, but it has a well-defined capacity.
 
 - **Load**: the amount of work applied to the system (e.g. requests per second, concurrent users)
 - **Capacity**: the maximum amount of work the system can handle while remaining stable
 
-Understanding the relationship between load and capacity is fundamental to performance engineering.
+Understanding the relationship between load and capacity is fundamental in performance engineering.
 
 It defines the operating envelope of the system and determines when behavior is predictable and when degradation begins.
 
@@ -56,14 +56,15 @@ When load approaches capacity:
 
 This transition is one of the most important aspects of performance analysis.
 
-A system rarely moves directly from “healthy” to “failed.”  
+A system rarely moves directly from “stable” to “problematic”.
+  
 It usually passes through a region of increasing instability and reduced efficiency.
 
 ---
 
-### Capacity is not a fixed number
+### Capacity is not a fixed value
 
-Capacity is often misunderstood as a single value.
+Capacity is often misunderstood as a restricted set of values.
 
 In reality, it depends on:
 
@@ -75,7 +76,7 @@ In reality, it depends on:
 A system may handle:
 
 - 100 req/s for simple requests
-- but only 20 req/s for complex ones
+- but only 20 req/s for complex requests
 
 Capacity is therefore always contextual.
 
@@ -85,7 +86,7 @@ It must be understood in relation to a specific workload, environment, and accep
 
 ### Effective capacity
 
-Capacity must be defined under constraints.
+Capacity must be defined under well-defined constraints.
 
 Typical criteria:
 
@@ -103,7 +104,7 @@ A theoretical maximum that produces unacceptable latency or instability is not u
 
 ### Practical implication
 
-Capacity cannot be assumed.
+Capacity cannot be assumed a priori.
 
 It must be:
 
@@ -133,7 +134,7 @@ As load increases:
 - waiting time grows
 - response time degrades
 
-This relationship is one of the foundations of understanding behavior under load.
+This relationship constitutes one of the foundations for understanding behavior under load.
 
 ---
 
@@ -145,9 +146,9 @@ They determine:
 
 - whether the system operates with headroom
 - whether queueing is likely to appear
-- how much margin exists before instability begins
+- how much margin exists before instability appears
 
-In performance engineering, knowing that a system “works” is not enough.
+In performance engineering, knowing that a system “works” is not sufficient.
 
 What matters is knowing under which load conditions it remains stable and how close it is to its effective capacity.
 
@@ -155,14 +156,14 @@ What matters is knowing under which load conditions it remains stable and how cl
 
 ### Key idea
 
-A system does not fail when it reaches capacity.
+A system does not break when it reaches capacity.
 
-It starts to degrade before that point.
+It begins to degrade before that point.
 
 The goal of performance engineering is to identify:
 
-- where capacity lies
-- how the system behaves near it
+- where the capacity limits lie
+- how the system behaves near them
 - how much margin is required
 
 --- 
@@ -174,11 +175,11 @@ The goal of performance engineering is to identify:
 
 **Saturation** occurs when a resource is busy most or all of the time.
 
-**Queueing** occurs when incoming work cannot be processed immediately and must wait.
+**Queueing** occurs when incoming work cannot be processed immediately and must be placed on hold: in a queue.
 
-These two phenomena are tightly connected.
+These two phenomena are closely related.
 
-They are among the most important mechanisms behind performance degradation in real systems.
+They are among the most important mechanisms underlying performance degradation in real systems.
 
 ---
 
@@ -186,7 +187,7 @@ They are among the most important mechanisms behind performance degradation in r
 
 A resource becomes saturated when:
 
-- its utilization approaches its limit
+- its utilization approaches the limit
 - it has little or no idle time
 
 Typical examples:
@@ -200,7 +201,7 @@ At this point:
 - new requests cannot be processed immediately
 - they must wait
 
-Saturation does not necessarily mean total failure.
+Saturation does not necessarily mean there is a problem.
 
 It means the system has lost processing headroom and is no longer able to absorb additional work without delay.
 
@@ -208,7 +209,7 @@ It means the system has lost processing headroom and is no longer able to absorb
 
 ### Queue formation
 
-When requests arrive faster than they can be processed:
+When work requests arrive faster than they can be processed:
 
 - a queue forms
 - waiting time increases
@@ -236,7 +237,7 @@ As utilization increases:
 
 Small increases in load can cause large increases in latency.
 
-This is why systems often appear stable for a long time and then degrade suddenly near saturation.
+This explains why systems often appear stable for a long time and then degrade suddenly near the saturation threshold.
 
 ---
 
@@ -252,7 +253,7 @@ As utilization approaches its limit:
 - queues grow
 - latency becomes unstable
 
-The important point is not only that a resource is “busy,” but that once it becomes continuously busy, incoming work begins to accumulate.
+The important point is not that a resource is “busy,” but that when it is persistently busy, incoming work begins to accumulate.
 
 ---
 
@@ -263,7 +264,7 @@ Queueing is often the main cause of performance degradation.
 Symptoms include:
 
 - sudden increase in response time
-- long-tail latency (p95, p99)
+- high tail latency (p95, p99)
 - growing queues (threads, connections, requests)
 
 Even if:
@@ -271,9 +272,9 @@ Even if:
 - CPU is not fully saturated
 - average latency seems acceptable
 
-Queueing may still be the dominant source of delay.
+queueing may still be the dominant source of delay.
 
-This is especially common in systems with shared pools, blocking operations, or dependency bottlenecks.
+This is particularly common in systems with shared pools, blocking operations, or dependency bottlenecks.
 
 ---
 
@@ -290,7 +291,7 @@ At low load:
 
 As load increases:
 
-- requests start waiting
+- requests begin to wait
 - response time becomes:
 
   10 ms (service) + waiting time
@@ -300,7 +301,7 @@ At high load:
 - waiting time dominates
 - response time increases rapidly
 
-This example illustrates why latency growth under load is often caused more by waiting than by work itself.
+This example aims to illustrate why latency growth under load is often caused more by waiting than by the work itself.
 
 ---
 
@@ -310,7 +311,7 @@ Saturation is the condition.
 
 Queueing is the consequence.
 
-The system does not slow down primarily because each request requires more computation, but because more requests are competing for the same limited resources.
+The system does not slow down because each request requires more computation, but because more requests are competing for the same limited resources.
 
 This distinction is essential:
 
@@ -329,7 +330,7 @@ Queueing increases waiting time.
 
 Waiting time dominates response time.
 
-This is the primary mechanism behind performance degradation under load.
+This is the main mechanism underlying performance degradation under load.
 
 ---
 
@@ -340,15 +341,15 @@ This is the primary mechanism behind performance degradation under load.
 
 System performance does not degrade linearly as load increases.
 
-Instead, degradation follows a non-linear pattern, especially near capacity limits.
+Rather, degradation follows a non-linear pattern, especially near capacity limits.
 
-This means that the relationship between load and response time is often smooth at first and then sharply unstable near saturation.
+This means that the relationship between load and response time is often initially regular and then strongly unstable near saturation.
 
 ---
 
 ### Linear vs non-linear behavior
 
-At low to moderate load:
+At low or moderate load:
 
 - throughput increases proportionally with load
 - latency remains relatively stable
@@ -357,7 +358,7 @@ In this region, the system appears predictable.
 
 ---
 
-As load approaches capacity:
+When load approaches capacity:
 
 - small increases in load produce large increases in latency
 - variability increases
@@ -373,7 +374,7 @@ It begins to react disproportionately to additional work.
 
 ### Root cause
 
-Non-linear degradation is primarily caused by:
+Non-linear degradation is mainly caused by:
 
 - queueing effects (→ [1.5.2 Saturation and queueing](#152-saturation-and-queueing))
 - high resource utilization
@@ -384,7 +385,7 @@ As utilization increases:
 - waiting time grows disproportionately
 - response time becomes dominated by delays rather than service
 
-This explains why degradation often accelerates suddenly rather than gradually.
+This explains why degradation often accelerates suddenly rather than growing gradually.
 
 ---
 
@@ -393,8 +394,8 @@ This explains why degradation often accelerates suddenly rather than gradually.
 Typical symptoms include:
 
 - rapid increase in p95 and p99 latency
-- widening gap between average and tail latency
-- increased variance in response times
+- widening gap between average latency and tail latency
+- increase in response-time variance
 - intermittent errors or timeouts
 
 These effects often appear suddenly.
@@ -411,12 +412,12 @@ It is common to assume:
 
 In reality:
 
-- performance may remain stable up to a point
+- performance may remain stable up to a certain point
 - then degrade sharply beyond that point
 
 There is often no gradual transition.
 
-This is one of the most common mistakes in capacity planning and performance expectations.
+This constitutes one of the most common mistakes in capacity planning and performance expectations.
 
 ---
 
@@ -431,13 +432,13 @@ A system behaves as follows:
 
 The degradation is not proportional to load.
 
-The last increments in load have a much larger effect than the earlier ones.
+The last increments in load have a much greater effect than the previous ones.
 
 ---
 
 ### Practical implication
 
-Capacity planning must consider non-linear behavior.
+Capacity planning must take non-linear behavior into account.
 
 Operating a system near its limits leads to:
 
@@ -445,7 +446,7 @@ Operating a system near its limits leads to:
 - unstable performance
 - poor user experience
 
-Systems should operate with a margin below capacity.
+Systems should operate with a reasonable safety margin below capacity.
 
 That margin is not optional.
 
@@ -460,7 +461,7 @@ Non-linear degradation is the visible effect of:
 - increasing utilization (→ [1.2.2 Utilization Law](01-02-core-metrics-and-formulas.md#122-utilization-law-resource-level-busy-time))
 - growing queueing (→ [1.5.2 Saturation and queueing](#152-saturation-and-queueing))
 
-It is therefore a system-level consequence of mechanisms already introduced in the previous sections.
+It is therefore a system-level consequence of mechanisms already introduced in previous sections.
 
 ---
 
@@ -468,12 +469,12 @@ It is therefore a system-level consequence of mechanisms already introduced in t
 
 Non-linear degradation explains why systems should not be operated too close to their theoretical maximum.
 
-A small operational margin can be the difference between:
+An adequate operational margin can make the difference between:
 
 - stable performance
 - unpredictable degradation
 
-This is also why average resource usage alone is often misleading when assessing production safety.
+This also explains why average resource usage alone is often misleading when assessing production safety.
 
 ---
 
@@ -481,9 +482,9 @@ This is also why average resource usage alone is often misleading when assessing
 
 Performance degradation is not gradual.
 
-It accelerates as the system approaches its limits.
+It accelerates as the system approaches its own limits.
 
-Understanding this non-linearity is essential to avoid operating systems too close to capacity.
+Understanding this non-linearity is essential to avoid operating systems too close to their capacity limits.
 
 ---
 
@@ -492,11 +493,11 @@ Understanding this non-linearity is essential to avoid operating systems too clo
 
 ### Definition
 
-**Throughput collapse** occurs when increasing load no longer increases throughput, and may even reduce it.
+**Throughput collapse** occurs when increasing load no longer increases throughput and may even reduce it.
 
-Instead of scaling with demand, the system becomes less efficient as load grows.
+Instead of scaling with demand, the system becomes less efficient as load increases.
 
-This is one of the clearest signs that the system is operating beyond its effective capacity.
+This is one of the clearest signals that the system is operating beyond its effective capacity.
 
 ---
 
@@ -505,7 +506,7 @@ This is one of the clearest signs that the system is operating beyond its effect
 Under normal conditions:
 
 - increasing load increases throughput
-- until the system approaches capacity
+- until the system approaches its capacity limits
 
 However, beyond a certain point:
 
@@ -513,9 +514,9 @@ However, beyond a certain point:
 - may plateau or decrease
 - latency increases significantly
 
-This is throughput collapse.
+This is the so-called throughput collapse.
 
-More incoming work does not translate into more completed work.
+More incoming work does not translate into an equal amount of completed work.
 
 ---
 
@@ -529,12 +530,12 @@ Throughput collapse is typically caused by:
 - retry amplification
 - inefficient scheduling or locking
 
-As the system becomes overloaded:
+When the system becomes overloaded:
 
 - more time is spent managing contention than doing useful work
 - effective processing capacity decreases
 
-This is the key reason why more demand can produce less output.
+This is the key reason why greater demand can produce less output.
 
 ---
 
@@ -551,7 +552,7 @@ Queueing can therefore:
 - increase latency
 - reduce effective throughput
 
-This is especially visible when the system spends increasing time handling backlog rather than making forward progress.
+This is particularly visible when the system spends more and more time managing backlog instead of making real progress.
 
 ---
 
@@ -568,7 +569,7 @@ In extreme cases:
 
 - the system spends more time coordinating than processing
 
-This leads to reduced throughput.
+This leads to a reduction in throughput.
 
 The system remains active, but its activity becomes increasingly unproductive.
 
@@ -589,7 +590,7 @@ This feedback loop can:
 - accelerate collapse
 - make recovery difficult
 
-Retry behavior is therefore not only a symptom response, but also a frequent cause of worsening overload.
+Retry behavior is therefore not only a response to symptoms, but also a frequent cause of worsening overload.
 
 ---
 
@@ -597,12 +598,12 @@ Retry behavior is therefore not only a symptom response, but also a frequent cau
 
 Typical symptoms include:
 
-- throughput plateau or decrease despite increased load
+- throughput that plateaus or decreases despite increasing load
 - sharp increase in latency
-- rising error rates (timeouts, 5xx)
+- increasing error rates (timeouts, 5xx)
 - unstable or oscillating behavior
 
-At this stage, the system may appear busy but is no longer scaling usefully.
+At this stage, the system may appear busy but is no longer scaling in a useful way.
 
 ---
 
@@ -617,7 +618,7 @@ A system behaves as follows:
 
 Increasing load reduces effective throughput.
 
-This is a direct indicator that overload is harming useful work.
+This is a direct indicator that overload is “damaging” useful work.
 
 ---
 
@@ -653,17 +654,15 @@ It can therefore be understood as an advanced stage of overload behavior.
 
 ### Practical interpretation
 
-A system does not always process more work when more work is applied.
+A system does not always process more work when additional work is applied to it.
 
-At some point, additional work becomes destructive rather than productive.
+At a certain point, additional work becomes destructive rather than productive.
 
-Recognizing this transition is essential in performance engineering, because it marks the difference between heavy load and overload.
+Recognizing this transition is essential in performance engineering, because it marks the difference between high load and overload.
 
 ---
 
 ### Key idea
-
-A system does not always process more work when more work is applied.
 
 Beyond a certain point, additional load reduces the system’s ability to process requests.
 
@@ -680,7 +679,7 @@ Understanding throughput collapse is essential to avoid overload conditions.
 
 While average latency may appear acceptable, a subset of requests becomes significantly slower.
 
-This effect is one of the most important indicators of degraded user experience and hidden instability.
+This effect constitutes one of the most important indicators of degraded user experience and hidden instability.
 
 ---
 
@@ -696,7 +695,7 @@ Percentiles reveal distribution:
 Under load:
 
 - average latency may increase moderately
-- tail latency can increase dramatically
+- tail latency may increase drastically
 
 → [1.2.7 Percentiles](01-02-core-metrics-and-formulas.md#127-percentiles-p50-p95-p99)
 
@@ -706,7 +705,7 @@ For this reason, averages alone are not sufficient to assess real performance qu
 
 ### Root causes
 
-Tail latency amplification is primarily driven by:
+Tail latency amplification is mainly driven by:
 
 - queueing delays
 - contention on shared resources
@@ -718,11 +717,11 @@ Even small delays in some components can:
 - propagate through the system
 - amplify end-to-end latency
 
-Tail latency is therefore often an emergent effect, not just a local one.
+Tail latency is therefore often an emergent effect, not only a local one.
 
 ---
 
-### Distributed systems effect
+### Effect in distributed systems
 
 In systems with multiple components:
 
@@ -734,7 +733,7 @@ As the number of dependencies increases:
 - the probability of a slow request increases
 - tail latency becomes more pronounced
 
-This is one of the reasons why tail latency is especially important in distributed architectures.
+This is one of the reasons why tail latency is particularly important in distributed architectures.
 
 ---
 
@@ -751,7 +750,7 @@ This leads to:
 - a widening gap between average and p95/p99
 - unpredictable response times for a subset of users
 
-The system may therefore appear mostly stable while still producing unacceptable experience for a meaningful fraction of requests.
+The system may therefore appear mostly stable while still producing an unacceptable experience for a significant fraction of requests.
 
 ---
 
@@ -768,7 +767,7 @@ This can be misleading:
 - the system appears “mostly fine”
 - but user experience is degraded
 
-This is why tail metrics are essential in performance testing and production monitoring.
+This explains why queue metrics are essential in performance testing and production monitoring.
 
 ---
 
@@ -788,7 +787,7 @@ In many user-facing systems, this small percentage is enough to create visible d
 
 ### Practical implication
 
-Performance evaluation must consider **tail latency**.
+Performance evaluation must take **tail latency** into account.
 
 Relying on averages can:
 
@@ -797,7 +796,7 @@ Relying on averages can:
 
 Systems should be designed and tested to:
 
-- control tail behavior
+- control queue behavior
 - limit variability under load
 
 This is particularly important for distributed systems, APIs, and interactive applications.

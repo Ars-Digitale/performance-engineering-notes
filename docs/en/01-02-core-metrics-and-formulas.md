@@ -2,7 +2,7 @@
 
 <a id="12-core-metrics-and-formulas"></a>
 
-A compact reference of the main formulas used in **application + system performance engineering**.
+This document presents a concise reference of the main formulas used in **application + system performance engineering**.
 
 These formulas formalize the concepts introduced in:
 
@@ -10,7 +10,7 @@ These formulas formalize the concepts introduced in:
 
 They should be read as a complement to the conceptual model, not in isolation.
 
-They provide the quantitative basis used to reason about system behavior, validate assumptions, and interpret performance test results.
+They provide the quantitative basis used to reason about system behavior, validate hypotheses, and interpret performance test results.
 
 
 ## Table of Contents
@@ -43,7 +43,7 @@ They provide the quantitative basis used to reason about system behavior, valida
 | `V`        | **average number of visits** to a resource per request	|
 | `D`        | **service demand** on a resource (seconds per request)	|
 
-This notation is used consistently across the guide and allows formulas to be applied in a uniform way across different contexts.
+This notation is used consistently throughout the guide and allows formulas to be applied uniformly across different contexts.
 
 ---
 
@@ -51,37 +51,42 @@ This notation is used consistently across the guide and allows formulas to be ap
 ## 1.2.1 Little’s Law (system-level concurrency)
 
 ### Definition
-Relates average **concurrency** to **throughput** and **time in system**.
+
+This law relates average **concurrency** to **throughput** and **time in system**.
 
 ### Formula
+
 $$
 L = \lambda \cdot W
 $$
 
 ### Where
+
 - `L` = average number of requests in the system (in-flight / concurrency)
 - `λ` = arrival rate / throughput (requests/s)
 - `W` = average time in system (s) (often the average end-to-end response time)
 
 ### Practical meaning
-If you know throughput and average response time, you can estimate how many requests are concurrently “in flight”.
+
+If `throughput` and `average response time` are known, the number of requests that are simultaneously “in flight” in the system can be estimated.
 
 This makes Little’s Law one of the most useful tools for reasoning about system load and concurrency.
 
 ### Example
+
 If `λ = 200 req/s` and `W = 0.15 s`:
 
 $$
 L = 200 \cdot 0.15 = 30
 $$
 
-About **30** requests are in flight on average.
+On average, there are about **30** requests in flight.
 
 ---
 
 ### Practical interpretation
 
-Little’s Law connects three observable quantities:
+Little’s Law links three observable quantities:
 
 - throughput  
 - latency  
@@ -93,7 +98,7 @@ This allows:
 - validating system behavior  
 - detecting inconsistencies in metrics  
 
-It is widely used in performance engineering, capacity planning, and system diagnostics.
+This law is extensively used in performance engineering, capacity planning, and system diagnostics.
 
 ---
 
@@ -101,23 +106,28 @@ It is widely used in performance engineering, capacity planning, and system diag
 ## 1.2.2 Utilization Law (resource-level busy time)
 
 ### Definition
-Utilization is the **fraction of time** a *single resource* is busy during a fixed interval (typically 1 second).  
-It is “busy time percentage”.
+
+Utilization is the **fraction of time** during which a *single resource* is busy over a fixed time interval (typically 1 second).  
+It measures the “busy time percentage”.
 
 ### Formula
+
 $$
 U = X \cdot S
 $$
 
 ### Where
+
 - `U` = utilization (0–1)
 - `X` = throughput observed by that resource (req/s)
 - `S` = mean service time at that resource (s/req)
 
 ### Resource
+
 A **single service unit**, e.g. CPU core, thread/worker, DB connection, etc.
 
 ### Example
+
 A DB worker handles `50 req/s`, each query takes `10 ms = 0.01 s`:
 
 $$
@@ -138,7 +148,7 @@ As utilization approaches 1:
 - latency grows non-linearly  
 - system stability decreases  
 
-This makes utilization one of the most important signals when diagnosing bottlenecks.
+This makes it one of the most important signals when diagnosing bottlenecks.
 
 ---
 
@@ -146,21 +156,26 @@ This makes utilization one of the most important signals when diagnosing bottlen
 ## 1.2.3 Service time vs response time (queueing)
 
 ### Definition
+
 Response time at a resource includes:
+
 - service time (actual work)
 - queue time (waiting)
 
 ### Formula
+
 $$
 R = S + W_q
 $$
 
 ### Where
+
 - `R`  = response time at the resource
 - `S`  = service time
 - `W_q` = waiting time in queue
 
 ### Practical meaning
+
 As utilization approaches saturation, queueing grows non-linearly and **dominates** response time, causing **long-tail latency**.
 
 ---
@@ -174,12 +189,12 @@ In many real systems:
 - service time remains relatively stable  
 - waiting time increases rapidly  
 
-As a result:
+As a consequence:
 
 - response time is dominated by queueing  
 - latency becomes unpredictable  
 
-Understanding this distinction is essential for diagnosing performance issues.
+This is a key point in diagnosing performance issues.
 
 ---
 
@@ -187,7 +202,8 @@ Understanding this distinction is essential for diagnosing performance issues.
 ## 1.2.4 Service Demand (visits × service time)
 
 ### Definition
-Total service required on a resource per request, accounting for multiple visits.
+
+Total service required from a resource per request, taking multiple visits into account.
 
 ### Formula
 $$
@@ -200,7 +216,8 @@ $$
 - `S` = service time per visit (s)
 
 ### Example
-A request performs `V = 3` DB queries, each takes `S = 5 ms = 0.005 s`:
+
+A request performs `V = 3` DB queries, each taking `S = 5 ms = 0.005 s`:
 
 $$
 D = 3 \cdot 0.005 = 0.015 \text{ s} = 15 \text{ ms}
@@ -210,11 +227,11 @@ $$
 
 ### Practical interpretation
 
-Service demand represents the total work required from a resource per request.
+Service demand represents the total work required from a resource for each request.
 
 It is particularly useful for:
 
-- identifying heavily used resources  
+- identifying the most heavily used resources  
 - estimating capacity limits  
 - understanding scaling behavior  
 
@@ -226,12 +243,14 @@ Reducing service demand is often more effective than increasing raw capacity.
 ## 1.2.5 Throughput
 
 ### Definition
+
 Requests completed per unit of time.
 
 ### Formula
 **Formula:** `X = N / T`
 
 ### Where
+
 - `N` = number of completed requests
 - `T` = observation window (seconds)
 
@@ -239,7 +258,7 @@ Requests completed per unit of time.
 
 ### Practical interpretation
 
-Throughput is one of the primary indicators of system performance.
+`Throughput` is one of the primary indicators of system performance.
 
 It reflects the system’s ability to process work.
 
@@ -257,6 +276,7 @@ High throughput alone does not guarantee acceptable system behavior.
 ## 1.2.6 Error rate
 
 ### Definition
+
 Fraction of requests that fail (timeouts, 5xx, etc.).
 
 ### Formula
@@ -283,6 +303,7 @@ Error rate should always be monitored together with latency and throughput.
 ## 1.2.7 Percentiles (p50, p95, p99)
 
 ### Definition
+
 The `p`-th percentile is the value below which **p% of observations** fall.
 
 - `p50` ≈ median (“typical request”)
@@ -295,7 +316,7 @@ Percentiles capture **distribution** and **tail behavior** better than averages.
 
 ### Practical interpretation
 
-Percentiles are essential for understanding real user experience.
+Percentiles are essential for understanding the user’s real experience.
 
 In many systems:
 
@@ -309,7 +330,7 @@ This difference is critical for system evaluation and SLO definition.
 <a id="1271-how-to-compute-a-percentile-ordered-sample"></a>
 ### 1.2.7.1 How to compute a percentile (ordered sample)
 
-Given `N` values sorted ascending:
+Given `N` values sorted in ascending order:
 
 $$
 v_1 \le v_2 \le \dots \le v_N
@@ -320,32 +341,35 @@ Compute the theoretical position:
 **Formula:** `P = (p / 100) × (N + 1)`
 
 - If `P` is an integer → percentile = `v_P`
-- If not, let `k = floor(P)` and `δ = P - k` (fractional part), then interpolate:
+- Otherwise, let `k = floor(P)` and `δ = P - k` (fractional part), then interpolate:
 
 $$
 \text{Percentile}(p) \approx v_k + \delta \cdot (v_{k+1} - v_k)
 $$
 
-> Note: percentile definitions vary slightly across tools. This method is a clear and commonly used approach and is excellent for reasoning in interviews/assessments.
+> Note: percentile definitions vary slightly across tools. This method is a commonly used approach.
 
 ---
 
 <a id="1272-interpretation-vs-average-why-tails-matter"></a>
 ### 1.2.7.2 Interpretation vs average (why tails matter)
 
-- If `p50` is much lower than the mean, the distribution is **right-skewed** (few slow requests inflate the mean).
+- If `p50` is much lower than the mean, the distribution is **right-skewed** (a few slow requests inflate the mean).
 - If `p95` or `p99` is far above the mean, you have **long-tail latency**.
 
 A typical pattern:
-- mean looks “acceptable”
-- `p95/p99` are bad  
+
+- the mean looks “acceptable”
+- `p95/p99` are bad
+
+  
 → user experience is degraded for a non-negligible fraction of users and SLOs are at risk.
 
 ---
 
 ### Practical interpretation
 
-Percentiles highlight behavior that averages hide.
+Percentiles highlight behaviors that averages hide.
 
 They are essential for:
 
@@ -361,15 +385,18 @@ Ignoring percentiles often leads to incorrect conclusions about system performan
 ## 1.2.8 Empirical CDF (threshold → percentage)
 
 ### Definition
-Given a threshold `t`, the empirical cumulative distribution function (CDF) tells the fraction of samples at or below `t`.
+
+Given a threshold `t`, the empirical cumulative distribution function (CDF) indicates the fraction of samples less than or equal to `t`.
 
 ### Formula
+
 **Formula:** `F(t) = count(x_i ≤ t) / N`
 
 ### Practical meaning
-CDF answers: “If my SLO is 200 ms, what % of requests meet it?”
 
-Percentiles answer the inverse: “What threshold corresponds to 95% of requests?”
+The CDF answers the question: “If my SLO is `200 ms`, what % of requests meet it?”
+
+Percentiles answer the inverse question: “What threshold corresponds to 95% of requests?”
 
 ---
 
@@ -378,7 +405,7 @@ Percentiles answer the inverse: “What threshold corresponds to 95% of requests
 CDF and percentiles are complementary views of the same data.
 
 - CDF: given a threshold → what fraction meets it  
-- Percentile: given a fraction → what threshold corresponds  
+- Percentile: given a fraction → what threshold corresponds to it  
 
 Both are useful for performance analysis and SLO validation.
 
@@ -388,6 +415,7 @@ Both are useful for performance analysis and SLO validation.
 ## 1.2.9 Long-tail latency (what it is)
 
 ### Definition
+
 A small fraction of requests (e.g. 5% or 1%) is **much slower** than the majority.
 
 ---
@@ -396,7 +424,7 @@ A small fraction of requests (e.g. 5% or 1%) is **much slower** than the majorit
 
 - SLOs are typically defined on `p95/p99`, so tails drive pass/fail.
 - In distributed systems, the slowest dependency often determines end-to-end latency.
-- Tail events are frequently driven by **contention/queueing**.
+- Tail events are frequently driven by **contention / queueing**.
 
 ---
 
@@ -419,7 +447,7 @@ Long-tail latency is one of the most critical aspects of system performance.
 
 It explains why:
 
-- average metrics can appear acceptable  
+- average metrics may appear acceptable  
 - user experience is still degraded  
 
 Managing tail latency is often more important than improving average performance.
@@ -440,7 +468,7 @@ Managing tail latency is often more important than improving average performance
 
 ### Practical interpretation
 
-These metrics form the minimal set required to understand system behavior during performance tests.
+These metrics constitute the minimum set required to understand system behavior during performance tests.
 
 They allow:
 
@@ -458,4 +486,4 @@ Formulas are not isolated abstractions.
 
 They are tools used to explain observed behavior and validate system models.
 
-Understanding how to apply them is essential for performance engineering.
+Evaluating them is an essential element of performance engineering.

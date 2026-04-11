@@ -4,6 +4,7 @@ set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 LANG="${1:-en}"
+FORMAT="${2:-epub}"
 
 SRC_DIR="$ROOT_DIR/docs"
 TMP_DIR="$ROOT_DIR/build/pandoc"
@@ -22,7 +23,7 @@ INDEX_ANCHOR="book-index"
 
 case "$LANG" in
   en)
-    TITLE="Performance Engineering Notes"
+    TITLE="Performance Engineering Guide"
     BOOK_LIST="$ROOT_DIR/scripts/book-files-en.txt"
     OUTPUT_BASENAME="performance-engineering-guide-en"
     COVER_IMAGE="$ROOT_DIR/covers/generated/performance-en-cover-epub.png"
@@ -55,7 +56,7 @@ It aims to combine:
 The EPUB edition is optimized for digital reading and chapter-based navigation."
     ;;
   fr)
-    TITLE="Notes d’Ingénierie des Performances"
+    TITLE="Guide d’ingénierie de la performance"
     BOOK_LIST="$ROOT_DIR/scripts/book-files-fr.txt"
     OUTPUT_BASENAME="performance-engineering-guide-fr"
     COVER_IMAGE="$ROOT_DIR/covers/generated/performance-fr-cover-epub.png"
@@ -88,7 +89,7 @@ Il vise à combiner :
 L’édition EPUB est optimisée pour la lecture numérique et la navigation par chapitres."
     ;;
   it)
-    TITLE="Note d'Ingegneria delle Performances"
+    TITLE="Guida di Ingegneria delle Prestazioni"
     BOOK_LIST="$ROOT_DIR/scripts/book-files-it.txt"
     OUTPUT_BASENAME="performance-engineering-guide-it"
     COVER_IMAGE="$ROOT_DIR/covers/generated/performance-it-cover-epub.png"
@@ -126,7 +127,17 @@ L’edizione EPUB è ottimizzata per la lettura digitale e la navigazione per ca
     ;;
 esac
 
+case "$FORMAT" in
+  epub|pdf|all) ;;
+  *)
+    echo "Unsupported format: $FORMAT"
+    echo "Usage: bash scripts/build_books.sh [language] [epub|pdf|all]"
+    exit 1
+    ;;
+esac
+
 EPUB_PATH="$DIST_DIR/$OUTPUT_BASENAME.epub"
+PDF_PATH="$DIST_DIR/$OUTPUT_BASENAME.pdf"
 METADATA_FILE="$TMP_DIR/$LANG/metadata.yaml"
 
 [ -f "$BOOK_LIST" ] || { echo "Missing book list: $BOOK_LIST"; exit 1; }
@@ -353,27 +364,71 @@ for bf in "${BOOK_FILES[@]}"; do
   ALL_BOOK_FILES+=( "$bf" )
 done
 
-PANDOC_ARGS=(
-  --standalone
-  --from=markdown+header_attributes+fenced_divs+raw_html+smart
-  --to=epub3
-  --toc
-  --toc-depth=3
-  --css="$ASSETS_DIR/epub.css"
-  --metadata-file="$METADATA_FILE"
-)
+build_epub() {
+  local pandoc_args=(
+    --standalone
+    --from=markdown+header_attributes+fenced_divs+raw_html+smart
+    --to=epub3
+    --toc
+    --toc-depth=3
+    --css="$ASSETS_DIR/epub.css"
+    --metadata-file="$METADATA_FILE"
+  )
 
-if [ -f "$COVER_IMAGE" ]; then
-  echo "Using cover: $COVER_IMAGE"
-  PANDOC_ARGS+=(--epub-cover-image="$COVER_IMAGE")
-else
-  echo "Warning: cover not found for $LANG → $COVER_IMAGE"
-fi
+  if [ -f "$COVER_IMAGE" ]; then
+    echo "Using cover: $COVER_IMAGE"
+    pandoc_args+=(--epub-cover-image="$COVER_IMAGE")
+  else
+    echo "Warning: cover not found for $LANG → $COVER_IMAGE"
+  fi
 
-echo "Building EPUB..."
-pandoc "${PANDOC_ARGS[@]}" "${ALL_BOOK_FILES[@]}" -o "$EPUB_PATH"
+  echo "Building EPUB..."
+  pandoc "${pandoc_args[@]}" "${ALL_BOOK_FILES[@]}" -o "$EPUB_PATH"
 
-cp "$EPUB_PATH" "$DOWNLOAD_DIR/$(basename "$EPUB_PATH")"
+  cp "$EPUB_PATH" "$DOWNLOAD_DIR/$(basename "$EPUB_PATH")"
+  echo "EPUB created at: $EPUB_PATH"
+  echo "Copied to downloads: $DOWNLOAD_DIR"
+}
 
-echo "EPUB created at: $EPUB_PATH"
-echo "Copied to downloads: $DOWNLOAD_DIR"
+build_pdf_from_epub() {
+  command -v ebook-convert >/dev/null 2>&1 || {
+    echo "Error: Calibre ebook-convert not found"
+    exit 1
+  }
+
+  echo "Converting EPUB → PDF using Calibre..."
+
+  ebook-convert "$EPUB_PATH" "$PDF_PATH" \
+    --chapter-mark pagebreak \
+    --paper-size a4 \
+    --margin-top 32 \
+    --margin-bottom 32 \
+    --margin-left 30 \
+    --margin-right 30 \
+    --base-font-size 11 \
+    --pdf-default-font-size 11 \
+    --pdf-mono-font-size 9 \
+    --pdf-page-numbers \
+    --pdf-page-margin-top 20 \
+    --pdf-page-margin-bottom 20 \
+    --disable-font-rescaling \
+    --minimum-line-height 120
+
+  cp "$PDF_PATH" "$DOWNLOAD_DIR/$(basename "$PDF_PATH")"
+  echo "PDF created at: $PDF_PATH"
+  echo "Copied to downloads: $DOWNLOAD_DIR"
+}
+
+case "$FORMAT" in
+  epub)
+    build_epub
+    ;;
+  pdf)
+    build_epub
+    build_pdf_from_epub
+    ;;
+  all)
+    build_epub
+    build_pdf_from_epub
+    ;;
+esac

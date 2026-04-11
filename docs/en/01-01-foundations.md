@@ -2,11 +2,11 @@
 
 <a id="11-foundations"></a>
 
-This section introduces the fundamental concepts required to reason about system performance.
+This section introduces the fundamental concepts required to reason about application and system performance.
 
 It provides a conceptual model used throughout the guide.
 
-It defines the core principles used in performance engineering to analyze system behavior under load.
+It defines the core principles used in performance engineering for analyzing system behavior under load.
 
 ## Table of Contents
 
@@ -25,11 +25,11 @@ It defines the core principles used in performance engineering to analyze system
 
 These are the three primary dimensions used to describe system performance.
 
-- **Throughput**: number of requests processed per unit of time (e.g. requests per second)  
+- **Throughput**: Quantity of work performed per unit of time; number of requests processed per unit of time (e.g. requests per second)  
 - **Latency**: time required to complete a request (response time)  
 - **Concurrency**: number of requests being processed at the same time  
 
-These concepts are fundamental to performance engineering and are used throughout the guide to describe system behavior.
+These concepts are fundamental in performance engineering and are used throughout the guide to describe system behavior.
 
 ---
 
@@ -51,9 +51,9 @@ This relationship is central to understanding how systems behave under load.
 
 A system can be viewed as a processing pipeline:
 
-- requests enter  
-- they are processed  
-- they exit  
+- **Input**: requests enter  
+- **Execution**: they are processed  
+- **Output**: they exit  
 
 At any moment:
 
@@ -69,12 +69,12 @@ This mental model helps reason about flow, accumulation, and delays in real syst
 
 If a system processes:
 
-- 100 requests per second  
-- each request takes 200 ms (0.2 s)  
+- `100` requests per second (100 Req./sec.)  
+- each request takes `200 ms` (0.2 s)  
 
 then, on average:
 
-- about 20 requests are in flight at any given time  
+- about `20` requests are `in flight` at any given time  
 
 This relationship is formalized by **Little’s Law**:
 
@@ -94,7 +94,7 @@ For example:
 - increasing throughput increases concurrency if latency remains constant  
 - high concurrency increases the probability of queueing and contention  
 
-Understanding this relationship is essential for diagnosing performance issues.
+This is a key element in diagnosing performance issues.
 
 ---
 
@@ -105,7 +105,7 @@ Understanding this relationship is essential for diagnosing performance issues.
 
 At a resource level, response time is composed of two parts:
 
-- **service time (S)**: time spent doing actual work  
+- **service time (S)**: time spent performing actual work  
 - **waiting time (Wq)**: time spent waiting before being processed  
 
 This distinction is fundamental in performance analysis.
@@ -116,8 +116,8 @@ This distinction is fundamental in performance analysis.
 
 Response time:
 
-- includes both execution and waiting  
-- increases when queues form  
+- includes both `execution` and `waiting`  
+- it increases when queues form  
 
 Even if service time remains constant:
 
@@ -129,7 +129,7 @@ This is one of the main reasons systems degrade under load.
 
 ### Practical meaning
 
-A slow system is often not slow because work is expensive, but because work is waiting.
+A slow system is often not slow because the work itself is expensive, but because the work is waiting for available resources.
 
 As load increases:
 
@@ -145,13 +145,13 @@ This decomposition is formalized as:
 
 ### Practical interpretation
 
-Separating service time from response time allows:
+Separating `service time` from `response time` allows:
 
 - identifying whether the system is CPU-bound or queue-bound  
-- distinguishing between processing cost and contention  
+- distinguishing processing cost from resource contention  
 - understanding whether optimization should target execution or waiting  
 
-In many real systems, latency issues are caused primarily by queueing rather than computation.
+In many real systems, latency issues are primarily caused by queueing rather than computation.
 
 ---
 
@@ -177,7 +177,7 @@ Load defines the operating conditions under which performance must be evaluated.
 As load increases:
 
 - resource utilization increases  
-- queues start to form  
+- queues begin to form  
 - latency increases  
 - throughput eventually stabilizes or degrades  
 
@@ -195,7 +195,7 @@ At low load:
 
 Near saturation:
 
-- small increases in load can cause large increases in latency  
+- small increases in load can cause significant increases in latency  
 
 This non-linear behavior is a key characteristic of real-world systems.
 
@@ -209,7 +209,7 @@ Understanding system behavior under load is essential for:
 - performance testing  
 - diagnosing latency issues  
 
-It explains why systems may appear stable in testing but fail under slightly higher production load.
+It helps explain why systems may appear stable in testing but fail under slightly higher production load.
 
 ---
 
@@ -222,7 +222,7 @@ A resource is saturated when it is busy most or all of the time.
 
 Typical examples:
 
-- CPU at or near 100%  
+- CPU at 100% (or close to it...)  
 - thread pool fully utilized  
 - connection pool exhausted  
 
@@ -246,7 +246,7 @@ The bottleneck determines the overall system capacity.
 
 ### Practical meaning
 
-Improving non-bottleneck resources has little or no effect.
+Improving resources that are not actual bottlenecks has little or no effect.
 
 Performance improvements require:
 
@@ -261,8 +261,8 @@ This is a key principle in performance engineering.
 
 In complex systems:
 
-- multiple resources may appear busy  
-- but only one typically limits throughput at a given time  
+- multiple resources may appear limiting  
+- but typically only one limits throughput at a given time  
 
 Correctly identifying the bottleneck is essential to avoid ineffective optimizations.
 
@@ -273,7 +273,7 @@ Correctly identifying the bottleneck is essential to avoid ineffective optimizat
 
 ### Common mechanisms
 
-Performance degradation is usually driven by a small number of mechanisms:
+Performance degradation is usually driven by a limited number of factors:
 
 - queueing due to saturation  
 - contention on shared resources  
@@ -286,7 +286,7 @@ These mechanisms often interact and amplify each other.
 
 ### Queueing effect
 
-As utilization approaches its limit:
+As resource utilization approaches its limits:
 
 - waiting time increases rapidly  
 - response time becomes dominated by queueing  
@@ -319,19 +319,19 @@ Instead, it emerges from:
 - accumulation of waiting time  
 - feedback loops under load  
 
-Understanding these interactions is essential for effective diagnosis.
+From this emerges the possibility of an effective diagnosis.
 
 ---
 
 ### Practical conclusion
 
-Most performance problems are not caused by a single slow operation, but by:
+Most performance problems are not caused by a single slow or problematic operation, but by:
 
 - interactions between components  
 - accumulation of waiting time  
 - overload conditions  
 
-Understanding these mechanisms is essential before applying formulas or running tests.
+Understanding these mechanisms is required before applying formulas or running tests.
 
 ---
 
@@ -339,4 +339,4 @@ Understanding these mechanisms is essential before applying formulas or running 
 
 System performance is determined by interactions between workload, resources, and concurrency.
 
-Understanding these interactions is the foundation of performance engineering.
+Understanding these interactions constitutes the foundation of performance engineering.
