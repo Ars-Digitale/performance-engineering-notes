@@ -10,8 +10,10 @@ The guide is designed as a **technical reference**, not as introductory or blog-
 
 ## ✅ Project status
 
-- ✅ **English**: complete and aligned (core technical content)
-- 🚧 **Italian / French**: planned (to be aligned with EN)
+- ✅ **English**: complete and aligned (core content)
+- ✅ **Italian**: complete and aligned (core content)
+- ✅ **French**: complete and aligned (core content)
+
 
 This repository evolves incrementally and is maintained as a **documentation-first technical guide**.
 

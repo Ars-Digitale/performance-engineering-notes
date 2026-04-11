@@ -8,8 +8,8 @@ diagnostics, bottlenecks, queueing, concurrency, CPU, memory, I/O, and performan
 ## Languages
 
 - [English](en/index.md)
-- Français (coming soon)
-- Italiano (coming soon)
+- [Français](fr/index.md)
+- [Italiano](it/index.md)
 
 ---
 

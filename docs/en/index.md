@@ -9,7 +9,7 @@ This index provides the complete **English (EN)** structure of the
 
 The guide can be read sequentially or used as a technical reference.
 
-This published documentation currently covers the **core technical body of the guide**.
+This published documentation currently covers the **core theoretical body of the guide**.
 
 ---
 
